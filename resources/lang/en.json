@@ -1,0 +1,24 @@
+{
+    "home": "Home",
+    "shop": "Shop",
+    "shop_detail": "Shop Detail",
+    "pages": "Pages",
+    "contact_us": "Contact Us",
+    "about_us": "About Us",
+    "faqs_help": "FAQs & Help",
+    "search_keyword": "Search by keyword",
+    "why_people_like_us": "Why People Like Us!",
+    "read_more": "Read More",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_use": "Terms of Use",
+    "sales_refunds": "Sales and Refunds",
+    "eco_friendly_products": "Eco-friendly Products",
+    "subscribe_now": "Subscribe Now",
+    "no_products_found" : "No Products Found",
+    "no_products_message" : "No products available right now.",
+    "view_all_products" : "View All Products",
+    "no_wishlist" : "No Wishlist Items",
+    "no_wishlist_message" : "You have not added any products to your wishlist yet.",
+    "wishlist" : "Wishlist"
+}
+
