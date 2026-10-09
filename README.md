@@ -4,6 +4,8 @@ A **Semester IV Laravel full-stack project** in Aung Myo Pyae's University of In
 
 **Release status: v1. Further upgrades are planned.** This repository documents the current implementation rather than treating the project as a finished commercial service.
 
+**Development:** Eco_Shop was assigned as group coursework. Aung Myo Pyae implemented the project individually.
+
 ## Screenshots
 
 ![Eco_Shop — v1 — screenshot 1](docs/screenshots/eco-shop-1.png)
