@@ -88,6 +88,8 @@ npm.cmd run test:release
 
 The full local suite passed: **124 tests / 946 assertions**, with three MySQL concurrency tests deliberately skipped in SQLite. Focused OAuth/mail/authentication/deployment checks passed: 37 tests / 392 assertions. All 144 compiled Blade templates, the Vite build and both release-policy tests passed. Browser checks passed for 16 EN/MM login/error cases at 320, 390, 768 and 1440 px: HTTP 200, no horizontal overflow, broken visible images or JavaScript errors. After switching to localhost:8000, both real providers reached their sign-in pages; Google's prior port-8002 redirect mismatch was resolved.
 
+Hosted [branch CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269878787) and [PR CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269913259) passed for implementation commit `3cea3e18b842153912bf7ffc6f585ed6e3c1113b`: **66 MySQL/InnoDB tests / 728 assertions**, the full SQLite suite, cached bootstrap, Nginx syntax, dependency audits and production archive verification. The PR merge artifact contains 11,357 verified entries. [Draft PR #4](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/4) is stacked on P0-03 and awaits owner review/merge.
+
 The existing SMTP server rejected authentication during a connection-only check. SMTP credential correction and an actual inbox receipt remain pending. No test email was sent to an unspecified recipient. Provider sign-in pages verify initial redirects, not full account authorization: the owner must complete both real sign-in journeys with the intended accounts.
 
 Manual acceptance:
