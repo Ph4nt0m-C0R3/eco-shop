@@ -11,6 +11,10 @@ Confirmed v2 release scope: Livewire, product variants, advanced bilingual searc
 and real-time updates. These are required F1-F4 release gates in the production
 plan, with migration, authorization, reliability and acceptance criteria.
 
+Completed — 12 October 2026: P0-01 version control/reproducible releases and
+EcoShop v2.0 branding. Evidence: docs/P0_01_VERSION_CONTROL.md. PR #1 is awaiting
+owner review/merge. P0-02 and the other production/features items remain pending.
+
 Purpose
 -------
 Turn the current feature-rich Eco_Shop application into a secure, reliable,

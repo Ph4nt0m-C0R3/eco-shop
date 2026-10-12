@@ -6,9 +6,9 @@ Recorded: 12 October 2026. Status: implementation started; upgrades are delivere
 
 | Item | Status | Evidence / next step |
 |---|---|---|
-| P0-01 — version control and reproducible builds | In progress | [Implementation record](P0_01_VERSION_CONTROL.md); local baseline tag created, branding and build/release checks under verification |
-| EcoShop v2.0 branding | Implemented; verification in progress | Shared storefront/admin titles, navigation/footer, authentication pages and order email branding |
-| P0-02–P0-17 and F1–F4 | Pending | Begin the next item after completing and recording P0-01 |
+| P0-01 — version control and reproducible builds | Completed — 12 October 2026 | [Completion record](P0_01_VERSION_CONTROL.md); clean checkout and hosted CI passed; main protection enabled; [PR #1](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/1) awaits owner review/merge |
+| EcoShop v2.0 branding | Completed — 12 October 2026 | Shared storefront/admin titles, navigation/footer, authentication and order emails; 19 browser/viewport checks passed |
+| P0-02–P0-17 and F1–F4 | Pending | P0-02 is the next production requirement; start only when requested |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
 
@@ -49,7 +49,7 @@ Use the [Laravel 13 upgrade guide](https://laravel.com/framework/docs/13.x/upgra
 
 ## P0 — required before production launch
 
-Each item needs an owner, implementation evidence and a passing acceptance check. The checkboxes start unchecked because the production outcome has not been demonstrated.
+Each item needs an owner, implementation evidence and a passing acceptance check. Completed items are recorded in the progress table; unchecked gates still require implementation or production evidence.
 
 | ID | Required upgrade or work | Acceptance criteria |
 |---|---|---|
@@ -164,7 +164,8 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 
 ## Production release checklist
 
-- [ ] P0-01–P0-06: reproducible release, supported environment and tested account/data protection.
+- [x] P0-01: version-control baseline, hosted CI, verified production archive and main-branch protection; owner PR review/merge pending.
+- [ ] P0-02–P0-06: supported environment and tested account/data protection.
 - [ ] P0-07–P0-11: exact pricing, safe concurrent stock, payment recovery/refunds and retained records.
 - [ ] P0-12–P0-14: supervised services, delivered email, persistent storage, restore drill and working alerts.
 - [ ] P0-15–P0-17: MySQL/browser/load checks, migration/rollback rehearsal and customer-facing operations approved.
