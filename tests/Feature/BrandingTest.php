@@ -9,13 +9,13 @@ class BrandingTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_storefront_identifies_version_two_in_title_navigation_and_footer(): void
+    public function test_storefront_keeps_version_branding_without_a_navigation_badge(): void
     {
         foreach (['en', 'mm'] as $locale) {
             $response = $this->withSession(['locale' => $locale])->get('/')->assertOk();
             $response->assertSee('<title>EcoShop v2.0</title>', false)
-                ->assertSee('aria-label="EcoShop v2.0"', false)
-                ->assertSee('eco-version-badge', false)
+                ->assertSee('aria-label="EcoShop"', false)
+                ->assertDontSee('class="eco-version-badge"', false)
                 ->assertSee('EcoShop v2.0');
         }
     }

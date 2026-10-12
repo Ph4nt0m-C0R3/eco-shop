@@ -8,7 +8,8 @@ Recorded: 12 October 2026. Status: implementation started; upgrades are delivere
 |---|---|---|
 | P0-01 — version control and reproducible builds | Completed — 12 October 2026 | [Completion record](P0_01_VERSION_CONTROL.md); clean checkout and hosted CI passed; main protection enabled; [PR #1](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/1) awaits owner review/merge |
 | EcoShop v2.0 branding | Completed — 12 October 2026 | Shared storefront/admin titles, navigation/footer, authentication and order emails; 19 browser/viewport checks passed |
-| P0-02–P0-17 and F1–F4 | Pending | P0-02 is the next production requirement; start only when requested |
+| P0-02 — supported deployment environment | In verification — 12 October 2026 | [Implementation record](P0_02_DEPLOYMENT.md); PHP 8.5/Laravel 13, security configuration and deployment templates implemented; live hosting/domain acceptance pending |
+| P0-03–P0-17 and F1–F4 | Pending | P0-03 is next; start only when requested |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
 

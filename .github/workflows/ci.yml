@@ -18,8 +18,8 @@ jobs:
           persist-credentials: false
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
-          extensions: mbstring, pdo_sqlite, fileinfo, curl
+          php-version: '8.5.11'
+          extensions: mbstring, pdo_sqlite, pdo_mysql, fileinfo, curl, zip, intl
           coverage: none
       - uses: actions/setup-node@v7
         with:
@@ -34,6 +34,20 @@ jobs:
       - run: npm run test:release
       - run: php artisan test
       - run: php scripts/check-blade.php
+      - name: Verify optimized application bootstrap
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php scripts/check-cached-bootstrap.php
+          php artisan view:clear
+          php artisan route:clear
+          php artisan config:clear
+      - name: Validate reference Nginx configuration
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y nginx
+          sudo sh scripts/check-nginx.sh
       - run: composer audit && npm audit
       - name: Install production dependencies for packaging
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader

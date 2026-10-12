@@ -42,7 +42,7 @@ class RoleBasedLoginMiddleware
             }
 
             // Block ADMIN/SUPERADMIN from normal login
-            if ($request->routeIs('login') && in_array($user->role, ['admin', 'superadmin'])) {
+            if ($request->routeIs('login.store') && in_array($user->role, ['admin', 'superadmin'])) {
                 Auth::logout();
 
                 return redirect()->route('login')

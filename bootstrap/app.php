@@ -21,6 +21,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
+        $middleware->replace(
+            \Illuminate\Http\Middleware\TrustProxies::class,
+            \App\Http\Middleware\TrustDeploymentProxies::class
+        );
+        $middleware->append(\App\Http\Middleware\ProductionSecurity::class);
+
         // Global middleware
         $middleware->web(append: [
             \App\Http\Middleware\SwitchSessionByPath::class,

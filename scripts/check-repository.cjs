@@ -9,7 +9,7 @@ function git(args) {
 try {
   const files = git(['ls-files', '--cached', '-z']).split('\0').filter(Boolean);
   const forbidden = files.filter(file =>
-    /^(audit|dist|node_modules|vendor|\.aws|\.agents|\.codex)\//.test(file)
+    /^(audit|dist|node_modules|vendor|\.tools|\.aws|\.agents|\.codex)\//.test(file)
     || /^public\/(storage|hot)(\/|$)/.test(file)
     || /(^|\/)\.env($|\.)/.test(file) && file !== '.env.example'
     || /\.(sqlite3?|sql|pem|key|p12)$/i.test(file)
