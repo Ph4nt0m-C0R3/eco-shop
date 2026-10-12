@@ -280,6 +280,10 @@
                 padding: 14px 12px;
             }
         }
+        .eco-shop-filters>summary { padding:12px 16px; border:1px solid #81c408; border-radius:12px; cursor:pointer; font-weight:700; margin-bottom:16px; }
+        .eco-shop-filters[open]>summary { margin-bottom:24px; }
+        .eco-search-box input { min-width:0; }
+        @media(min-width:992px) { .eco-shop-filters>summary { display:none; } }
     </style>
 
     @include('user.pages.partials.page-header', [
@@ -297,22 +301,22 @@
         <div class="container py-5">
             <div class="row g-4">
                 <div class="col-lg-12">
-                    <div class="row g-4 mb-5">
+                    <div class="row g-3 mb-3">
 
-                        <div class="col-xl-4">
+                        <div class="col-md-6">
                             <div class="eco-search-box">
-                                <input type="search" id="liveSearch" placeholder="{{ app()->getLocale() === 'mm' ? 'ပစ္စည်းများကို ရှာဖွေပါ...' : 'Search products...' }}" />
-                                <button type="button">
+                                <input type="search" id="liveSearch" aria-label="{{ __('stability.search') }}" placeholder="{{ app()->getLocale() === 'mm' ? 'ပစ္စည်းများကို ရှာဖွေပါ...' : 'Search products...' }}" />
+                                <button type="button" id="shopSearchButton" aria-label="{{ __('stability.search') }}">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="col-12 col-xl-4"></div>
+                        
 
-                        <div class="col-xl-4">
+                        <div class="col-md-6">
                             <div class="eco-sort-box">
-                                <label for="sorting">{{ app()->getLocale() === 'mm' ? 'မျိုးတူများကို စုရန် :' : 'Sorting :' }}</label>
+                                <label for="liveSort">{{ app()->getLocale() === 'mm' ? 'မျိုးတူများကို စုရန် :' : 'Sorting :' }}</label>
                                 <select id="liveSort">
                                     <option value="default">{{ app()->getLocale() === 'mm' ? 'မူရင်း' : 'Default' }}</option>
 
@@ -333,14 +337,16 @@
 
                     </div>
                     <div class="row g-4">
-                        <div class="col-lg-3">
+                        <aside class="col-lg-3">
+                            <details id="shopFilters" class="eco-shop-filters" open>
+                                <summary>{{ __('stability.filters') }}</summary>
                             <div class="row g-4">
 
                                 {{-- Categories --}}
                                 <div class="col-lg-12">
                                     <div class="eco-filter-card">
                                         <h4 class="eco-filter-title">
-                                            <i class="fas fa-layer-group"></i> Categories
+                                            <i class="fas fa-layer-group"></i> {{ __('stability.categories') }}
                                         </h4>
 
                                         <ul class="eco-category-list">
@@ -381,13 +387,13 @@
                                 <div class="col-lg-12">
                                     <div class="eco-filter-card">
                                         <h4 class="eco-filter-title">
-                                            <i class="fas fa-coins"></i> Price
+                                            <i class="fas fa-coins"></i> {{ __('stability.price') }}
                                         </h4>
 
                                         <!-- Currency Select -->
                                         <div class="mb-3">
-                                            <select id="priceCurrency" class="form-select">
-                                                <option value="">Select Currency</option>
+                                            <select id="priceCurrency" aria-label="{{ __('stability.currency') }}" class="form-select">
+                                                <option value="">{{ __('stability.currency') }}</option>
                                                 <option value="mmk">MMK</option>
                                                 <option value="usd">USD</option>
                                             </select>
@@ -398,7 +404,7 @@
                                             <input type="number"
                                                 id="priceFrom"
                                                 class="form-control"
-                                                placeholder="From (0 minimum)"
+                                                placeholder="{{ __('stability.from') }}" aria-label="{{ __('stability.from') }}"
                                                 min="0">
                                         </div>
 
@@ -407,7 +413,7 @@
                                             <input type="number"
                                                 id="priceTo"
                                                 class="form-control"
-                                                placeholder="To"
+                                                placeholder="{{ __('stability.to') }}" aria-label="{{ __('stability.to') }}"
                                                 min="0">
                                         </div>
 
@@ -415,11 +421,13 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </details>
+                        </aside>
 
                         <div class="col-lg-9">
 
-                            <div id="productGrid">
+                            <div class="d-flex align-items-center gap-2 mb-2"><span id="shopStatus" role="status" aria-live="polite"></span><button type="button" id="shopRetry" class="btn btn-outline-primary btn-sm" hidden>{{ __('stability.retry') }}</button></div>
+                            <div id="productGrid" aria-busy="false">
                                 @include('user.components.products.grid',[
                                     'products'=>$products,
                                     'showReset'=>true
@@ -439,195 +447,6 @@
     </div>
     <!-- Fruits Shop End-->
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    let selectedCategory = "{{ request('category') ?? 'all' }}";
-
-    // ===== AUTO CATEGORY FROM HERO SEARCH =====
-    const urlParams = new URLSearchParams(window.location.search);
-    const heroSearch = urlParams.get("search");
-
-    if (heroSearch && selectedCategory === "all") {
-
-        const normalizedSearch = heroSearch.toLowerCase();
-
-        document.querySelectorAll(".eco-category-link").forEach(link => {
-
-            const nameEn = (link.dataset.nameEn || "").toLowerCase();
-            const nameMm = (link.dataset.nameMm || "").toLowerCase();
-
-            if (
-                normalizedSearch.includes(nameEn) ||
-                normalizedSearch.includes(nameMm)
-            ) {
-                selectedCategory = link.dataset.category;
-
-                document.querySelectorAll(".eco-category-link")
-                    .forEach(x => x.classList.remove("active"));
-
-                link.classList.add("active");
-            }
-        });
-    }
-
-    const searchInput = document.getElementById("liveSearch");
-    const sortSelect = document.getElementById("liveSort");
-    const currencySelect = document.getElementById("priceCurrency");
-    const priceFrom = document.getElementById("priceFrom");
-    const priceTo = document.getElementById("priceTo");
-
-    function fetchProducts(pageUrl = null) {
-
-        let baseUrl = "{{ route('shop.index') }}";
-        let page = null;
-
-        if (pageUrl) {
-            const urlObj = new URL(pageUrl);
-            page = urlObj.searchParams.get("page");
-        }
-
-        const params = new URLSearchParams();
-
-        if (searchInput.value.trim() !== "") {
-            params.append("search", searchInput.value.trim());
-        }
-
-        if (selectedCategory !== "all") {
-            params.append("category", selectedCategory);
-        }
-
-        if (sortSelect.value !== "default") {
-            params.append("sort", sortSelect.value);
-        }
-
-        if (currencySelect.value !== "") {
-            params.append("currency", currencySelect.value);
-        }
-
-        if (priceFrom.value !== "") {
-            params.append("price_from", priceFrom.value);
-        }
-
-        if (priceTo.value !== "") {
-            params.append("price_to", priceTo.value);
-        }
-
-        if (page) {
-            params.append("page", page);
-        }
-
-        const finalUrl = baseUrl + "?" + params.toString();
-
-        fetch(finalUrl, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("productGrid").innerHTML = data.html;
-            document.getElementById("paginationArea").innerHTML = data.pagination;
-        })
-        .catch(err => console.error(err));
-    }
-
-    // ===== LIVE SEARCH (DEBOUNCE) =====
-    let searchTimer;
-    searchInput.addEventListener("keyup", function () {
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-            fetchProducts();
-        }, 400);
-    });
-
-    // ===== SORT CHANGE =====
-    sortSelect.addEventListener("change", function () {
-        fetchProducts();
-    });
-
-    // ===== PRICE RANGE =====
-    [currencySelect, priceFrom, priceTo].forEach(el => {
-        el.addEventListener("input", function () {
-            fetchProducts();
-        });
-    });
-
-    // ===== CATEGORY CLICK =====
-    document.addEventListener("click", function(e){
-        const cat = e.target.closest(".eco-category-link");
-        if (!cat) return;
-
-        e.preventDefault();
-
-        selectedCategory = cat.dataset.category;
-
-        // active class update
-        document.querySelectorAll(".eco-category-link").forEach(x => x.classList.remove("active"));
-        cat.classList.add("active");
-
-        fetchProducts();
-    });
-
-    // ===== PAGINATION CLICK =====
-    document.addEventListener("click", function(e){
-        const pageLink = e.target.closest("#paginationArea a");
-        if (!pageLink) return;
-
-        e.preventDefault();
-
-        if (pageLink.classList.contains("disabled")) return;
-
-        fetchProducts(pageLink.href);
-    });
-
-    document.addEventListener("click", function(e){
-
-        if(!e.target.closest("#resetFilters")) return;
-
-        selectedCategory = "all";
-        searchInput.value = "";
-        sortSelect.value = "default";
-
-        if(currencySelect) currencySelect.value = "";
-        if(priceFrom) priceFrom.value = "";
-        if(priceTo) priceTo.value = "";
-
-        document.querySelectorAll(".eco-category-link")
-            .forEach(x => x.classList.remove("active"));
-
-        const allBtn = document.querySelector('[data-category="all"]');
-        if(allBtn) allBtn.classList.add("active");
-
-        fetchProducts();
-    });
-
-    // ===== EMPTY STATE BUTTON (UNIVERSAL) =====
-    document.addEventListener("click", function(e){
-
-        const emptyBtn = e.target.closest(".eco-empty-action-btn");
-        if(!emptyBtn) return;
-
-        const category = emptyBtn.dataset.category || "all";
-
-        selectedCategory = category;
-        searchInput.value = "";
-        sortSelect.value = "default";
-
-        if(currencySelect) currencySelect.value = "";
-        if(priceFrom) priceFrom.value = "";
-        if(priceTo) priceTo.value = "";
-
-        document.querySelectorAll(".eco-category-link")
-            .forEach(x => x.classList.remove("active"));
-
-        const targetBtn = document.querySelector(`[data-category="${category}"]`);
-        if(targetBtn) targetBtn.classList.add("active");
-
-        fetchProducts();
-    });
-
-});
-</script>
-
+<script>window.ECO_SHOP={url:@json(route('shop.index')),loading:@json(__('stability.loading')),error:@json(__('stability.filter_error'))};</script>
+<script src="{{ asset('user/js/shop.js') }}"></script>
 @endsection

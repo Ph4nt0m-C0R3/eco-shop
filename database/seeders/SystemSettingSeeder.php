@@ -18,8 +18,8 @@ class SystemSettingSeeder extends Seeder
         'favicon' => 'default/favicon.png',
         'logo' => 'default/logo.png',
         'logo_text' => 'default/logoText.png',
-        'contact_email' => 'hello@example.test',
-        'contact_phone' => '000-000-0000',
+        'contact_email' => 'webdevamp@gmail.com',
+        'contact_phone' => '+95 9267 061 436',
         'address' => 'Hlaing Township, Yangon',
     ];
 

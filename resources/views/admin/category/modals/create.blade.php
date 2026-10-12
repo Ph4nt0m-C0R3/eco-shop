@@ -19,34 +19,32 @@
                 @csrf
 
                 <div class="form-group">
-                    <label class="small font-weight-bold text-muted">Category Name</label>
+                    <label class="small font-weight-bold text-muted" for="eco-field-9c6aa5-1">Category Name</label>
                     <input
                         type="text"
                         name="name"
                         value="{{ session('open_create') ? old('name') : '' }}"
-                        class="form-control rounded-pill @error('name', 'create') is-invalid @enderror"
-                    >
+                        class="form-control rounded-pill @error('name', 'create') is-invalid @enderror" id="eco-field-9c6aa5-1">
                     @error('name', 'create')
                     <small class="text-danger d-block mt-1">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label class="small font-weight-bold text-muted">Category Name (Myanmar)</label>
+                    <label class="small font-weight-bold text-muted" for="eco-field-9c6aa5-2">Category Name (Myanmar)</label>
                     <input
                         type="text"
                         name="name_mm"
                         value="{{ session('open_create') ? old('name_mm') : '' }}"
-                        class="form-control rounded-pill @error('name_mm', 'create') is-invalid @enderror"
-                    >
+                        class="form-control rounded-pill @error('name_mm', 'create') is-invalid @enderror" id="eco-field-9c6aa5-2">
                     @error('name_mm', 'create')
                     <small class="text-danger d-block mt-1">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label class="small font-weight-bold text-muted">Description</label>
-                    <textarea name="description" class="form-control rounded-lg">{{ session('open_create') ? old('description') : '' }}</textarea>
+                    <label class="small font-weight-bold text-muted" for="eco-field-9c6aa5-3">Description</label>
+                    <textarea name="description" class="form-control rounded-lg" id="eco-field-9c6aa5-3">{{ session('open_create') ? old('description') : '' }}</textarea>
                 </div>
 
                 <!-- Footer -->

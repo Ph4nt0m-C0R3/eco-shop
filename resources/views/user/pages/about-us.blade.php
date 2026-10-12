@@ -216,7 +216,7 @@
             <span class="about-tagline">{{ __('about-us.label') }}</span>
             <h1 class="display-2">{!! __('about-us.title') !!}</h1>
             <p class="lead-text">
-            {!! __('about-us.subtitle', ['app' => setting('app_name', 'EcoShop')]) !!}
+            {!! __('about-us.subtitle', ['app' => config('app.brand')]) !!}
             </p>
         </div>
     </header>
@@ -252,7 +252,7 @@
                         <div class="col-lg-8">
                             <h5 class="text-white">
                             <i class="fas fa-heart text-success me-3"></i>
-                            {{ __('about-us.why_title', ['app' => setting('app_name', 'EcoShop')]) }}
+                            {{ __('about-us.why_title', ['app' => config('app.brand')]) }}
                             </h5>
 
                             <p class="text-white opacity-75">

@@ -1,19 +1,28 @@
 {
+    "name": "eco-shop",
+    "version": "2.0.0",
     "private": true,
+    "engines": {
+        "node": ">=24 <25"
+    },
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "check:repository": "node scripts/check-repository.cjs",
+        "test:release": "node --test tests/release-policy.test.cjs",
+        "release:package": "node scripts/package-release.cjs"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
+        "@tailwindcss/postcss": "^4.3.3",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.31",
-        "tailwindcss": "^3.1.0",
+        "tailwindcss": "^4.3.3",
         "vite": "^6.0.11"
     }
 }

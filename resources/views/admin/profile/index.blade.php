@@ -199,11 +199,11 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Full Name</label>
+                                    <label for="eco-field-1ebe37-1">Full Name</label>
                                     <input type="text"
                                         name="name"
                                         class="form-control eco-input rounded-pill @error('name') is-invalid @enderror"
-                                        value="{{ old('name', auth()->user()->name) }}">
+                                        value="{{ old('name', auth()->user()->name) }}" id="eco-field-1ebe37-1">
 
                                     @error('name')
                                     <small class="text-danger">{{ $message }}</small>
@@ -211,11 +211,11 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label>Email</label>
+                                    <label for="eco-field-1ebe37-2">Email</label>
                                     <input type="email"
                                         name="email"
                                         class="form-control eco-input rounded-pill @error('email') is-invalid @enderror"
-                                        value="{{ old('email', auth()->user()->email) }}">
+                                        value="{{ old('email', auth()->user()->email) }}" id="eco-field-1ebe37-2">
 
                                     @error('email')
                                     <small class="text-danger">{{ $message }}</small>
@@ -225,11 +225,11 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Phone</label>
+                                    <label for="eco-field-1ebe37-3">Phone</label>
                                     <input type="text"
                                         name="phone"
                                         class="form-control eco-input rounded-pill @error('phone') is-invalid @enderror"
-                                        value="{{ old('phone', auth()->user()->phone) }}">
+                                        value="{{ old('phone', auth()->user()->phone) }}" id="eco-field-1ebe37-3">
 
                                     @error('phone')
                                     <small class="text-danger">{{ $message }}</small>
@@ -237,11 +237,11 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label>Address</label>
+                                    <label for="eco-field-1ebe37-4">Address</label>
                                     <input type="text"
                                         name="address"
                                         class="form-control eco-input rounded-pill @error('address') is-invalid @enderror"
-                                        value="{{ old('address', auth()->user()->address) }}">
+                                        value="{{ old('address', auth()->user()->address) }}" id="eco-field-1ebe37-4">
 
                                     @error('address')
                                     <small class="text-danger">{{ $message }}</small>

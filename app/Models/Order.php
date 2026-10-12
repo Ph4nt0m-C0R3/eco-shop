@@ -26,11 +26,19 @@ class Order extends Model
         'payment_status',
         'phone',
         'shipping_address',
+        'exchange_rate_mmk',
+        'reservation_expires_at',
+        'reservation_released_at',
+        'inventory_committed_at',
         'paid_at'
     ];
 
     protected $casts = [
         'paid_at' => 'datetime',
+        'reservation_expires_at' => 'datetime',
+        'reservation_released_at' => 'datetime',
+        'inventory_committed_at' => 'datetime',
+        'exchange_rate_mmk' => 'decimal:8',
     ];
 
     public function items()
@@ -49,30 +57,14 @@ class Order extends Model
         return 'ECO-' . strtoupper(uniqid());
     }
 
-    public function getGrandTotalAttribute($value)
-    {
-        // If old records exist, use DB value only if it is numeric and not broken
-        // But better: always calculate fresh
-
-        if ($this->currency_code === 'USD') {
-            return round(($this->subtotal_usd ?? 0) + ($this->tax ?? 0) + ($this->shipping_fee ?? 0), 2);
-        }
-
-        if ($this->currency_code === 'MMK') {
-            return round(($this->subtotal_mmk ?? 0) + ($this->tax ?? 0) + ($this->shipping_fee ?? 0), 0);
-        }
-
-        // fallback: return stored DB value if currency unknown
-        return $value;
-    }
-
     public function getGrandTotalUsdAttribute()
     {
         if ($this->currency_code === 'USD') {
             return $this->grand_total;
         }
 
-        $rate = Currency::getRate('MMK'); // 1 USD = rate MMK
+        $rate = $this->exchange_rate_mmk ?? ($this->subtotal_usd > 0 && $this->subtotal_mmk > 0
+            ? $this->subtotal_mmk / $this->subtotal_usd : Currency::getRate('MMK')); // 1 USD = rate MMK
         return $rate > 0 ? round($this->grand_total / $rate, 2) : 0;
     }
 
@@ -82,7 +74,8 @@ class Order extends Model
             return $this->grand_total;
         }
 
-        $rate = Currency::getRate('MMK');
+        $rate = $this->exchange_rate_mmk ?? ($this->subtotal_usd > 0 && $this->subtotal_mmk > 0
+            ? $this->subtotal_mmk / $this->subtotal_usd : Currency::getRate('MMK'));
         return round($this->grand_total * $rate, 0);
     }
 

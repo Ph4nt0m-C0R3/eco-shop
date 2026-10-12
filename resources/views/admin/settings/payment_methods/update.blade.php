@@ -1,220 +1,143 @@
-<style>
-    /* ===== ECO MODAL RESPONSIVE FIX ===== */
-    .eco-modal-responsive {
-        width: 95%;
-        max-width: 900px;
-        margin: auto;
-        border-radius: 18px;
-        display: flex;
-        flex-direction: column;
-    }
+{{-- UPDATE MODAL --}}
+<div class="modal fade" id="updateModal_{{ $method->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow">
 
-    /* Scrollable body */
-    .eco-modal-body {
-        max-height: 70vh;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-pen text-primary"></i>
+                    Update Payment Method (#{{ $method->id }})
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-    /* Hide scrollbar but keep scrolling */
-    .eco-modal-body::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-    }
-
-    .eco-modal-body {
-        scrollbar-width: none; /* Firefox */
-    }
-
-    /* Tablet */
-    @media (max-width: 991.98px){
-        .eco-modal-responsive {
-            max-width: 700px;
-        }
-    }
-
-    /* Mobile */
-    @media (max-width: 767.98px){
-
-        .eco-modal-responsive {
-            width: 100%;
-            max-width: 100%;
-            height: 100vh;
-            border-radius: 0;
-        }
-
-        .eco-modal-body {
-            max-height: calc(100vh - 120px);
-            padding: 15px;
-        }
-
-        /* stack everything nicely */
-        .eco-modal-body .row > div {
-            margin-bottom: 12px;
-        }
-    }
-
-    .eco-modal-footer {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    /* Mobile buttons full width */
-    @media (max-width: 576px){
-        .eco-modal-footer {
-            flex-direction: column;
-        }
-
-        .eco-modal-footer .btn {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 576px){
-        .eco-modal-header h5 {
-            font-size: 14px;
-            line-height: 1.4;
-        }
-    }
-</style>
-
-<!-- ===== Eco Update Payment Method Modal ===== -->
-<div class="eco-modal-overlay" id="updateModal_{{ $method->id }}">
-    <div class="eco-modal eco-modal-responsive">
-
-        <!-- Header -->
-        <div class="eco-modal-header">
-            <h5>
-                <i class="fas fa-pen text-success mr-2"></i>
-                Update Payment Method (#{{ $method->id }})
-            </h5>
-            <button class="eco-modal-close"
-                    onclick="closeEcoModalById('updateModal_{{ $method->id }}')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- Body -->
-        <div class="eco-modal-body">
             <form method="POST"
                   action="{{ route('admin.settings.payment_methods.update', $method->id) }}"
                   enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <div class="row g-3">
+                <div class="modal-body">
 
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Name (English)</label>
-                        <input type="text"
-                               name="name_en"
-                               value="{{ $method->name_en }}"
-                               class="form-control rounded-pill"
-                               required>
-                    </div>
+                    <div class="row g-3">
 
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Name (Myanmar)</label>
-                        <input type="text"
-                               name="name_mm"
-                               value="{{ $method->name_mm }}"
-                               class="form-control rounded-pill">
-                    </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-1-{{ $method->id }}">Name (English)</label>
+                            <input type="text"
+                                   name="name_en"
+                                   value="{{ $method->name_en }}"
+                                   class="form-control"
+                                   required id="eco-field-8169fa-1-{{ $method->id }}">
+                        </div>
 
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Type</label>
-                        <select name="type" class="form-control rounded-pill" required>
-                            <option value="manual" {{ $method->type == 'manual' ? 'selected' : '' }}>Manual</option>
-                            <option value="cod" {{ $method->type == 'cod' ? 'selected' : '' }}>Cash On Delivery</option>
-                            <option value="bank" {{ $method->type == 'bank' ? 'selected' : '' }}>Bank Transfer</option>
-                            <option value="e_wallet" {{ $method->type == 'e_wallet' ? 'selected' : '' }}>E-Wallet</option>
-                        </select>
-                    </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-2-{{ $method->id }}">Name (Myanmar)</label>
+                            <input type="text"
+                                   name="name_mm"
+                                   value="{{ $method->name_mm }}"
+                                   class="form-control" id="eco-field-8169fa-2-{{ $method->id }}">
+                        </div>
 
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Currency</label>
-                        <select name="currency_code" class="form-control rounded-pill" required>
-                            @foreach($currencies as $currency)
-                                <option value="{{ $currency->code }}"
-                                    {{ $method->currency_code == $currency->code ? 'selected' : '' }}>
-                                    {{ $currency->code }}
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-3-{{ $method->id }}">Type</label>
+                            <select name="type" class="form-select" required id="eco-field-8169fa-3-{{ $method->id }}">
+                                <option value="manual" {{ $method->type == 'manual' ? 'selected' : '' }}>Manual</option>
+                                <option value="cod" {{ $method->type == 'cod' ? 'selected' : '' }}>Cash On Delivery</option>
+                                <option value="bank" {{ $method->type == 'bank' ? 'selected' : '' }}>Bank Transfer</option>
+                                <option value="e_wallet" {{ $method->type == 'e_wallet' ? 'selected' : '' }}>E-Wallet</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-4-{{ $method->id }}">Currency</label>
+                            <select name="currency_code" class="form-select" required id="eco-field-8169fa-4-{{ $method->id }}">
+                                @foreach($currencies as $currency)
+                                    <option value="{{ $currency->code }}"
+                                        {{ $method->currency_code == $currency->code ? 'selected' : '' }}>
+                                        {{ $currency->code }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-5-{{ $method->id }}">Account Name</label>
+                            <input type="text"
+                                   name="account_name"
+                                   value="{{ $method->account_name }}"
+                                   class="form-control" id="eco-field-8169fa-5-{{ $method->id }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-6-{{ $method->id }}">Account Number</label>
+                            <input type="text"
+                                   name="account_number"
+                                   value="{{ $method->account_number }}"
+                                   class="form-control" id="eco-field-8169fa-6-{{ $method->id }}">
+                        </div>
+
+                        {{-- ICON --}}
+                        <div class="col-md-6">
+                            <div class="mt-2">
+                                <img id="icon_preview_{{ $method->id }}"
+                                     src="{{ $method->icon ? asset('storage/'.$method->icon) : asset('storage/default/no-image.png') }}"
+                                     style="width:80px; height:80px; object-fit:cover; border-radius:12px; border:1px solid #ddd;">
+                            </div>
+
+                            <label class="form-label fw-bold" for="eco-field-8169fa-7-{{ $method->id }}">Payment Icon (512x512)</label>
+
+                            <input type="file"
+                                   name="icon"
+                                   class="form-control"
+                                   accept="image/png,image/webp,image/jpeg"
+                                   onchange="previewUpdateIcon(event, {{ $method->id }})" id="eco-field-8169fa-7-{{ $method->id }}">
+                        </div>
+
+                        {{-- QR --}}
+                        <div class="col-md-6">
+                            <div class="mt-2">
+                                <img id="qr_preview_{{ $method->id }}"
+                                     src="{{ $method->qr_image ? asset('storage/'.$method->qr_image) : asset('storage/default/no-image.png') }}"
+                                     style="width:80px; height:80px; object-fit:cover; border-radius:12px; border:1px solid #ddd;">
+                            </div>
+
+                            <label class="form-label fw-bold" for="eco-field-8169fa-8-{{ $method->id }}">QR Image</label>
+                            <input type="file"
+                                   name="qr_image"
+                                   class="form-control"
+                                   accept="image/png,image/webp,image/jpeg"
+                                   onchange="previewUpdateQR(event, {{ $method->id }})" id="eco-field-8169fa-8-{{ $method->id }}">
+                        </div>
+
+                        {{-- ACTIVE --}}
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" for="eco-field-8169fa-9-{{ $method->id }}">Status</label>
+                            <select name="is_active" class="form-select" id="eco-field-8169fa-9-{{ $method->id }}">
+                                <option value="1" {{ $method->is_active == 1 ? 'selected' : '' }}>
+                                    Active
                                 </option>
-                            @endforeach
-                        </select>
-                    </div>
+                                <option value="0" {{ $method->is_active == 0 ? 'selected' : '' }}>
+                                    Inactive
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Account Name</label>
-                        <input type="text"
-                               name="account_name"
-                               value="{{ $method->account_name }}"
-                               class="form-control rounded-pill">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Account Number</label>
-                        <input type="text"
-                               name="account_number"
-                               value="{{ $method->account_number }}"
-                               class="form-control rounded-pill">
-                    </div>
-
-                    <!-- ICON -->
-                    <div class="col-md-6">
-                        <img id="icon_preview_{{ $method->id }}"
-                            src="{{ $method->icon ? asset('storage/'.$method->icon) : asset('default/no-image.png') }}" class="mb-2"
-                            style="width:80px;height:80px;border-radius:12px;border:1px solid #ddd;">
-
-                        <label class="small font-weight-bold text-muted">Payment Icon</label>
-
-                        <input type="file"
-                            name="icon"
-                            class="form-control rounded-pill"
-                            style="flex:1; min-width:140px;"
-                            onchange="previewUpdateIcon(event, {{ $method->id }})">
-                    </div>
-
-                    <!-- QR -->
-                    <div class="col-md-6">
-                        <img id="qr_preview_{{ $method->id }}"
-                             src="{{ $method->qr_image ? asset('storage/'.$method->qr_image) : asset('default/no-image.png') }}"
-                             class="mb-2"
-                             style="width:80px;height:80px;border-radius:12px;border:1px solid #ddd;">
-
-                        <label class="small font-weight-bold text-muted">QR Image</label>
-                        <input type="file"
-                               name="qr_image"
-                               class="form-control rounded-pill"
-                               onchange="previewUpdateQR(event, {{ $method->id }})">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="small font-weight-bold text-muted">Status</label>
-                        <select name="is_active" class="form-control rounded-pill">
-                            <option value="1" {{ $method->is_active ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ !$method->is_active ? 'selected' : '' }}>Inactive</option>
-                        </select>
                     </div>
 
                 </div>
 
-                <!-- Footer -->
-                <div class="eco-modal-footer mt-4">
-                    <button type="button"
-                            class="btn btn-light rounded-pill px-4"
-                            onclick="closeEcoModalById('updateModal_{{ $method->id }}')">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                         Cancel
                     </button>
 
-                    <button type="submit"
-                            class="btn btn-success rounded-pill px-4">
-                        <i class="fas fa-save mr-1"></i>
-                        Save Changes
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-save"></i> Save Changes
                     </button>
                 </div>
 
             </form>
+
         </div>
     </div>
 </div>

@@ -12,21 +12,21 @@
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Eco Shop | Admin Dashboard</title>
+    <title>{{ config('app.brand') }} | Admin Dashboard</title>
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('vendor/ecoshop/afdbaabf50fdf8.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/ecoshop/7c96be79e6c359.css') }}" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -225,13 +225,13 @@
                         <img
                             src="{{ setting('logo')
                                 ? asset('storage/' . setting('logo'))
-                                : asset('default/logo.png') }}"
-                            alt="Site Logo"
+                                : asset('storage/default/logo.png') }}"
+                            alt="{{ config('app.brand') }}"
                             style="width:40px; height:40px; object-fit:contain;"
                         >
                     </div>
                     <div class="display-flex align-items-center sidebar-brand-text mx-2">
-                        EcoShop
+                        EcoShop <x-version-badge />
                         <span>Admin</span>
                     </div>
                 </a>
@@ -344,7 +344,7 @@
 
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    <button class="rounded-circle border-0" id="sidebarToggle" aria-label="Toggle admin navigation"></button>
                 </div>
 
             </ul>
@@ -355,7 +355,7 @@
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
             <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3 d-flex align-items-center justify-content-center text-decoration-none" style="width: 2.5rem; height: 2.5rem; padding: 0;">
+            <button id="sidebarToggleTop" aria-label="Toggle admin navigation" class="btn btn-link d-md-none rounded-circle mr-3 d-flex align-items-center justify-content-center text-decoration-none" style="width: 2.5rem; height: 2.5rem; padding: 0;">
                 <i class="fa fa-bars"></i>
             </button>
 
@@ -365,7 +365,7 @@
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 text-gray-600 small">{{ auth()->user()->name }}</span>
                         <img class="img-profile rounded-circle"
                             src="{{ auth()->user()->avatar_url }}"
@@ -373,7 +373,7 @@
 
                     </a>
                     <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                         aria-labelledby="userDropdown">
 
                         <a class="dropdown-item" href="{{ route('admin#profile') }}">
@@ -415,7 +415,7 @@
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Eco Shop {{ date('Y') }}</span>
+                            <span>Copyright &copy; {{ config('app.brand') }} {{ date('Y') }}</span>
                         </div>
                     </div>
                 </footer>
@@ -439,25 +439,26 @@
     @include('admin.layouts.logout')
 
     <!--Bootstrap Original JavaScript-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('vendor/ecoshop/afcaefd721f3dd.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('admin/js/sb-admin-2.js') }}"></script>
 
     <!-- Page level plugins -->
     <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
+    @if(request()->routeIs('adminDashboard'))
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
+    @endif
     <script src="{{ asset('global/js/eco-common.js') }}"></script>
 
     <script>

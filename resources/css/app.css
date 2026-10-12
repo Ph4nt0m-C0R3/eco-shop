@@ -1,3 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@config "../../tailwind.config.js";
+@source "../views";
+@source "../js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
+
+/* Keep the existing Breeze border default during the Tailwind 4 migration. */
+@layer base {
+    *, ::before, ::after { border-color: var(--color-gray-200, currentColor); }
+}

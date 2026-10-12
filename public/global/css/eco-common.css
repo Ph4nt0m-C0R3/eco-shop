@@ -213,37 +213,19 @@
    RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-
     .eco-header-common {
         flex-direction: column;
-        align-items: center !important;
-        padding: 14px 10px;
+        text-align: center;
+        gap: 1rem;
     }
 
     .eco-header-left {
-        position: relative;
-        width: 100%;
+        flex-direction: column;
+        text-align: center;
     }
 
-    /* ===== CASE 1: WITH BACK BUTTON ===== */
-    .eco-header-left.has-back {
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        text-align: left;
-        padding-left: 65px; /* space for back button */
-        padding-right: 10px;
-    }
-
-    .eco-header-left.has-back > div {
-        margin-top: 0;
-    }
-
-    /* Floating back button */
-    .eco-header-left.has-back > a.btn {
-        position: absolute;
-        top: 0;
-        left: 10px;
+    .eco-header-right {
+        align-self: center;
     }
 }
 
@@ -524,24 +506,23 @@
 
     /* Title + subtitle wrapper */
     .eco-header-left > div {
-        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
     }
 
     /* Floating back button (left) */
     .eco-header-left > a.btn {
         position: absolute;
-        transform: none;  /* remove wrong translate */
-
-        width: 38px;
-        height: 38px;
-
-        background: #fff;
-        color: #2e7d32;
-
-        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-        border-radius: 50%;
-
-        z-index: 5;
+        top: 100%;
+        left: 5%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        z-index: 3;
     }
 
     .eco-header-title {
@@ -705,16 +686,28 @@
 /* ======================================
    FINAL FIX – 320px HEADER TEXT CUT OFF
 ====================================== */
-@media (max-width: 463px) {
+@media (max-width: 400px) {
 
     .eco-header-right {
         min-width: unset !important;
         width: 100% !important;
         max-width: 100%;
-        font-size: 0.9rem !important;
+        font-size: 0.75rem !important;
         padding: 0.5rem 0.75rem !important;
         white-space: normal !important;
         line-height: 1.4;
     }
 
 }
+
+button.password-toggle { border:0; background:transparent; padding:8px; width:40px; min-height:40px; right:8px; }
+button.password-toggle:focus-visible { outline:2px solid #2e7d32; outline-offset:2px; border-radius:6px; }
+html[lang="my"] body { font-family:'Noto Sans Myanmar',system-ui,sans-serif; line-height:1.8; }
+html[lang="my"] .form-floating>label { line-height:1.5; }
+html[lang="my"] .form-floating>.form-control { min-height:64px; }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important; } }
+
+.lang-menu,.profile-menu { visibility:hidden; }
+.lang-dropdown.open .lang-menu,.profile-dropdown.open .profile-menu { visibility:visible; }
+
+.eco-version-badge { display:inline-block; flex-shrink:0; white-space:nowrap; padding:4px 7px; border-radius:6px; background:#edf7e6; color:#245b1a; font:700 12px/1.2 system-ui,sans-serif; vertical-align:middle; text-transform:none; letter-spacing:normal; }

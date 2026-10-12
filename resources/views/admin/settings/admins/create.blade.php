@@ -175,8 +175,8 @@
                         placeholder="Password">
                     <label for="admin_password">Password</label>
 
-                    <i class="fa-solid fa-eye-slash password-toggle"
-                    onclick="togglePassword('admin_password', this)"></i>
+                    <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash password-toggle"
+                    onclick="togglePassword('admin_password', this)"></button>
                 </div>
                 @error('password', 'createAdmin')
                     <small class="text-danger">{{ $message }}</small>
@@ -190,8 +190,8 @@
                         placeholder="Confirm Password">
                     <label for="admin_password_confirmation">Confirm Password</label>
 
-                    <i class="fa-solid fa-eye-slash password-toggle"
-                    onclick="togglePassword('admin_password_confirmation', this)"></i>
+                    <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash password-toggle"
+                    onclick="togglePassword('admin_password_confirmation', this)"></button>
                 </div>
                 @error('password_confirmation', 'createAdmin')
                     <small class="text-danger">{{ $message }}</small>

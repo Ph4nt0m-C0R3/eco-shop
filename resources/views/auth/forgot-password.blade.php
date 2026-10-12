@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Forgot Password</title>
+    <title>{{ config('app.brand') }} | Forgot Password</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/ee7ba94afea4ad.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -209,6 +209,8 @@
         }
 
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -220,9 +222,9 @@
         <i class="fas fa-seedling"></i>
     </div>
 
-    <h2 class="fw-bold text-success mb-2">Forgot your password?</h2>
+    <h2 class="fw-bold text-success mb-2">{{ __('auth-ui.forgot_your_password') }}</h2>
     <p class="text-muted mb-4">
-        No worries! Enter your email and we’ll send you a secure reset link.
+        {{ __('auth-ui.no_worries_enter_your_email_and_we_ll_send_you_a_secure_reset_link') }}
     </p>
 
     <!-- Session Status -->
@@ -240,8 +242,8 @@
             data-email="{{ $submittedEmail }}">
             <i class="fas fa-paper-plane"></i>
             <div class="text-start">
-                <strong>Reset link sent!</strong><br>
-                <span class="small">Click here to open your email inbox</span>
+                <strong>{{ __('auth-ui.reset_link_sent') }}</strong><br>
+                <span class="small">{{ __('auth-ui.click_here_to_open_your_email_inbox') }}</span>
             </div>
         </div>
     @endif
@@ -261,7 +263,7 @@
                 value="{{ old('email') }}"
                 autofocus
             >
-            <label for="email">Email Address</label>
+            <label for="email">{{ __('auth-ui.email_address') }}</label>
 
             @error('email')
                 <div class="text-danger mt-1" style="font-size: 0.875rem;">
@@ -271,7 +273,7 @@
         </div>
 
         <button type="submit" class="btn btn-eco text-white w-100 mb-3">
-            Send Password Reset Link
+            {{ __('auth-ui.send_password_reset_link') }}
         </button>
     </form>
 
@@ -279,13 +281,13 @@
     <div class="eco-hint mb-4">
         <i class="fas fa-envelope-open-text"></i>
         <span>
-            Didn’t receive the email? Please check your <strong>spam</strong> or
-            <strong>promotions</strong> folder.
+            {{ __('auth-ui.didn_t_receive_the_email_please_check_your') }} <strong>{{ __('auth-ui.spam') }}</strong> {{ __('auth-ui.or') }}
+            <strong>{{ __('auth-ui.promotions') }}</strong> {{ __('auth-ui.folder') }}
         </span>
     </div>
 
     <a href="{{ route('login') }}" class="back-link">
-        <i class="fas fa-arrow-left me-1"></i> Back to Login
+        <i class="fas fa-arrow-left me-1"></i> {{ __('auth-ui.back_to_login') }}
     </a>
 
 </div>

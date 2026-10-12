@@ -29,7 +29,7 @@
 </div>
 
 <!-- ===== REDESIGNED WISHLIST – LAYOUT MATCHES ECO PRODUCTS SECTION ===== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/f5659550b27ddb.css') }}">
 
 <section class="eco-products-section">
     <div class="container pb-5">

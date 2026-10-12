@@ -618,7 +618,7 @@
                                     </div>
                                     @empty
                                     <div class="carousel-item active">
-                                        <img src="{{ asset('default/product-placeholder.png') }}"
+                                        <img src="{{ asset('storage/default/product-placeholder.png') }}"
                                              class="main-image"
                                              alt="No Image">
                                     </div>

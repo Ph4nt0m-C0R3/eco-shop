@@ -22,6 +22,7 @@ class DashboardController extends Controller
             ->where('status', '!=', 'cancelled');
 
         $rate = \App\Models\Currency::getRate('MMK');
+        $orderRate = "COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), $rate)";
 
         if ($currency === 'USD') {
 
@@ -30,7 +31,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN tax
                     ELSE
-                        tax / $rate
+                        tax / $orderRate
                 END
             ";
 
@@ -39,7 +40,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee / $rate
+                        shipping_fee / $orderRate
                 END
             ";
 
@@ -50,7 +51,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN tax
                     ELSE
-                        tax * $rate
+                        tax * $orderRate
                 END
             ";
 
@@ -59,7 +60,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee * $rate
+                        shipping_fee * $orderRate
                 END
             ";
         }
@@ -121,7 +122,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN subtotal_usd
                     ELSE
-                        subtotal_mmk / $rate
+                        subtotal_mmk / $orderRate
                 END
             ";
 
@@ -130,7 +131,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN tax
                     ELSE
-                        tax / $rate
+                        tax / $orderRate
                 END
             ";
 
@@ -139,7 +140,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee / $rate
+                        shipping_fee / $orderRate
                 END
             ";
 
@@ -150,7 +151,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN subtotal_mmk
                     ELSE
-                        subtotal_usd * $rate
+                        subtotal_usd * $orderRate
                 END
             ";
 
@@ -159,7 +160,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN tax
                     ELSE
-                        tax * $rate
+                        tax * $orderRate
                 END
             ";
 
@@ -168,16 +169,18 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee * $rate
+                        shipping_fee * $orderRate
                 END
             ";
         }
+
+        $monthExpression = DB::connection()->getDriverName() === 'sqlite' ? "CAST(strftime('%m', created_at) AS INTEGER)" : 'MONTH(created_at)';
 
         $chartRaw = Order::where('payment_status', 'paid')
             ->where('status', '!=', 'cancelled')
             ->whereYear('created_at', $now->year)
             ->selectRaw("
-                MONTH(created_at) as month,
+                $monthExpression as month,
                 SUM($subtotalExpression) as revenue,
                 SUM($taxChartExpression) as tax,
                 SUM($shippingChartExpression) as shipping
@@ -248,6 +251,7 @@ class DashboardController extends Controller
         $now = Carbon::now();
 
         $rate = \App\Models\Currency::getRate('MMK');
+        $orderRate = "COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), $rate)";
 
         if ($currency === 'USD') {
 
@@ -256,7 +260,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN subtotal_usd
                     ELSE
-                        subtotal_mmk / $rate
+                        subtotal_mmk / $orderRate
                 END
             ";
 
@@ -265,7 +269,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN tax
                     ELSE
-                        tax / $rate
+                        tax / $orderRate
                 END
             ";
 
@@ -274,7 +278,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'USD'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee / $rate
+                        shipping_fee / $orderRate
                 END
             ";
 
@@ -285,7 +289,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN subtotal_mmk
                     ELSE
-                        subtotal_usd * $rate
+                        subtotal_usd * $orderRate
                 END
             ";
 
@@ -294,7 +298,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN tax
                     ELSE
-                        tax * $rate
+                        tax * $orderRate
                 END
             ";
 
@@ -303,7 +307,7 @@ class DashboardController extends Controller
                     WHEN currency_code = 'MMK'
                         THEN shipping_fee
                     ELSE
-                        shipping_fee * $rate
+                        shipping_fee * $orderRate
                 END
             ";
         }

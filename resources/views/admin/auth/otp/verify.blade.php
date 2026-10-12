@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Verify OTP | EcoShop</title>
+    <title>Verify OTP | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Eco Common CSS -->
     <link rel="stylesheet" href="{{ asset('global/css/eco-common.css') }}">
@@ -49,6 +49,8 @@
         }
     </style>
 
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body class="bg-light">

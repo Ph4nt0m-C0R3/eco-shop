@@ -47,8 +47,8 @@
 
                         <label for="newPassword">{{ __('security.new_password') }}</label>
 
-                        <i class="fas fa-eye-slash password-toggle"
-                           onclick="togglePassword('newPassword', this)"></i>
+                        <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fas fa-eye-slash password-toggle"
+                           onclick="togglePassword('newPassword', this)"></button>
                     </div>
 
                     <div class="progress mt-2" style="height: 6px; border-radius: 10px; background: #eee;">
@@ -71,8 +71,8 @@
 
                         <label for="confirmPassword">{{ __('security.confirm_password') }}</label>
 
-                        <i class="fas fa-eye-slash password-toggle"
-                           onclick="togglePassword('confirmPassword', this)"></i>
+                        <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fas fa-eye-slash password-toggle"
+                           onclick="togglePassword('confirmPassword', this)"></button>
                     </div>
                     @error('password_confirmation')
                         <small class="text-danger mt-1 d-block small">{{ $message }}</small>

@@ -68,72 +68,45 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
+    public function paymentProof(Order $order)
+    {
+        abort_unless($order->payment_screenshot, 404);
+        $disk = \Illuminate\Support\Facades\Storage::disk('local');
+        if (! $disk->exists($order->payment_screenshot)) {
+            // Read existing public proofs through this authorized route during migration.
+            $disk = \Illuminate\Support\Facades\Storage::disk('public');
+        }
+        abort_unless($disk->exists($order->payment_screenshot), 404);
+        return $disk->response($order->payment_screenshot, null, ['Cache-Control' => 'private, no-store', 'X-Content-Type-Options' => 'nosniff', 'Content-Security-Policy' => "default-src 'none'; sandbox"]);
+    }
+
     public function ship(Order $order)
     {
-        if (
-            $order->status !== 'processing' ||
-            $order->payment_status !== 'paid'
-        ) {
-            return back();
-        }
-
-        $order->update([
-            'status' => 'shipped'
-        ]);
-
-        return back()->with('success', 'Order shipped.');
+        DB::transaction(function () use ($order) {
+            $locked = Order::lockForUpdate()->findOrFail($order->id);
+            abort_unless($locked->status === 'processing' && $locked->payment_status === 'paid', 409);
+            $locked->update(['status' => 'shipped']);
+        }, 3);
+        return back()->with('success', __('stability.order_shipped'));
     }
 
     public function approvePayment(Order $order)
     {
-        if ($order->payment_status === 'paid') return back();
-        if ($order->status === 'cancelled') return back();
-
         DB::transaction(function () use ($order) {
-
-            foreach ($order->items as $item) {
-                $product = Product::lockForUpdate()->find($item->product_id);
-
-                if ($product->available_stock < 0) {
-                    throw new \Exception('Stock error.');
-                }
-
-                $product->stock -= $item->quantity;
-                $product->reserved_stock -= $item->quantity;
-                $product->save();
-            }
-
-            $order->update([
-                'payment_status' => 'paid',
-                'status' => 'processing',
-                'paid_at' => now()
-            ]);
-        });
-
-        Mail::to($order->user->email)->send(new OrderApprovedMail($order));
-
-        return back()->with('success', 'Payment approved & stock deducted.');
+            $locked = Order::lockForUpdate()->findOrFail($order->id);
+            abort_if($locked->payment_method === 'stripe', 409);
+            app(\App\Services\OrderLifecycle::class)->commitInventory($locked);
+        }, 3);
+        return back()->with('success', __('stability.payment_approved'));
     }
 
     public function rejectPayment(Order $order)
     {
-        if ($order->status === 'cancelled') return back();
-
         DB::transaction(function () use ($order) {
-
-            foreach ($order->items as $item) {
-                $product = Product::lockForUpdate()->find($item->product_id);
-                $product->reserved_stock -= $item->quantity;
-                $product->save();
-            }
-
-            $order->update([
-                'payment_status' => 'failed',
-                'status' => 'cancelled'
-            ]);
-        });
-
-        return back()->with('error', 'Payment rejected.');
+            $locked = Order::lockForUpdate()->findOrFail($order->id);
+            abort_if($locked->payment_status === 'paid' || $locked->payment_method === 'stripe', 409);
+            app(\App\Services\OrderLifecycle::class)->releaseReservation($locked);
+        }, 3);
+        return back()->with('success', __('stability.payment_rejected'));
     }
-
 }

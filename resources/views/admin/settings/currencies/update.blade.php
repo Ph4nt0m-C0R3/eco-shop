@@ -1,64 +1,60 @@
-<!-- ===== Eco Update Currency Modal ===== -->
-<div class="eco-modal-overlay" id="updateCurrencyModal_{{ $currency->id }}">
-    <div class="eco-modal">
+{{-- UPDATE MODAL --}}
+<div class="modal fade" id="updateCurrencyModal_{{ $currency->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content shadow">
 
-        <!-- Header -->
-        <div class="eco-modal-header">
-            <h5>
-                <i class="fas fa-coins text-success mr-2"></i>
-                Update Currency ({{ $currency->code }})
-            </h5>
-            <button class="eco-modal-close"
-                    onclick="closeEcoModalById('updateCurrencyModal_{{ $currency->id }}')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
+            <div class="modal-header bg-light">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-coins text-primary"></i>
+                    Update Currency ({{ $currency->code }})
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-        <!-- Body -->
-        <div class="eco-modal-body">
             <form method="POST"
                   action="{{ route('admin.settings.currencies.update', $currency->id) }}">
                 @csrf
                 @method('PUT')
 
-                <div class="form-group mb-3">
-                    <label class="small font-weight-bold text-muted">Rate</label>
-                    <input type="number"
-                           step="0.01"
-                           name="rate"
-                           value="{{ $currency->rate }}"
-                           class="form-control rounded-pill"
-                           required>
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold" for="eco-field-99e6f7-1-{{ $currency->id }}">Rate</label>
+                            <input type="number"
+                                   step="0.01"
+                                   name="rate"
+                                   value="{{ $currency->rate }}"
+                                   class="form-control"
+                                   required id="eco-field-99e6f7-1-{{ $currency->id }}">
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold" for="eco-field-99e6f7-2-{{ $currency->id }}">Status</label>
+                            <select name="is_active" class="form-select" id="eco-field-99e6f7-2-{{ $currency->id }}">
+                                <option value="1" {{ $currency->is_active == 1 ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option value="0" {{ $currency->is_active == 0 ? 'selected' : '' }}>
+                                    Inactive
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label class="small font-weight-bold text-muted">Status</label>
-                    <select name="is_active" class="form-control rounded-pill">
-                        <option value="1" {{ $currency->is_active ? 'selected' : '' }}>
-                            Active
-                        </option>
-                        <option value="0" {{ !$currency->is_active ? 'selected' : '' }}>
-                            Inactive
-                        </option>
-                    </select>
-                </div>
-
-                <!-- Footer -->
-                <div class="eco-modal-footer justify-content-center">
-                    <button type="button"
-                            class="btn btn-light rounded-pill px-4"
-                            onclick="closeEcoModalById('updateCurrencyModal_{{ $currency->id }}')">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                         Cancel
                     </button>
-
-                    <button type="submit"
-                            class="btn btn-success rounded-pill px-4">
-                        <i class="fas fa-save mr-1"></i>
-                        Save Changes
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-save"></i> Save Changes
                     </button>
                 </div>
 
             </form>
+
         </div>
     </div>
 </div>

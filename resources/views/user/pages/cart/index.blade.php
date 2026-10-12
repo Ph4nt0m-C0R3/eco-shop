@@ -309,12 +309,12 @@ input:focus {
                             <!-- QUANTITY -->
                             <td data-label="{{ __('cart.quantity') }}" class="text-center">
                                 <div class="qty-pill">
-                                    <button class="qty-btn qty-minus" data-id="{{ $item['id'] }}">−</button>
+                                    <button class="qty-btn qty-minus" data-id="{{ $item['id'] }}" aria-label="{{ __('stability.decrease') }}">−</button>
                                     <input type="text" class="qty-value qty-input" value="{{ $item['quantity'] }}"
                                         inputmode="numeric" pattern="[0-9]*" data-id="{{ $item['id'] }}"
                                         data-stock="{{ $item['stock'] }}"
-                                        data-price-mmk="{{ $item['price_mmk'] }}" data-price-usd="{{ $item['price_usd'] }}">
-                                    <button class="qty-btn qty-plus" data-id="{{ $item['id'] }}">+</button>
+                                        data-price-mmk="{{ $item['price_mmk'] }}" data-price-usd="{{ $item['price_usd'] }}" aria-label="{{ __('stability.quantity') }}">
+                                    <button class="qty-btn qty-plus" data-id="{{ $item['id'] }}" aria-label="{{ __('stability.increase') }}">+</button>
                                 </div>
                             </td>
 
@@ -330,7 +330,7 @@ input:focus {
 
                             <!-- REMOVE -->
                             <td data-label="{{ __('cart.action') }}" class="text-center">
-                                <button class="remove-cart" data-id="{{ $item['id'] }}">
+                                <button class="remove-cart" data-id="{{ $item['id'] }}" aria-label="{{ __('stability.remove') }}">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </td>
@@ -380,7 +380,7 @@ input:focus {
     @endif
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="{{ asset('vendor/ecoshop/9dd9a603294240.js') }}"></script>
 
 <script>
 function syncQuantity(product_id, quantity){

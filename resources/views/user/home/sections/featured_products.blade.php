@@ -172,20 +172,20 @@
     background: transparent !important;
 }
 
-html[lang="mm"] .eco-section-title {
+html[lang="my"] .eco-section-title {
     line-height: 1.7;
     letter-spacing: 0;
 }
 
-html[lang="mm"] .eco-section-subtitle {
+html[lang="my"] .eco-section-subtitle {
     line-height: 2;
 }
 
-html[lang="mm"] .eco-header-badge {
+html[lang="my"] .eco-header-badge {
     line-height: 1.8;
 }
 
-html[lang="mm"] .eco-header-btn {
+html[lang="my"] .eco-header-btn {
     line-height: 1.9;
 }
 </style>

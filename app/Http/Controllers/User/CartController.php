@@ -20,7 +20,7 @@ class CartController extends Controller
 
         foreach($items as $item){
 
-            $product = Product::with('primaryImage')->find($item->product_id);
+            $product = Product::active()->with('primaryImage')->find($item->product_id);
 
             if(!$product){
                 continue;
@@ -36,7 +36,7 @@ class CartController extends Controller
                 'stock' => $product->available_stock,
                 'image' => $product->primaryImage
                     ? asset('storage/'.$product->primaryImage->image)
-                    : asset('default/no-image.png'),
+                    : asset('storage/default/no-image.png'),
             ];
         }
 
@@ -63,7 +63,7 @@ class CartController extends Controller
         $userId = Auth::id();
         $qty = $request->quantity ?? 1;
 
-        $product = Product::findOrFail($request->product_id);
+        $product = Product::active()->findOrFail($request->product_id);
 
         $cart = Cart::firstOrNew([
             'user_id'=>$userId,
@@ -101,7 +101,7 @@ class CartController extends Controller
 
         $userId = Auth::id();
 
-        $product = Product::findOrFail($request->product_id);
+        $product = Product::active()->findOrFail($request->product_id);
 
         if ($request->quantity > $product->available_stock) {
             return response()->json([

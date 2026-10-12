@@ -31,6 +31,6 @@ return [
         ],
     ],
 
-    'trust_1' => '"Verified Sustainable Marketplace"',
-    'trust_2' => '"Global Eco-Partner"',
+    'trust_1' => 'Verified Sustainable Marketplace',
+    'trust_2' => 'Global Eco-Partner',
 ];

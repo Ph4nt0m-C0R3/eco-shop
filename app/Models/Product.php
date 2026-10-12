@@ -21,6 +21,7 @@ class Product extends Model
         'category_id',
         'stock',
         'reserved_stock',
+        'is_active',
         'eco_badge',
         'eco_badge_mm',
         'created_by',

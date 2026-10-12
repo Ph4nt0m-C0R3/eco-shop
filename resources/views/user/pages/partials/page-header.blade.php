@@ -196,19 +196,19 @@
     Myanmar Language Fix
     ========================= */
 
-    html[lang="mm"] .eco-page-header h1 {
+    html[lang="my"] .eco-page-header h1 {
         font-size: 2.7rem;          /* Slightly larger (MM looks smaller visually) */
         line-height: 1.45;          /* Much more breathing room */
         letter-spacing: 0;          /* Remove negative spacing */
         font-weight: 700;           /* Slightly softer weight */
     }
 
-    html[lang="mm"] .eco-breadcrumb-modern {
+    html[lang="my"] .eco-breadcrumb-modern {
         line-height: 1.6;
     }
 
-    html[lang="mm"] .eco-breadcrumb-modern a,
-    html[lang="mm"] .eco-breadcrumb-modern .active {
+    html[lang="my"] .eco-breadcrumb-modern a,
+    html[lang="my"] .eco-breadcrumb-modern .active {
         font-size: 1rem;            /* Slightly larger */
         line-height: 1.6;
         font-weight: 600;
@@ -216,13 +216,13 @@
 
     @media (max-width: 480px) {
 
-        html[lang="mm"] .eco-page-header h1 {
+        html[lang="my"] .eco-page-header h1 {
             font-size: 1.9rem;
             line-height: 1.5;
         }
 
-        html[lang="mm"] .eco-breadcrumb-modern a,
-        html[lang="mm"] .eco-breadcrumb-modern .active {
+        html[lang="my"] .eco-breadcrumb-modern a,
+        html[lang="my"] .eco-breadcrumb-modern .active {
             font-size: 0.95rem;
             line-height: 1.6;
         }

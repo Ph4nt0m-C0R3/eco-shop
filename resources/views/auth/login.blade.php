@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Login</title>
+    <title>{{ config('app.brand') }} | Login</title>
 
     <!-- Favicon -->
     <link rel="icon"
     type="image/png"
     href="{{ setting('favicon')
         ? asset('storage/' . setting('favicon'))
-        : asset('default/favicon.png') }}">
+        : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/ee7ba94afea4ad.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('global/css/eco-common.css') }}">
@@ -301,6 +301,8 @@
             transform: translateX(-4px);
         }
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -312,8 +314,8 @@
         <div class="col-lg-6 col-12 form-side">
             <div class="form-wrapper">
 
-                <h2 class="fw-bold text-success mb-2">Welcome Back</h2>
-                <p class="text-muted mb-4">Login to continue your eco-friendly journey!</p>
+                <h2 class="fw-bold text-success mb-2">{{ __('auth-ui.welcome_back') }}</h2>
+                <p class="text-muted mb-4">{{ __('auth-ui.login_to_continue_your_eco_friendly_journey') }}</p>
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -321,7 +323,7 @@
                     <div class="form-floating mb-3 text-start">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email"
                                value="{{ old('email') }}">
-                        <label for="email">Email Address</label>
+                        <label for="email">{{ __('auth-ui.email_address') }}</label>
                         @error('email')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -330,10 +332,10 @@
                     <div class="mb-3 text-start">
                         <div class="form-floating password-wrapper">
                             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password">
-                            <label for="password">Password</label>
+                            <label for="password">{{ __('auth-ui.password') }}</label>
 
-                            <i class="fa-solid fa-eye-slash fa-fw password-toggle"
-                            onclick="togglePassword('password', this)"></i>
+                            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash fa-fw password-toggle"
+                            onclick="togglePassword('password', this)"></button>
                         </div>
 
                         @error('password')
@@ -351,44 +353,44 @@
                                 {{ old('remember') ? 'checked' : '' }}
                             >
                             <label class="form-check-label" for="remember">
-                                Remember Me
+                                {{ __('auth-ui.remember_me') }}
                             </label>
                         </div>
 
                         <a href="{{ route('password.request') }}" class="small text-success fw-semibold">
-                            Forgot password?
+                            {{ __('auth-ui.forgot_password') }}
                         </a>
                     </div>
 
-                    <button type="submit" class="btn btn-eco text-white w-100 mb-3">Login</button>
+                    <button type="submit" class="btn btn-eco text-white w-100 mb-3">{{ __('auth-ui.login') }}</button>
                 </form>
 
                 <div class="mb-4">
                     <a href="{{ url('/') }}" class="back-home-link">
                         <i class="fas fa-arrow-left me-2"></i>
-                        Back to Home
+                        {{ __('auth-ui.back_to_home') }}
                     </a>
                 </div>
 
-                <div class="divider"> OR </div>
+                <div class="divider"> {{ __('auth-ui.or') }} </div>
 
                 <div class="social-buttons mb-3">
                     <a href="{{ route('socialLogin', ['provider' => 'google']) }}"
                     class="btn-social btn-google w-100">
                         <i class="fab fa-google"></i>
-                        Continue with Google
+                        {{ __('auth-ui.continue_with_google') }}
                     </a>
 
                     <a href="{{ route('socialLogin', ['provider' => 'github']) }}"
                     class="btn-social btn-github w-100">
                         <i class="fab fa-github"></i>
-                        Continue with GitHub
+                        {{ __('auth-ui.continue_with_github') }}
                     </a>
                 </div>
 
                 <p class="small">
-                    Don’t have an account?
-                    <a href="{{ route('register') }}" class="text-success fw-semibold">Sign up</a>
+                    {{ __('auth-ui.don_t_have_an_account') }}
+                    <a href="{{ route('register') }}" class="text-success fw-semibold">{{ __('auth-ui.sign_up') }}</a>
                 </p>
             </div>
         </div>
@@ -410,20 +412,20 @@
                     <img
                         src="{{ setting('logo')
                             ? asset('storage/' . setting('logo'))
-                            : asset('default/logo.png') }}"
-                        alt="{{ setting('app_name', 'EcoShop') }}"
+                            : asset('storage/default/logo.png') }}"
+                        alt="{{ config('app.brand') }}"
                     >
                 </div>
 
-                <h2 class="fw-bold mb-3 text-success">EcoShop</h2>
+                <h2 class="fw-bold mb-3 text-success">{{ config('app.brand') }}</h2>
                 <p class="text-muted">
-                    Sustainable products crafted for a cleaner, greener future.
+                    {{ __('auth-ui.sustainable_products_crafted_for_a_cleaner_greener_future') }}
                 </p>
 
                 <ul class="list-unstyled eco-features">
-                    <li><i class="fas fa-leaf"></i> Eco-friendly materials</li>
-                    <li><i class="fas fa-recycle"></i> Reduce waste & emissions</li>
-                    <li><i class="fas fa-globe"></i> Support green innovation</li>
+                    <li><i class="fas fa-leaf"></i> {{ __('auth-ui.eco_friendly_materials') }}</li>
+                    <li><i class="fas fa-recycle"></i> {{ __('auth-ui.reduce_waste_emissions') }}</li>
+                    <li><i class="fas fa-globe"></i> {{ __('auth-ui.support_green_innovation') }}</li>
                 </ul>
             </div>
         </div>

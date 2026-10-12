@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Reset Password</title>
+    <title>{{ config('app.brand') }} | Reset Password</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/ee7ba94afea4ad.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -160,6 +160,8 @@
         }
 
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -170,8 +172,8 @@
         <i class="fas fa-seedling fa-2x" style="color:#27ae60;"></i>
     </div>
 
-    <h2>Reset Your Password</h2>
-    <p>Enter your new password below to securely update your account.</p>
+    <h2>{{ __('auth-ui.reset_your_password') }}</h2>
+    <p>{{ __('auth-ui.enter_your_new_password_below_to_securely_update_your_account') }}</p>
 
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
@@ -187,7 +189,7 @@
                    placeholder="Email"
                    value="{{ old('email', $request->email) }}"
                    autofocus>
-            <label for="email">Email Address</label>
+            <label for="email">{{ __('auth-ui.email_address') }}</label>
         </div>
         @error('email')
             <div class="input-error">{{ $message }}</div>
@@ -201,8 +203,8 @@
                    class="form-control @error('password') is-invalid @enderror"
                    placeholder="New Password"
                    autocomplete="new-password">
-            <label for="password">New Password</label>
-            <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('password', this)"></i>
+            <label for="password">{{ __('auth-ui.new_password') }}</label>
+            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fas fa-eye-slash password-toggle" onclick="togglePassword('password', this)"></button>
         </div>
         @error('password')
             <div class="input-error">{{ $message }}</div>
@@ -216,20 +218,20 @@
                    class="form-control @error('password_confirmation') is-invalid @enderror"
                    placeholder="Confirm Password"
                    autocomplete="new-password">
-            <label for="password_confirmation">Confirm Password</label>
-            <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('password_confirmation', this)"></i>
+            <label for="password_confirmation">{{ __('auth-ui.confirm_password') }}</label>
+            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fas fa-eye-slash password-toggle" onclick="togglePassword('password_confirmation', this)"></button>
             @error('password_confirmation')
             <div class="input-error">{{ $message }}</div>
             @enderror
         </div>
 
         <button type="submit" class="btn btn-eco text-white w-100 mt-4">
-            Reset Password
+            {{ __('auth-ui.reset_password') }}
         </button>
     </form>
 
     <a href="{{ route('login') }}" class="back-link">
-        <i class="fas fa-arrow-left me-1"></i> Back to Login
+        <i class="fas fa-arrow-left me-1"></i> {{ __('auth-ui.back_to_login') }}
     </a>
 
 </div>

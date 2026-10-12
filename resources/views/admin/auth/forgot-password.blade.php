@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Forgot Password | EcoShop</title>
+    <title>Admin Forgot Password | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Eco Common CSS -->
     <link rel="stylesheet" href="{{ asset('global/css/eco-common.css') }}">
@@ -88,6 +88,8 @@
             opacity: 1;
         }
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -149,11 +151,11 @@
 
 <!-- Footer -->
 <p class="text-center text-muted small mt-4 mb-0">
-    © {{ date('Y') }} EcoShop • Admin Access Only
+    © {{ date('Y') }} {{ config('app.brand') }} • Admin Access Only
 </p>
 
 <!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('vendor/ecoshop/afcaefd721f3dd.js') }}"></script>
 <script src="{{ asset('global/js/eco-common.js') }}"></script>
 
 </body>

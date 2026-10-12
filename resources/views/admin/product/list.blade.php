@@ -66,6 +66,9 @@
         z-index: 10;
     }
 
+    .product-img-container .eco-badge { max-width: calc(100% - 16px); overflow-wrap: anywhere; }
+    .product-img-container .stock-badge { top: auto; bottom: 8px; left: 8px; right: auto; }
+
     /* Category */
     .product-category {
         font-size: 0.7rem;

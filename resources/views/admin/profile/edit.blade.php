@@ -12,37 +12,37 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label>Full Name</label>
+                        <label for="eco-field-38a0a1-1">Full Name</label>
                         <input type="text"
                                name="name"
                                class="form-control eco-input rounded-pill"
-                               value="{{ old('name', auth()->user()->name) }}">
+                               value="{{ old('name', auth()->user()->name) }}" id="eco-field-38a0a1-1">
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label>Email</label>
+                        <label for="eco-field-38a0a1-2">Email</label>
                         <input type="email"
                                name="email"
                                class="form-control eco-input rounded-pill"
-                               value="{{ old('email', auth()->user()->email) }}">
+                               value="{{ old('email', auth()->user()->email) }}" id="eco-field-38a0a1-2">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label>Phone</label>
+                        <label for="eco-field-38a0a1-3">Phone</label>
                         <input type="text"
                                name="phone"
                                class="form-control eco-input rounded-pill"
-                               value="{{ old('phone', auth()->user()->phone) }}">
+                               value="{{ old('phone', auth()->user()->phone) }}" id="eco-field-38a0a1-3">
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label>Address</label>
+                        <label for="eco-field-38a0a1-4">Address</label>
                         <input type="text"
                                name="address"
                                class="form-control eco-input rounded-pill"
-                               value="{{ old('address', auth()->user()->address) }}">
+                               value="{{ old('address', auth()->user()->address) }}" id="eco-field-38a0a1-4">
                     </div>
                 </div>
 

@@ -233,7 +233,7 @@
             <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
                 <span class="terms-label mb-3 d-block">{{ __('terms-of-use.label') }}</span>
                 <h1 class="display-3 fw-bold" style="color: #1a3a00;">{!! __('terms-of-use.title') !!}</h1>
-                <p class="lead text-muted mb-4">{{ __('terms-of-use.subtitle', ['app' => setting('app_name', 'EcoShop')]) }}</p>
+                <p class="lead text-muted mb-4">{{ __('terms-of-use.subtitle', ['app' => config('app.brand')]) }}</p>
                 <div class="badge bg-white text-dark shadow-sm px-4 py-2 rounded-pill">
                     <i class="fas fa-file-signature me-2"></i> {{ __('terms-of-use.revised', ['date' => now()->format('M Y')]) }}
                 </div>
@@ -290,7 +290,7 @@
                         <div class="col-md-8">
                             <h2 class="fw-bold mb-3">{{ __('terms-of-use.liability_title') }}</h2>
                             <p class="lead opacity-75">
-                                {{ __('terms-of-use.liability_desc', ['app' => setting('app_name', 'EcoShop')]) }}
+                                {{ __('terms-of-use.liability_desc', ['app' => config('app.brand')]) }}
                             </p>
                         </div>
                         <div class="col-md-4 text-md-end text-center">

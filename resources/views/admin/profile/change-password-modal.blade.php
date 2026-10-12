@@ -42,10 +42,10 @@
                             >
                             <label for="oldPassword">Old Password</label>
 
-                            <i
+                            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false"
                                 class="fa-solid fa-eye-slash fa-fw password-toggle"
                                 onclick="togglePassword('oldPassword', this)"
-                            ></i>
+                            ></button>
                         </div>
 
                         @error('old_password')
@@ -65,10 +65,10 @@
                             >
                             <label for="newPassword">New Password</label>
 
-                            <i
+                            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false"
                                 class="fa-solid fa-eye-slash fa-fw password-toggle"
                                 onclick="togglePassword('newPassword', this)"
-                            ></i>
+                            ></button>
                         </div>
 
                         @error('password')
@@ -88,10 +88,10 @@
                             >
                             <label for="confirmPassword">Confirm Password</label>
 
-                            <i
+                            <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false"
                                 class="fa-solid fa-eye-slash fa-fw password-toggle"
                                 onclick="togglePassword('confirmPassword', this)"
-                            ></i>
+                            ></button>
                         </div>
 
                         @error('password_confirmation')

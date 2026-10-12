@@ -256,29 +256,29 @@
    HERO — MYANMAR ALIGN WITH MASTER
 ================================= */
 
-html[lang="mm"] .eco-hero-modern {
+html[lang="my"] .eco-hero-modern {
     line-height: 1.9; /* match body rhythm */
 }
 
 /* Title */
-html[lang="mm"] .hero-title {
+html[lang="my"] .hero-title {
     line-height: 1.4; /* match master heading rule */
     letter-spacing: 0;
 }
 
 /* Highlight line */
-html[lang="mm"] .highlight {
+html[lang="my"] .highlight {
     line-height: 1.45;
 }
 
 /* Description */
-html[lang="mm"] .hero-description {
+html[lang="my"] .hero-description {
     line-height: 1.95; /* same as master p */
     font-size: 1rem;
 }
 
 /* Tag badge */
-html[lang="mm"] .tag-badge {
+html[lang="my"] .tag-badge {
     font-size: 1rem;
     line-height: 1.8;
     padding-top: 12px;
@@ -286,41 +286,41 @@ html[lang="mm"] .tag-badge {
 }
 
 /* Search */
-html[lang="mm"] .search-input {
+html[lang="my"] .search-input {
     font-size: 1rem;
     line-height: 1.9;
 }
 
-html[lang="mm"] .search-btn {
+html[lang="my"] .search-btn {
     font-size: 1rem;
     line-height: 1.8;
 }
 
 /* Quick links */
-html[lang="mm"] .quick-links {
+html[lang="my"] .quick-links {
     font-size: 0.95rem;
     line-height: 1.9;
 }
 
 /* Floating badges */
-html[lang="mm"] .floating-badge {
+html[lang="my"] .floating-badge {
     font-size: 0.95rem;
     line-height: 1.8;
 }
 
 /* Product card label */
-html[lang="mm"] .card-label {
+html[lang="my"] .card-label {
     font-size: 0.95rem;
     line-height: 1.7;
 }
 
 /* Stats section */
-html[lang="mm"] .stat-info h4 {
+html[lang="my"] .stat-info h4 {
     font-size: 1rem;        /* match master scale */
     line-height: 1.6;
 }
 
-html[lang="mm"] .stat-info p {
+html[lang="my"] .stat-info p {
     font-size: 0.95rem;
     line-height: 1.9;
 }
@@ -791,15 +791,15 @@ html[lang="mm"] .stat-info p {
 
 @media (max-width: 768px){
 
-    html[lang="mm"] .hero-title {
+    html[lang="my"] .hero-title {
         line-height: 1.5;
     }
 
-    html[lang="mm"] .hero-description {
+    html[lang="my"] .hero-description {
         font-size: 0.98rem;
     }
 
-    html[lang="mm"] .search-btn {
+    html[lang="my"] .search-btn {
         height: 58px; /* avoid cramped Burmese */
     }
 
@@ -902,7 +902,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
 
             const keyword =
-                document.documentElement.lang === 'mm'
+                document.documentElement.lang === 'my'
                     ? this.dataset.searchMm
                     : this.dataset.searchEn;
 

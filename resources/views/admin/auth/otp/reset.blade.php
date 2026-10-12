@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Password | EcoShop</title>
+    <title>Reset Password | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
     <link rel="icon"
     type="image/png"
     href="{{ setting('favicon')
         ? asset('storage/' . setting('favicon'))
-        : asset('default/favicon.png') }}">
+        : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Eco Common CSS -->
     <link rel="stylesheet" href="{{ asset('global/css/eco-common.css') }}">
@@ -27,6 +27,8 @@
             display: none;
         }
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body class="bg-light">
@@ -64,8 +66,8 @@
                     >
                     <label for="newPassword">New Password</label>
 
-                    <i class="fa-solid fa-eye-slash password-toggle"
-                       onclick="togglePassword('newPassword', this)"></i>
+                    <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash password-toggle"
+                       onclick="togglePassword('newPassword', this)"></button>
                 </div>
 
                 @error('password')
@@ -85,8 +87,8 @@
                     >
                     <label for="confirmPassword">Confirm Password</label>
 
-                    <i class="fa-solid fa-eye-slash password-toggle"
-                       onclick="togglePassword('confirmPassword', this)"></i>
+                    <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash password-toggle"
+                       onclick="togglePassword('confirmPassword', this)"></button>
                 </div>
 
                 @error('password_confirmation')

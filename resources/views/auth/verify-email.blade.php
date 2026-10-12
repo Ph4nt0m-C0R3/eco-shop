@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Verify Email</title>
+    <title>{{ config('app.brand') }} | Verify Email</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/ee7ba94afea4ad.css') }}" rel="stylesheet">
 
     <link href="{{ asset('global/css/eco-common.css') }}" rel="stylesheet">
 
@@ -220,6 +220,8 @@
             }
         }
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -233,21 +235,21 @@
                 <img
                     src="{{ setting('logo')
                         ? asset('storage/' . setting('logo'))
-                        : asset('default/logo.png') }}"
-                    alt="{{ setting('app_name', 'EcoShop') }}"
+                        : asset('storage/default/logo.png') }}"
+                    alt="{{ config('app.brand') }}"
                 >
             </div>
 
-            <h1 class="fw-bold mb-3">EcoShop</h1>
+            <h1 class="fw-bold mb-3">{{ config('app.brand') }}</h1>
 
             <p class="fs-4 mb-4">
-                One more step towards a greener future
+                {{ __('auth-ui.one_more_step_towards_a_greener_future') }}
             </p>
 
             <ul class="list-unstyled fs-5">
-                <li class="mb-3"><i class="fas fa-envelope-open-text me-3"></i> Verify your email</li>
-                <li class="mb-3"><i class="fas fa-shield-alt me-3"></i> Secure your account</li>
-                <li><i class="fas fa-leaf me-3"></i> Start shopping sustainably</li>
+                <li class="mb-3"><i class="fas fa-envelope-open-text me-3"></i> {{ __('auth-ui.verify_your_email') }}</li>
+                <li class="mb-3"><i class="fas fa-shield-alt me-3"></i> {{ __('auth-ui.secure_your_account') }}</li>
+                <li><i class="fas fa-leaf me-3"></i> {{ __('auth-ui.start_shopping_sustainably') }}</li>
             </ul>
         </div>
 
@@ -255,7 +257,7 @@
         <div class="col-lg-6 col-12 form-side">
             <div class="form-wrapper">
 
-                <h2 class="fw-bold text-success mb-3">Verify Your Email</h2>
+                <h2 class="fw-bold text-success mb-3">{{ __('auth-ui.verify_your_email') }}</h2>
 
                 <p class="text-muted mb-4">
                     We’ve sent a verification link to your email address.
@@ -264,7 +266,7 @@
 
                 @if (session('status') == 'verification-link-sent')
                     <div class="alert alert-success small">
-                        A new verification link has been sent to your email.
+                        {{ __('auth-ui.a_new_verification_link_has_been_sent_to_your_email') }}
                     </div>
                 @endif
 
@@ -272,12 +274,12 @@
                     @csrf
                     <button type="submit" class="btn btn-eco text-white w-100 mb-3">
                         <i class="fas fa-paper-plane me-2"></i>
-                        Resend Verification Email
+                        {{ __('auth-ui.resend_verification_email') }}
                     </button>
                 </form>
 
                 <p class="small text-muted">
-                    Click below to open Gmail with your registered email.
+                    {{ __('auth-ui.click_below_to_open_gmail_with_your_registered_email') }}
                 </p>
 
                 @php
@@ -297,7 +299,7 @@
                         class="btn btn-link text-danger w-100 mt-3"
                         onclick="openEcoModal()">
                     <i class="fas fa-times-circle me-1"></i>
-                    I don’t have access to this email address
+                    {{ __('auth-ui.i_don_t_have_access_to_this_email_address') }}
                 </button>
 
             </div>
@@ -314,7 +316,7 @@
         <div class="eco-modal-header">
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-exclamation-triangle text-danger"></i>
-                <strong class="eco-section-title">Cancel Registration</strong>
+                <strong class="eco-section-title">{{ __('auth-ui.cancel_registration') }}</strong>
             </div>
 
             <button type="button"
@@ -327,11 +329,11 @@
         <!-- Body -->
         <div class="eco-modal-body text-center">
             <p class="mb-2">
-                Your account has not been verified yet.
+                {{ __('auth-ui.your_account_has_not_been_verified_yet') }}
             </p>
 
             <p class="text-muted small mb-0">
-                If you continue, your account will be permanently deleted.
+                {{ __('auth-ui.if_you_continue_your_account_will_be_permanently_deleted') }}
             </p>
         </div>
 
@@ -341,7 +343,7 @@
             <button type="button"
                     class="btn btn-outline-secondary rounded-pill px-4"
                     onclick="closeEcoModal()">
-                Keep My Account
+                {{ __('auth-ui.keep_my_account') }}
             </button>
 
             <form method="POST" action="{{ route('registration.cancel') }}">
@@ -351,7 +353,7 @@
                 <button type="submit"
                         class="btn eco-save-btn text-white rounded-pill px-4"
                         style="background: linear-gradient(135deg, #c62828, #8e0000);">
-                    Yes, Delete Account
+                    {{ __('auth-ui.yes_delete_account') }}
                 </button>
             </form>
 
@@ -379,6 +381,6 @@
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('vendor/ecoshop/afcaefd721f3dd.js') }}"></script>
 </body>
 </html>

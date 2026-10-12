@@ -38,8 +38,8 @@ Route::get('lang/{locale}', function ($locale) {
 
 })->middleware('bypass')->name('lang.switch');
 
-require_once __DIR__ .'/admin.php';
-require_once __DIR__ .'/user.php';
+require __DIR__ .'/admin.php';
+require __DIR__ .'/user.php';
 
 
 Route::get('/', function () {

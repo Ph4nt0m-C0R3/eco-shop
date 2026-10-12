@@ -6,21 +6,21 @@
         <div class="d-flex align-items-center gap-4">
             <label class="luxury-form-label mb-0">{{ app()->getLocale() === 'mm' ? 'အရေအတွက် :' : 'Quantity :' }}</label>
             <div class="luxury-quantity-control">
-                <button class="luxury-qty-btn" id="decrement"
+                <button class="luxury-qty-btn" id="decrement" type="button" aria-label="{{ __('stability.decrease') }}"
                     {{ $product->available_stock <= 0 ? 'disabled' : '' }}>
                     <i class="fas fa-minus"></i>
                 </button>
 
                 <div class="luxury-qty-display">
                     <input type="number"
-                        id="quantity"
+                        id="quantity" aria-label="{{ __('stability.quantity') }}"
                         class="luxury-qty-input"
                         value="1"
                         min="1"
                         max="{{ $product->available_stock }}">
                 </div>
 
-                <button class="luxury-qty-btn" id="increment"
+                <button class="luxury-qty-btn" id="increment" type="button" aria-label="{{ __('stability.increase') }}"
                     {{ $product->available_stock <= 0 ? 'disabled' : '' }}>
                     <i class="fas fa-plus"></i>
                 </button>
@@ -55,21 +55,21 @@
         <div class="d-flex flex-column align-items-center gap-2">
             <label class="luxury-form-label">{{ app()->getLocale() === 'mm' ? 'အရေအတွက်' : 'Quantity' }}</label>
             <div class="luxury-quantity-control">
-                <button class="luxury-qty-btn" id="decrementMobile"
+                <button class="luxury-qty-btn" id="decrementMobile" type="button" aria-label="{{ __('stability.decrease') }}"
                     {{ $product->available_stock <= 0 ? 'disabled' : '' }}>
                     <i class="fas fa-minus"></i>
                 </button>
 
                 <div class="luxury-qty-display">
                     <input type="number"
-                        id="quantityMobile"
+                        id="quantityMobile" aria-label="{{ __('stability.quantity') }}"
                         class="luxury-qty-input"
                         value="1"
                         min="1"
                         max="{{ $product->available_stock }}">
                 </div>
 
-                <button class="luxury-qty-btn" id="incrementMobile"
+                <button class="luxury-qty-btn" id="incrementMobile" type="button" aria-label="{{ __('stability.increase') }}"
                     {{ $product->available_stock <= 0 ? 'disabled' : '' }}>
                     <i class="fas fa-plus"></i>
                 </button>

@@ -13,7 +13,7 @@ class ShopController extends Controller
     {
         $categories = Category::withCount('products')->orderBy('name')->get();
 
-        $query = Product::with(['category', 'primaryImage'])
+        $query = Product::active()->with(['category', 'primaryImage'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews');
 

@@ -23,7 +23,7 @@
                                 <tr>
                                     <td>
                                         <span style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;">
-                                            {{ setting('app_name', config('app.name')) }}
+                                            {{ config('app.brand') }}
                                         </span>
                                     </td>
                                     <td align="right">
@@ -123,7 +123,7 @@
                             <!-- SIGNATURE -->
                             <p style="margin-top:18px;font-size:14.5px;">
                                 Best regards,<br>
-                                <strong>{{ setting('site_name', config('app.name')) }} Team</strong>
+                                <strong>{{ config('app.brand') }} Team</strong>
                             </p>
 
                         </td>
@@ -136,7 +136,7 @@
                                 <tr>
                                     <td style="font-size:12.5px;color:#64748b;">
                                         This electronic message helps reduce paper usage.
-                                        © {{ date('Y') }} {{ setting('site_name', config('app.name')) }}
+                                        © {{ date('Y') }} {{ config('app.brand') }}
                                     </td>
                                     <td align="right" style="font-size:12.5px;color:#81c408;">
                                         Eco-friendly Product Marketplace

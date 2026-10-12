@@ -73,6 +73,8 @@ function togglePassword(id, icon) {
     input.type = input.type === "password" ? "text" : "password";
     icon.classList.toggle("fa-eye-slash");
     icon.classList.toggle("fa-eye");
+    icon.setAttribute('aria-pressed', input.type === 'text');
+    icon.setAttribute('aria-label', input.type === 'text' ? (window.ECO_HIDE_PASSWORD || 'Hide password') : (window.ECO_SHOW_PASSWORD || 'Show password'));
 }
 
 /**

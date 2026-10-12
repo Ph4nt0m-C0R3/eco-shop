@@ -81,6 +81,8 @@ Route::post(
 
 Route::prefix('admin')->middleware('admin')->group(function () {
 
+    Route::get('orders/{order}/payment-proof', [OrderController::class, 'paymentProof'])->name('admin.orders.paymentProof');
+
     // ===== ADMIN DASHBOARD =====
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('adminDashboard');

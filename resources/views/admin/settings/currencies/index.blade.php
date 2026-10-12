@@ -8,7 +8,7 @@
     <div class="eco-header-common eco-header-sm mb-4">
 
         <!-- Left: back button + title -->
-        <div class="eco-header-left has-back">
+        <div class="eco-header-left">
             <a href="{{ route('admin.settings') }}"
                class="btn btn-light text-success rounded-circle">
                 <i class="fas fa-arrow-left"></i>
@@ -91,7 +91,8 @@
                                     @if(!$currency->is_base)
 
                                         <button class="btn btn-sm btn-primary"
-                                                onclick="openEcoModalById('updateCurrencyModal_{{ $currency->id }}')">
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#updateCurrencyModal_{{ $currency->id }}">
                                             <i class="fas fa-edit"></i> Update
                                         </button>
 

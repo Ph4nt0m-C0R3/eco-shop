@@ -1,8 +1,8 @@
-html[lang="mm"] .eco-header-title,
-html[lang="mm"] .eco-product-body h5,
-html[lang="mm"] .eco-product-body p,
-html[lang="mm"] .eco-tab,
-html[lang="mm"] .eco-stock {
+html[lang="my"] .eco-header-title,
+html[lang="my"] .eco-product-body h5,
+html[lang="my"] .eco-product-body p,
+html[lang="my"] .eco-tab,
+html[lang="my"] .eco-stock {
     line-height: 1.7;
     letter-spacing: 0;
 }
@@ -161,7 +161,7 @@ MODERN HEADER CONTENT
     color: #777;
 }
 
-html[lang="mm"] .eco-review-count{
+html[lang="my"] .eco-review-count{
     margin-top: 3px;
 }
 
@@ -247,7 +247,7 @@ html[lang="mm"] .eco-review-count{
 }
 
 /* Myanmar title needs more vertical room */
-html[lang="mm"] .eco-product-body h5{
+html[lang="my"] .eco-product-body h5{
     line-height:1.7;
     min-height: calc(1.7em * 2);
 }
@@ -634,3 +634,7 @@ EMPTY STATE (NO PRODUCTS)
         transform: translateY(0);
     }
 }
+
+/* Myanmar stock wrapping */
+html[lang="my"] .eco-stock-rating-row { flex-wrap:wrap; align-items:flex-start; gap:8px; }
+html[lang="my"] .eco-stock,html[lang="my"] .eco-no-rating { max-width:100%; white-space:normal; overflow-wrap:anywhere; }

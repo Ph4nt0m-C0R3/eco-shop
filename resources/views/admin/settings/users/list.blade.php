@@ -149,139 +149,6 @@
             margin-bottom: 0;
         }
     }
-
-    /* ===== Responsive Switch ===== */
-    .desktop-table { display: block; }
-    .mobile-user-list { display: none; }
-
-    /* Tablet + Mobile */
-    @media (max-width: 991.98px) {
-        .desktop-table { display: none !important; }
-        .mobile-user-list { display: block; }
-    }
-
-    /* ===== User Card ===== */
-    .user-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 14px;
-        margin-bottom: 12px;
-        background: #fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    /* Header layout with avatar */
-    .user-card-head {
-        display: grid;
-        grid-template-columns: 50px 1fr;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    /* Avatar */
-    .user-avatar {
-        grid-row: span 2;
-    }
-
-    .user-avatar img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    /* Info */
-    .user-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .user-card-name {
-        font-weight: 700;
-        font-size: .95rem;
-    }
-
-    .user-card-email {
-        font-size: .8rem;
-        color: #6b7280;
-    }
-
-    .user-card-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px 12px;
-        font-size: .8rem;
-    }
-
-    .user-card-label {
-        font-size: .7rem;
-        color: #2e7d32;
-    }
-
-    .user-card-value {
-        font-weight: 500;
-    }
-
-    .user-card-actions {
-        display: flex;
-        gap: 8px;
-        margin-top: 12px;
-    }
-
-    .user-card-actions button {
-        flex: 1;
-    }
-
-    /* REMOVE HORIZONTAL SCROLL */
-    html, body {
-        overflow-x: hidden;
-    }
-
-    .row {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    @media (max-width: 991.98px) {
-        .container-fluid {
-            padding-left: 12px !important;
-            padding-right: 12px !important;
-        }
-
-        .table-responsive {
-            overflow-x: hidden !important;
-        }
-    }
-
-    /* Fix long text */
-    .user-card-email,
-    .user-card-value {
-        word-break: break-word;
-        overflow-wrap: anywhere;
-    }
-
-    /* Always 2 columns on mobile + tablet */
-    @media (max-width: 991.98px) {
-        .user-card-body {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    /* Prevent overflow */
-    .user-card-body > div {
-        min-width: 0;
-    }
-
-    /* Button wrap */
-    .user-card-actions {
-        flex-wrap: wrap;
-    }
-
-    .user-card-actions button {
-        width: 100%;
-    }
 </style>
 
 <div class="container-fluid my-4">
@@ -290,7 +157,7 @@
     <div class="eco-header-common eco-header-sm mb-4 pb-3">
 
         <!-- Left: back button + title -->
-        <div class="eco-header-left has-back">
+        <div class="eco-header-left">
             @auth
                 @if(auth()->user()->isSuperAdmin())
                     <a href="{{ route('admin.settings') }}"
@@ -363,7 +230,7 @@
 
                 <!-- Search -->
                 <div class="col-md-4">
-                    <label class="form-label small text-muted">Search</label>
+                    <label class="form-label small text-muted" for="userSearchInput">Search</label>
                     <input
                         type="text"
                         name="search"
@@ -375,8 +242,8 @@
 
                 <!-- Register Method -->
                 <div class="col-md-3">
-                    <label class="form-label small text-muted">Registered Via</label>
-                    <select name="register_method" class="form-select js-filter-input">
+                    <label class="form-label small text-muted" for="eco-field-bed048-1">Registered Via</label>
+                    <select name="register_method" class="form-select js-filter-input" id="eco-field-bed048-1">
                         <option value="">All</option>
                         <option value="local"  @selected(request('register_method') === 'local')>Local</option>
                         <option value="google" @selected(request('register_method') === 'google')>Google</option>
@@ -392,7 +259,7 @@
                 </div>
             </form>
 
-            <div class="table-responsive admin-table-wrapper desktop-table">
+            <div class="table-responsive admin-table-wrapper">
                 <table class="table admin-table mb-0">
                     <thead>
                         <tr>
@@ -418,108 +285,6 @@
                     </tbody>
 
                 </table>
-            </div>
-
-            <div class="mobile-user-list p-3">
-                @forelse($users as $user)
-                    <div class="user-card">
-
-                        <!-- Head -->
-                        <div class="user-card-head">
-                            <!-- Avatar -->
-                            <div class="user-avatar">
-                                <img src="{{ $user->avatar_url }}" alt="avatar">
-                            </div>
-
-                            <!-- Name + Email -->
-                            <div class="user-info">
-                                <div class="user-card-name">{{ $user->name }}</div>
-                                <div class="user-card-email">{{ $user->email }}</div>
-                            </div>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="user-card-body">
-                            <!-- Row 1 -->
-                            <div>
-                                <div class="user-card-label">Phone</div>
-                                <div class="user-card-value">
-                                    {{ $user->phone ?? '-' }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="user-card-label">Registered Via</div>
-                                <div class="user-card-value">
-                                    @php $method = $user->provider ?? 'local'; @endphp
-
-                                    <span>
-                                        @if($method === 'google')
-                                            <i class="fab fa-google"></i> Google
-                                        @elseif($method === 'github')
-                                            <i class="fab fa-github"></i> GitHub
-                                        @else
-                                            <i class="fas fa-envelope"></i> Local
-                                        @endif
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Row 2 -->
-                            <div>
-                                <div class="user-card-label">Address</div>
-                                <div class="user-card-value">
-                                    {{ $user->address ?? '-' }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="user-card-label">Registered Date</div>
-                                <div class="user-card-value">
-                                    {{ $user->created_at->format('d M Y') }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="user-card-label">Active</div>
-                                <div class="user-card-value">
-                                    @if($user->isOnline())
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-circle"></i> Now
-                                        </span>
-                                    @else
-                                        <span class="badge bg-secondary">
-                                            <i class="far fa-clock"></i>
-                                            {{ $user->lastOnline() }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Actions -->
-                        @if($isSuperAdmin)
-                        <div class="user-card-actions">
-                            @if($user->isOnline())
-                                <span class="protected-text w-100 text-center">
-                                    <i class="fas fa-lock"></i> Online
-                                </span>
-                            @else
-                                <button class="btn btn-sm btn-danger js-remove-user"
-                                    data-id="{{ $user->id }}"
-                                    data-name="{{ $user->name }}">
-                                    <i class="fas fa-trash"></i> Remove
-                                </button>
-                            @endif
-                        </div>
-                        @endif
-
-                    </div>
-                @empty
-                    <div class="text-center text-muted py-4">
-                        No users found
-                    </div>
-                @endforelse
             </div>
 
         </div>

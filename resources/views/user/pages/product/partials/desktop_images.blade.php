@@ -11,7 +11,7 @@
         <img id="mainProductImage"
             src="{{ $product->primaryImage
                 ? asset('storage/'.$product->primaryImage->image)
-                : asset('default/no-image.png') }}"
+                : asset('storage/default/no-image.png') }}"
             class="luxury-main-image"
             alt="{{ $product->display_name }}">
     </div>

@@ -1,0 +1,50 @@
+name: EcoShop v2.0 checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ecoshop-checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_sqlite, fileinfo, curl
+          coverage: none
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Check tracked source and credentials
+        run: node scripts/check-repository.cjs
+      - run: composer validate --strict
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: cp .env.example .env && php artisan key:generate
+      - run: npm ci && npm run build
+      - run: npm run test:release
+      - run: php artisan test
+      - run: php scripts/check-blade.php
+      - run: composer audit && npm audit
+      - name: Install production dependencies for packaging
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+      - name: Package and verify release
+        run: npm run release:package
+      - name: Preserve verified release
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecoshop-v2.0-${{ github.sha }}
+          path: |
+            dist/*.tar.gz
+            dist/*.sha256
+          if-no-files-found: error
+          retention-days: 14

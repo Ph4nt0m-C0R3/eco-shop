@@ -9,3 +9,20 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+
+# Development material must not enter deployment source archives.
+/audit export-ignore
+/dist export-ignore
+/docs export-ignore
+/tests export-ignore
+/database/factories export-ignore
+/database/seeders export-ignore
+/phpunit.xml export-ignore
+/future-improvements.txt export-ignore
+/.env.example export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/.editorconfig export-ignore
+/.githooks export-ignore
+/.nvmrc export-ignore
+/storage/app/public/default/*_qr.png export-ignore

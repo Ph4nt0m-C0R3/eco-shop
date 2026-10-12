@@ -266,32 +266,32 @@
                                 @csrf
                                 <div class="row g-4">
                                     <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">{{ __('profile.full_name') }}</label>
+                                        <label class="form-label small fw-bold text-muted" for="eco-field-3604f7-1">{{ __('profile.full_name') }}</label>
                                         <input type="text" name="name"
                                             class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ old('name', auth()->user()->name) }}">
+                                            value="{{ old('name', auth()->user()->name) }}" id="eco-field-3604f7-1">
                                         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">{{ __('profile.nickname') }}</label>
+                                        <label class="form-label small fw-bold text-muted" for="eco-field-3604f7-2">{{ __('profile.nickname') }}</label>
                                         <input type="text" name="nickname"
                                             class="form-control @error('nickname') is-invalid @enderror"
-                                            value="{{ old('nickname', auth()->user()->nickname) }}">
+                                            value="{{ old('nickname', auth()->user()->nickname) }}" id="eco-field-3604f7-2">
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">{{ __('profile.phone_number') }}</label>
+                                        <label class="form-label small fw-bold text-muted" for="eco-field-3604f7-3">{{ __('profile.phone_number') }}</label>
                                         <input type="text" name="phone"
                                             class="form-control @error('phone') is-invalid @enderror"
-                                            value="{{ old('phone', auth()->user()->phone) }}">
+                                            value="{{ old('phone', auth()->user()->phone) }}" id="eco-field-3604f7-3">
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">{{ __('profile.address') }}</label>
+                                        <label class="form-label small fw-bold text-muted" for="eco-field-3604f7-4">{{ __('profile.address') }}</label>
                                         <input type="text" name="address"
                                             class="form-control @error('address') is-invalid @enderror"
-                                            value="{{ old('address', auth()->user()->address) }}">
+                                            value="{{ old('address', auth()->user()->address) }}" id="eco-field-3604f7-4">
                                     </div>
                                 </div>
 

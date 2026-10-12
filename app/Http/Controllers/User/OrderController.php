@@ -65,38 +65,15 @@ class OrderController extends Controller
 
     public function cancel(Order $order)
     {
-        // Security: only owner
-        if ($order->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        // Only allow COD + unpaid + pending_payment
-        if (
-            $order->payment_method === 'cod'
-            && $order->payment_status === 'unpaid'
-            && $order->status === 'pending_payment'
-        ) {
-
-            DB::transaction(function () use ($order) {
-
-                // Restore stock
-                foreach ($order->items as $item) {
-                    $product = Product::lockForUpdate()->find($item->product_id);
-                    if ($product) {
-                        $product->reserved_stock -= $item->quantity;
-                        $product->save();
-                    }
-                }
-
-                $order->update([
-                    'status' => 'cancelled'
-                ]);
-            });
-
-            return redirect()->route('user.orders')
-                ->with('success', 'Order cancelled successfully.');
-        }
-
-        return back()->with('error', 'This order cannot be cancelled.');
+        abort_unless((int) $order->user_id === (int) Auth::id(), 403);
+        $released = DB::transaction(function () use ($order) {
+            $locked = Order::lockForUpdate()->findOrFail($order->id);
+            abort_unless($locked->payment_method === 'cod', 409);
+            return app(\App\Services\OrderLifecycle::class)->releaseReservation($locked);
+        }, 3);
+        return redirect()->route('user.orders')->with(
+            $released ? 'success' : 'error',
+            $released ? __('stability.order_cancelled') : __('stability.invalid_order_state')
+        );
     }
 }

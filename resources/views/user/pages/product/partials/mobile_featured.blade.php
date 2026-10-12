@@ -7,7 +7,7 @@
         @foreach($featuredProducts as $rp)
         <a href="{{ route('product.show', $rp->id) }}" class="luxury-featured-item">
             <div class="luxury-featured-image">
-                <img src="{{ $rp->primaryImage ? asset('storage/'.$rp->primaryImage->image) : asset('default/no-image.png') }}"
+                <img src="{{ $rp->primaryImage ? asset('storage/'.$rp->primaryImage->image) : asset('storage/default/no-image.png') }}"
                      alt="{{ $rp->display_name }}">
             </div>
             <div class="luxury-featured-info">

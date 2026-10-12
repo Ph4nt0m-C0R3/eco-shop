@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco Spinner</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* =========================
         ENHANCED ECO SPINNER
@@ -145,8 +138,8 @@
         }
 
     </style>
-</head>
-<body>
+
+
     <!-- Enhanced Eco Spinner -->
     <div id="eco-spinner" class="eco-spinner-overlay">
         <div class="eco-spinner">
@@ -199,9 +192,11 @@
                 if (link.hasAttribute('download')) return;
 
                 // Only same-origin navigation
-                if (link.hostname === window.location.hostname) {
-                    showSpinner();
-                }
+                queueMicrotask(function () {
+                    if (!e.defaultPrevented && !e.metaKey && !e.ctrlKey && !e.shiftKey && link.target !== '_blank' && link.hostname === window.location.hostname) {
+                        showSpinner();
+                    }
+                });
             });
 
             /* Show spinner on form submit */
@@ -221,5 +216,5 @@
         })();
     </script>
 
-</body>
-</html>
+
+

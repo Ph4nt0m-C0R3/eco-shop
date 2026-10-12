@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 
     @php
         $segments = request()->segments();
@@ -11,29 +11,29 @@
         <meta charset="utf-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="auth-user" content="{{ auth()->check() ? '1' : '0' }}">
-        <title>{{ setting('app_name', 'EcoShop') }}</title>
+        <title>{{ config('app.brand') }}</title>
 
         <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
 
         <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+        
+        <link href="{{ asset('vendor/ecoshop/ebf49058add23c.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}" rel="stylesheet">
 
 
         <!-- Icon Font Stylesheet -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('vendor/ecoshop/e053b25ebcedc9.css') }}"/>
+        <link href="{{ asset('vendor/ecoshop/6bbe7eed60c25a.css') }}" rel="stylesheet">
 
         <!-- Libraries Stylesheet -->
         <link href="{{ asset('user/lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
@@ -75,47 +75,47 @@
         GLOBAL MYANMAR TYPOGRAPHY FIX
         ================================ */
 
-        html[lang="mm"] body {
+        html[lang="my"] body {
             font-family: 'Noto Sans Myanmar', 'Pyidaungsu', sans-serif;
             font-size: 1rem;          /* DO NOT shrink Burmese */
             line-height: 1.9;         /* Global breathing room */
         }
 
         /* Paragraphs & lists */
-        html[lang="mm"] p,
-        html[lang="mm"] li,
-        html[lang="mm"] label {
+        html[lang="my"] p,
+        html[lang="my"] li,
+        html[lang="my"] label {
             font-size: 1rem;
             line-height: 1.95;
         }
 
         /* Links & small text */
-        html[lang="mm"] a,
-        html[lang="mm"] small {
+        html[lang="my"] a,
+        html[lang="my"] small {
             line-height: 1.7;
         }
 
         /* Headings */
-        html[lang="mm"] h1,
-        html[lang="mm"] h2,
-        html[lang="mm"] h3,
-        html[lang="mm"] h4,
-        html[lang="mm"] h5,
-        html[lang="mm"] h6 {
+        html[lang="my"] h1,
+        html[lang="my"] h2,
+        html[lang="my"] h3,
+        html[lang="my"] h4,
+        html[lang="my"] h5,
+        html[lang="my"] h6 {
             line-height: 1.5;
             font-weight: 700;
             letter-spacing: 0;
         }
 
         /* Heading scale (balanced for MM) */
-        html[lang="mm"] h1 { font-size: 2.4rem; }
-        html[lang="mm"] h2 { font-size: 1.9rem; }
-        html[lang="mm"] h3 { font-size: 1.5rem; }
-        html[lang="mm"] h4 { font-size: 1.25rem; }
-        html[lang="mm"] h5 { font-size: 1.1rem; }
+        html[lang="my"] h1 { font-size: 2.4rem; }
+        html[lang="my"] h2 { font-size: 1.9rem; }
+        html[lang="my"] h3 { font-size: 1.5rem; }
+        html[lang="my"] h4 { font-size: 1.25rem; }
+        html[lang="my"] h5 { font-size: 1.1rem; }
 
         /* Buttons */
-        html[lang="mm"] .btn {
+        html[lang="my"] .btn {
             font-size: 1rem;
             line-height: 1.7;
             padding-top: 0.6rem;
@@ -123,29 +123,29 @@
         }
 
         /* Navbar */
-        html[lang="mm"] .navbar .nav-link,
-        html[lang="mm"] .dropdown-item {
+        html[lang="my"] .navbar .nav-link,
+        html[lang="my"] .dropdown-item {
             font-size: 1rem;
             line-height: 1.9;
         }
 
         /* Dropdown spacing */
-        html[lang="mm"] .dropdown-menu .dropdown-item {
+        html[lang="my"] .dropdown-menu .dropdown-item {
             padding-top: 0.65rem;
             padding-bottom: 0.65rem;
         }
 
         @media (max-width: 768px){
 
-            html[lang="mm"] body {
+            html[lang="my"] body {
                 font-size: 0.98rem;
             }
 
-            html[lang="mm"] h1 { font-size: 2rem; }
-            html[lang="mm"] h2 { font-size: 1.6rem; }
-            html[lang="mm"] h3 { font-size: 1.3rem; }
+            html[lang="my"] h1 { font-size: 2rem; }
+            html[lang="my"] h2 { font-size: 1.6rem; }
+            html[lang="my"] h3 { font-size: 1.3rem; }
 
-            html[lang="mm"] .navbar .nav-link {
+            html[lang="my"] .navbar .nav-link {
                 font-size: 1.05rem;
                 line-height: 2;
             }
@@ -156,47 +156,47 @@
         FOOTER — MYANMAR TYPOGRAPHY ALIGNMENT
         ====================================== */
 
-        html[lang="mm"] .footer {
+        html[lang="my"] .footer {
             line-height: 1.95;
         }
 
         /* Footer section titles */
-        html[lang="mm"] .footer h4 {
+        html[lang="my"] .footer h4 {
             font-weight: 700;
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         /* Footer description paragraph */
-        html[lang="mm"] .footer p {
+        html[lang="my"] .footer p {
             font-size: 1rem;
             line-height: 2;
         }
 
         /* Footer links */
-        html[lang="mm"] .footer .btn-link {
+        html[lang="my"] .footer .btn-link {
             font-size: 1rem;
             line-height: 2;
             margin-bottom: 6px;
         }
 
-        html[lang="mm"] .footer form {
+        html[lang="my"] .footer form {
             position: relative;
         }
 
-        html[lang="mm"] .footer button.btn {
+        html[lang="my"] .footer button.btn {
             white-space: nowrap;
             padding-left: 20px;
             padding-right: 20px;
         }
 
         /* Contact block spacing */
-        html[lang="mm"] .footer strong {
+        html[lang="my"] .footer strong {
             font-weight: 700;
         }
 
         /* Subscribe input alignment */
-        html[lang="mm"] .footer input.form-control {
+        html[lang="my"] .footer input.form-control {
             font-size: 1rem;
             line-height: 1.8;
             padding-top: 0.9rem;
@@ -204,19 +204,19 @@
         }
 
         /* Subscribe button */
-        html[lang="mm"] .footer button.btn {
+        html[lang="my"] .footer button.btn {
             font-size: 1rem;
             line-height: 1.8;
         }
 
         /* Payment icons breathing */
-        html[lang="mm"] .footer .d-flex.flex-wrap {
+        html[lang="my"] .footer .d-flex.flex-wrap {
             margin-top: 10px;
             gap: 10px !important;
         }
 
         /* Copyright text */
-        html[lang="mm"] .copyright span {
+        html[lang="my"] .copyright span {
             line-height: 1.9;
         }
 
@@ -326,7 +326,7 @@
             margin-left: 2px;
         }
 
-        html[lang="mm"] .lang-current span, .lang-item span {
+        html[lang="my"] .lang-current span, .lang-item span {
             margin-top: 0.25rem;
         }
 
@@ -802,8 +802,8 @@
 
                         <small class="me-3">
                             <i class="fas fa-envelope me-2 text-secondary"></i>
-                            <a href="mailto:{{ setting('contact_email', 'hello@example.test') }}" class="text-white">
-                                {{ setting('contact_email', 'hello@example.test') }}
+                            <a href="mailto:{{ setting('contact_email', 'webdevamp@gmail.com') }}" class="text-white">
+                                {{ setting('contact_email', 'webdevamp@gmail.com') }}
                             </a>
                         </small>
                     </div>
@@ -816,20 +816,21 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center">
+                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center gap-2" aria-label="{{ config('app.brand') }}">
                         <img src="{{ setting('logo_text')
                                 ? asset('storage/' . setting('logo_text'))
-                                : asset('default/logoText.png') }}"
-                            alt="logo text"
+                                : asset('storage/default/logoText.png') }}"
+                            alt="{{ config('app.brand') }}"
                             style="max-height:35px;">
+                        <x-version-badge aria-hidden="true" />
                     </a>
 
-                    <button class="navbar-toggler py-2 px-3" type="button" id="ecoNavToggle">
+                    <button class="navbar-toggler py-2 px-3" type="button" id="ecoNavToggle" aria-label="{{ __('stability.open_menu') }}" aria-controls="navbarCollapse" aria-expanded="false">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
 
                     <div class="eco-offcanvas" id="navbarCollapse">
-                        <button class="eco-close-btn d-xl-none" id="ecoNavClose">
+                        <button type="button" class="eco-close-btn d-xl-none" id="ecoNavClose" aria-label="{{ __('stability.close_menu') }}">
                             <i class="fas fa-times"></i>
                         </button>
 
@@ -891,11 +892,14 @@
                             </a>
                             @endauth
                         </div>
+                        <a href="{{ route('user.cart') }}" class="nav-link d-xl-none">
+                            <i class="fas fa-shopping-cart me-2" aria-hidden="true"></i>{{ __('stability.cart') }}
+                        </a>
                         <div class="d-flex ms-auto align-items-center right-gp">
 
                             {{-- Cart (DESKTOP ONLY) --}}
                             <a href="{{ route('user.cart') }}"
-                            class="position-relative me-3 my-auto d-none d-xl-inline">
+                            class="position-relative me-3 my-auto d-none d-xl-inline" aria-label="{{ __('stability.cart') }}">
 
                                 <i class="fa fa-shopping-cart fa-2x"></i>
 
@@ -930,12 +934,12 @@
 
                             {{-- Language Switch --}}
                             <div class="lang-dropdown me-3">
-                                <button class="lang-current" type="button">
+                                <button class="lang-current" type="button" aria-expanded="false">
                                     <img
                                         src="{{ app()->getLocale() === 'mm'
-                                            ? 'https://wavemoney.com.mm/wp-content/themes/wave-money/polylang/mm.svg'
-                                            : 'https://wavemoney.com.mm/wp-content/themes/wave-money/polylang/en.svg' }}"
-                                        alt="Lang"
+                                            ? asset('global/img/flags/mm.svg')
+                                            : asset('global/img/flags/en.svg') }}"
+                                        alt=""
                                     >
                                     <span>{{ strtoupper(app()->getLocale()) }}</span>
                                     <i class="fas fa-chevron-down"></i>
@@ -944,13 +948,13 @@
                                 <div class="lang-menu">
                                     <a href="{{ route('lang.switch', 'en') }}"
                                     class="lang-item {{ app()->getLocale() === 'en' ? 'active' : '' }}">
-                                        <img src="https://wavemoney.com.mm/wp-content/themes/wave-money/polylang/en.svg">
+                                        <img src="{{ asset('global/img/flags/en.svg') }}" alt="">
                                         <span>EN</span>
                                     </a>
 
                                     <a href="{{ route('lang.switch', 'mm') }}"
                                     class="lang-item {{ app()->getLocale() === 'mm' ? 'active' : '' }}">
-                                        <img src="https://wavemoney.com.mm/wp-content/themes/wave-money/polylang/mm.svg">
+                                        <img src="{{ asset('global/img/flags/mm.svg') }}" alt="">
                                         <span>MM</span>
                                     </a>
                                 </div>
@@ -958,14 +962,14 @@
 
                             {{-- Auth Actions --}}
                             @guest
-                                <a href="{{ route('login') }}" class="my-auto">
+                                <a href="{{ route('login') }}" class="my-auto" aria-label="{{ __('stability.login') }}">
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
                             @endguest
 
                             @auth
                                 <div class="profile-dropdown my-auto">
-                                    <button class="profile-current" type="button">
+                                    <button class="profile-current" type="button" aria-expanded="false">
                                         <span class="fw-semibold nav-name">
                                             {{ Str::of(auth()->user()->name ?: auth()->user()->nickname)->explode(' ')->first() }}
                                         </span>
@@ -1024,7 +1028,7 @@
                     <div class="row g-4">
                         <div class="col-lg-3">
                             <a href="#">
-                                <h1 class="text-primary mb-0">{{ setting('app_name', 'EcoShop') }}</h1>
+                                <h1 class="text-primary mb-0">{{ config('app.brand') }}</h1>
                                 <p class="text-secondary mb-0">{{ __('footer.tagline') }}</p>
                             </a>
                         </div>
@@ -1050,10 +1054,18 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="d-flex justify-content-end pt-3">
-                                <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
-                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                                @if(filter_var(setting('twitter_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('twitter_url'), 'https://'))
+                                <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href="{{ setting('twitter_url') }}" aria-label="twitter" rel="noopener noreferrer"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                @endif
+                                @if(filter_var(setting('facebook_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('facebook_url'), 'https://'))
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="{{ setting('facebook_url') }}" aria-label="facebook" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                                @endif
+                                @if(filter_var(setting('youtube_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('youtube_url'), 'https://'))
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="{{ setting('youtube_url') }}" aria-label="youtube" rel="noopener noreferrer"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                                @endif
+                                @if(filter_var(setting('linkedin_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('linkedin_url'), 'https://'))
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href="{{ setting('linkedin_url') }}" aria-label="linkedin" rel="noopener noreferrer"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -1114,12 +1126,12 @@
 
                             <p>
                                 <strong>{{ __('footer.email') }} :</strong>
-                                {{ setting('contact_email', 'hello@example.test') }}
+                                {{ setting('contact_email', 'webdevamp@gmail.com') }}
                             </p>
 
                             <p>
                                 <strong>{{ __('footer.phone') }} :</strong>
-                                {{ setting('contact_phone', '000-000-0000') }}
+                                {{ setting('contact_phone', '+95 9267 061 436') }}
                             </p>
 
                             <p>{{ __('footer.payment') }}</p>
@@ -1149,7 +1161,7 @@
                         <span class="text-light">
                                 <a href="#">
                                     <i class="fas fa-copyright text-light me-2"></i>
-                                    {{ setting('app_name', 'EcoShop') }} {{ date('Y') }}
+                                    {{ config('app.brand') }} {{ date('Y') }}
                                 </a>, {{ __('footer.copyright') }}
                         </span>
                     </div>
@@ -1198,7 +1210,7 @@
         @if(!$hideFloatingCart)
             <a href="{{ route('user.cart') }}"
             id="ecoCartLink"
-            class="eco-floating-cart {{ $cartCount > 0 ? 'show' : '' }}">
+            aria-label="{{ __('stability.cart') }}" class="eco-floating-cart {{ $cartCount > 0 ? 'show' : '' }}">
 
                 <i class="fas fa-shopping-cart"></i>
 
@@ -1210,7 +1222,7 @@
         @endif
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
+        <a href="#" aria-label="{{ app()->getLocale() === 'mm' ? 'အပေါ်သို့ ပြန်ရန်' : 'Back to top' }}" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
         @include('user.layouts.logout')
 
@@ -1237,8 +1249,8 @@
     </script>
 
     <!-- JavaScript Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('vendor/ecoshop/0ddda942bdd96b.js') }}"></script>
+    <script src="{{ asset('vendor/ecoshop/0ef3daa3b60382.js') }}"></script>
     <script src="{{ asset('user/lib/easing/easing.min.js') }}"></script>
     <script src="{{ asset('user/lib/waypoints/waypoints.min.js') }}"></script>
     <script src="{{ asset('user/lib/lightbox/js/lightbox.min.js') }}"></script>
@@ -1329,35 +1341,19 @@
 
                 if (button && button.contains(e.target)) {
                     dropdown.classList.toggle('open');
+                    button.setAttribute('aria-expanded', dropdown.classList.contains('open'));
                     return;
                 }
 
                 if (!dropdown.contains(e.target)) {
                     dropdown.classList.remove('open');
+                    button?.setAttribute('aria-expanded', 'false');
                 }
             });
         });
     </script>
 
-    <script>
-        const toggleBtn = document.getElementById('ecoNavToggle');
-        const closeBtn = document.getElementById('ecoNavClose');
-        const panel = document.getElementById('navbarCollapse');
-        const overlay = document.getElementById('ecoOverlay');
-
-        function closeNav(){
-            panel.classList.remove('show');
-            overlay.classList.remove('show');
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            panel.classList.toggle('show');
-            overlay.classList.toggle('show');
-        });
-
-        closeBtn.addEventListener('click', closeNav);
-        overlay.addEventListener('click', closeNav);
-    </script>
+    <script src="{{ asset('global/js/navigation.js') }}"></script>
 
     <script>
         window.addEventListener("scroll", function () {

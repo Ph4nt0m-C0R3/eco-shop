@@ -502,6 +502,9 @@
                 </div>
             @endif
 
+            @if(session('warning'))
+                <div class="alert alert-warning" role="status">{{ session('warning') }}</div>
+            @endif
             @if(session('error'))
                 <div class="alert alert-danger">
                     <i class="fa-solid fa-circle-xmark me-2"></i>

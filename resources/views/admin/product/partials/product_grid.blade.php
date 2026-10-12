@@ -43,7 +43,7 @@
                         @endif
 
                         <img
-                            src="{{ $product->primaryImage ? asset('storage/' . $product->primaryImage->image) : asset('default/product-placeholder.png') }}"
+                            src="{{ $product->primaryImage ? asset('storage/' . $product->primaryImage->image) : asset('storage/default/product-placeholder.png') }}"
                             class="product-img"
                             alt="{{ $product->name_en }}">
                     </div>

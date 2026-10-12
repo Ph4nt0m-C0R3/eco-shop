@@ -76,145 +76,9 @@
         z-index: 999;
     }
 
-    @media (max-width: 991.98px) {
-        .eco-header-common {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 12px;
-        }
-
-        .eco-header-left {
-            width: 100%;
-        }
-
-        .eco-header-common .btn-eco {
-            width: 100%;
-            justify-content: center;
-        }
-    }
-
-    /* ===== Responsive Switch ===== */
-    .desktop-table { display: block; }
-    .mobile-admin-list { display: none; }
-
-    /* Tablet + Mobile */
-    @media (max-width: 991.98px) {
-        .desktop-table { display: none !important; }
-        .mobile-admin-list { display: block; }
-    }
-
-    /* ===== Admin Card (Mobile + Tablet) ===== */
-    .admin-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 14px;
-        margin-bottom: 12px;
-        background: #fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .admin-card-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .admin-card-name {
-        font-weight: 700;
-        font-size: .95rem;
-    }
-
-    .admin-card-email {
-        font-size: .8rem;
-        color: #6b7280;
-    }
-
-    .admin-card-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px 12px;
-        font-size: .8rem;
-    }
-
-    .admin-card-label {
-        font-size: .7rem;
-        color: #2e7d32;
-    }
-
-    .admin-card-value {
-        font-weight: 500;
-    }
-
-    .admin-card-actions {
-        display: flex;
-        gap: 8px;
-        margin-top: 12px;
-    }
-
-    .admin-card-actions button {
-        flex: 1;
-    }
-
-    /* ===== REMOVE HORIZONTAL SCROLL ===== */
-
-    /* 1. Prevent global overflow */
-    html, body {
-        overflow-x: hidden;
-    }
-
-    /* 2. Fix Bootstrap row overflow */
-    .row {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    /* 3. Fix container padding on small screens */
-    @media (max-width: 991.98px) {
-        .container-fluid {
-            padding-left: 12px !important;
-            padding-right: 12px !important;
-        }
-    }
-
-    /* 4. Ensure cards never overflow */
-    .admin-card {
-        width: 100%;
-        overflow: hidden;
-    }
-
-    /* 5. Fix long text (VERY IMPORTANT) */
-    .admin-card-email,
-    .admin-card-value {
-        word-break: break-word;
-        overflow-wrap: anywhere;
-    }
-
-    /* 6. Fix grid overflow */
-    .admin-card-body {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    /* Always keep 2 columns on mobile & tablet */
-    @media (max-width: 991.98px) {
-        .admin-card-body {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    /* 7. Buttons should not overflow */
-    .admin-card-actions {
-        flex-wrap: wrap;
-    }
-
-    .admin-card-actions button {
-        width: 100%;
-    }
-
-    /* 8. Kill table scroll completely on mobile */
-    @media (max-width: 991.98px) {
-        .table-responsive {
-            overflow-x: hidden !important;
+    @media( max-width: 768px ) {
+        .eco-header-left > a.btn{
+            top: 120%;
         }
     }
 
@@ -226,7 +90,7 @@
     <div class="eco-header-common eco-header-sm mb-4">
 
         <!-- Left: back button + title -->
-        <div class="eco-header-left has-back">
+        <div class="eco-header-left">
             <a href="{{ route('admin.settings') }}" class="btn btn-light text-success rounded-circle">
                 <i class="fas fa-arrow-left"></i>
             </a>
@@ -279,106 +143,25 @@
 
             </form>
 
-            <div class="table-responsive desktop-table">
-                <table class="table admin-table mb-0">
-                    <thead>
-                        <tr>
-                            <th width="60" class="text-center">#</th>
-                            <th width="180">Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th width="120" class="text-center">Registered</th>
-                            <th width="50" class="text-center">Active</th>
-                            <th width="100" class="text-center">Action</th>
-                        </tr>
-                    </thead>
+            <table class="table admin-table mb-0">
+                <thead>
+                    <tr>
+                        <th width="60" class="text-center">#</th>
+                        <th width="180">Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th width="120" class="text-center">Registered</th>
+                        <th width="50" class="text-center">Active</th>
+                        <th width="100" class="text-center">Action</th>
+                    </tr>
+                </thead>
 
-                    <tbody id="adminTableBody">
-                        @include('admin.settings.admins.partials.admin_table', ['admins' => $admins])
-                    </tbody>
+                <tbody id="adminTableBody">
+                    @include('admin.settings.admins.partials.admin_table', ['admins' => $admins])
+                </tbody>
 
-                </table>
-            </div>
-
-            <div class="mobile-admin-list p-3">
-
-                @forelse($admins as $admin)
-                    <div class="admin-card">
-
-                        <!-- Head -->
-                        <div class="admin-card-head">
-                            <div>
-                                <div class="admin-card-name">{{ $admin->name }}</div>
-                                <div class="admin-card-email">{{ $admin->email }}</div>
-                            </div>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="admin-card-body">
-                            <!-- Row 1 -->
-                            <div>
-                                <div class="admin-card-label">Phone</div>
-                                <div class="admin-card-value">
-                                    {{ $admin->phone ?? '-' }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="admin-card-label">Registered Date</div>
-                                <div class="admin-card-value">
-                                    {{ $admin->created_at->format('d M Y') }}
-                                </div>
-                            </div>
-
-                            <!-- Row 2 -->
-                            <div>
-                                <div class="admin-card-label">Address</div>
-                                <div class="admin-card-value">
-                                    {{ $admin->address ?? '-' }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="admin-card-label">Active</div>
-                                <div class="admin-card-value">
-                                    @if($admin->isOnline())
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-circle"></i> Now
-                                        </span>
-                                    @else
-                                        <span class="badge bg-secondary">
-                                            <i class="far fa-clock"></i>
-                                            {{ $admin->lastOnline() }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="admin-card-actions">
-                            @if($admin->isOnline())
-                                <span class="protected-text w-100 text-center">
-                                    <i class="fas fa-lock"></i> Online
-                                </span>
-                            @else
-                                <button class="btn btn-sm btn-danger js-remove-admin"
-                                    data-id="{{ $admin->id }}"
-                                    data-name="{{ $admin->name }}">
-                                    <i class="fas fa-trash"></i> Remove
-                                </button>
-                            @endif
-                        </div>
-
-                    </div>
-                @empty
-                    <div class="text-center text-muted py-4">
-                        No admins found
-                    </div>
-                @endforelse
-
-            </div>
+            </table>
 
         </div>
 

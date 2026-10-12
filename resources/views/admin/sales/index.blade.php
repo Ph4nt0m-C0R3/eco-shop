@@ -203,17 +203,17 @@
 
                 <div class="row align-items-end">
                     <div class="col-md-4 mb-2">
-                        <label>From</label>
+                        <label for="eco-field-544906-1">From</label>
                         <input type="date" name="from"
                                value="{{ request('from') }}"
-                               class="form-control">
+                               class="form-control" id="eco-field-544906-1">
                     </div>
 
                     <div class="col-md-4 mb-2">
-                        <label>To</label>
+                        <label for="eco-field-544906-2">To</label>
                         <input type="date" name="to"
                                value="{{ request('to') }}"
-                               class="form-control">
+                               class="form-control" id="eco-field-544906-2">
                     </div>
 
                     <div class="col-md-4 mb-2">

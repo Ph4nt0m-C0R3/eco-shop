@@ -19,11 +19,11 @@
         <a href="{{ route('product.show',$product->id) }}" class="eco-product-link">
             <img src="{{ $product->primaryImage
             ? asset('storage/'.$product->primaryImage->image)
-            : asset('default/no-image.png') }}"
+            : asset('storage/default/no-image.png') }}"
             alt="{{ $product->display_name }}">
         </a>
 
-        <button class="eco-wishlist-btn"
+        <button type="button" aria-label="{{ __('stability.wishlist') }}" class="eco-wishlist-btn"
                 data-product="{{ $product->id }}">
             <i class="{{ $product->isInWishlist ? 'fas' : 'far' }} fa-heart"></i>
         </button>
@@ -40,15 +40,15 @@
             if ($product->available_stock == 0) {
                 $stockClass = 'out-stock';
                 $stockIcon = 'fa-times-circle';
-                $stockText = 'Out of Stock';
+                $stockText = __('stability.out_stock');
             } elseif ($product->available_stock <= 5) {
                 $stockClass = 'low-stock';
                 $stockIcon = 'fa-exclamation-circle';
-                $stockText = 'Low Stock';
+                $stockText = __('stability.low_stock');
             } else {
                 $stockClass = 'in-stock';
                 $stockIcon = 'fa-check-circle';
-                $stockText = 'In Stock';
+                $stockText = __('stability.in_stock');
             }
         @endphp
 
@@ -85,7 +85,7 @@
                         ({{ $reviewCount }})
                     </span>
                 @else
-                    <span class="eco-no-rating">Not yet rated</span>
+                    <span class="eco-no-rating">{{ __('stability.not_rated') }}</span>
                 @endif
             </div>
         </div>

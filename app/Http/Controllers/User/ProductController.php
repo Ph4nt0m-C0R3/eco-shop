@@ -49,6 +49,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        abort_unless($product->is_active, 404);
         $product->load(['category', 'primaryImage', 'images']);
 
         $featuredProducts = $this->service
@@ -56,7 +57,7 @@ class ProductController extends Controller
             ->where('id', '!=', $product->id)
             ->values();
 
-        $relatedProducts = Product::where('category_id', $product->category_id)
+        $relatedProducts = Product::active()->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->with(['primaryImage','category'])
             ->withAvg('reviews','rating')

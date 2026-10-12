@@ -3,12 +3,12 @@
    ECO ESSENCE — MYANMAR ALIGNMENT
 ================================= */
 
-html[lang="mm"] .eco-essence {
+html[lang="my"] .eco-essence {
     line-height: 1.9; /* match master body */
 }
 
 /* Tag */
-html[lang="mm"] .essence-tag {
+html[lang="my"] .essence-tag {
     font-size: 1rem;
     letter-spacing: 0;
     text-transform: none;
@@ -16,32 +16,32 @@ html[lang="mm"] .essence-tag {
 }
 
 /* Title */
-html[lang="mm"] .essence-title {
+html[lang="my"] .essence-title {
     line-height: 1.4; /* match master heading */
     letter-spacing: 0;
 }
 
-html[lang="mm"] .essence-title span {
+html[lang="my"] .essence-title span {
     line-height: 1.45;
 }
 
 /* Description */
-html[lang="mm"] .essence-description {
+html[lang="my"] .essence-description {
     font-size: 1rem;
     line-height: 1.95; /* master paragraph rhythm */
     max-width: 520px; /* slightly wider for MM text */
 }
 
 /* Buttons */
-html[lang="mm"] .essence-btn-primary,
-html[lang="mm"] .essence-btn-outline {
+html[lang="my"] .essence-btn-primary,
+html[lang="my"] .essence-btn-outline {
     font-size: 1rem;
     line-height: 1.8;
     padding: 16px 36px; /* avoid cramped Burmese */
 }
 
 /* Floating badge */
-html[lang="mm"] .essence-card {
+html[lang="my"] .essence-card {
     font-size: 0.95rem;
     line-height: 1.9;
 }
@@ -288,16 +288,16 @@ html[lang="mm"] .essence-card {
 
 @media (max-width: 768px) {
 
-    html[lang="mm"] .essence-title {
+    html[lang="my"] .essence-title {
         line-height: 1.45;
     }
 
-    html[lang="mm"] .essence-description {
+    html[lang="my"] .essence-description {
         font-size: 0.98rem;
     }
 
-    html[lang="mm"] .essence-btn-primary,
-    html[lang="mm"] .essence-btn-outline {
+    html[lang="my"] .essence-btn-primary,
+    html[lang="my"] .essence-btn-outline {
         width: 100%;
         justify-content: center;
     }

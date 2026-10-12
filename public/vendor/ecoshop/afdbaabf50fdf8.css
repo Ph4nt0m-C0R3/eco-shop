@@ -1,0 +1,84 @@
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 200;
+  src: url("794687ccb95b3b.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 300;
+  src: url("9b8c3b0a902460.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 400;
+  src: url("8dc4a9daa9fb8a.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 600;
+  src: url("9f3589c43ca221.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 700;
+  src: url("c2e98e4fa4ecdc.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 800;
+  src: url("e311e78d706568.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 900;
+  src: url("d2635db790fbca.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 200;
+  src: url("09d4d3d435c06d.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: url("bb08aa8375edb9.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: url("0f58697ca67549.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  src: url("a439125fc24a48.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: url("62a5fe47960212.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  src: url("cfe09bce2e6510.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 900;
+  src: url("cb99a5fbe1f5fd.ttf") format('truetype');
+}

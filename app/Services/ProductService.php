@@ -14,7 +14,7 @@ class ProductService
      */
     public function getAdminProducts(Request $request)
     {
-        $query = Product::with(['category', 'images', 'primaryImage']);
+        $query = Product::active()->with(['category', 'images', 'primaryImage']);
 
         /**
          * SEARCH
@@ -71,7 +71,7 @@ class ProductService
                     break;
                 }
 
-                $product = Product::with(['category', 'primaryImage'])
+                $product = Product::active()->with(['category', 'primaryImage'])
                     ->withAvg('reviews', 'rating')
                     ->withCount('reviews')
                     ->where('category_id', $category->id)
@@ -87,7 +87,7 @@ class ProductService
 
                 $remaining = 8 - $products->count();
 
-                $extraProducts = Product::with(['category', 'primaryImage'])
+                $extraProducts = Product::active()->with(['category', 'primaryImage'])
                     ->withAvg('reviews', 'rating')
                     ->withCount('reviews')
                     ->whereNotIn('id', $products->pluck('id'))
@@ -100,9 +100,9 @@ class ProductService
 
         } else {
 
-            $totalCount = Product::where('category_id', $selectedCategory)->count();
+            $totalCount = Product::active()->where('category_id', $selectedCategory)->count();
 
-            $products = Product::with(['category', 'primaryImage'])
+            $products = Product::active()->with(['category', 'primaryImage'])
                 ->withAvg('reviews', 'rating')
                 ->withCount('reviews')
                 ->where('category_id', $selectedCategory)

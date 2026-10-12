@@ -221,23 +221,29 @@
                         <div class="info-icon"><i class="fas fa-paper-plane"></i></div>
                         <h6 class="fw-bold mb-1" style="color: #1a3a00;">{{ __('contact.email_us') }}</h6>
                         <a href="mailto:{{ setting('contact_email') }}" class="text-decoration-none text-muted small">
-                            {{ setting('contact_email', 'hello@example.test') }}
+                            {{ setting('contact_email', 'webdevamp@gmail.com') }}
                         </a>
                     </div>
 
                     <div class="info-item">
                         <div class="info-icon"><i class="fas fa-phone"></i></div>
                         <h6 class="fw-bold mb-1" style="color: #1a3a00;">{{ __('contact.call_directly') }}</h6>
-                        <p class="text-muted small mb-0">{{ setting('contact_phone', '000-000-0000') }}</p>
+                        <p class="text-muted small mb-0">{{ setting('contact_phone', '+95 9267 061 436') }}</p>
                     </div>
 
                     {{-- Social Presence --}}
                     <div class="mt-auto p-4">
                         <h6 class="fw-bold mb-3 small text-uppercase ls-1" style="color: #1a3a00;">{{ __('contact.follow') }}</h6>
                         <div class="d-flex">
-                            <a href="#" class="social-link text-decoration-none"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link text-decoration-none"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link text-decoration-none"><i class="fab fa-linkedin-in"></i></a>
+                            @if(filter_var(setting('facebook_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('facebook_url'), 'https://'))
+                            <a href="{{ setting('facebook_url') }}" class="social-link text-decoration-none" aria-label="facebook" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                            @endif
+                            @if(filter_var(setting('instagram_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('instagram_url'), 'https://'))
+                            <a href="{{ setting('instagram_url') }}" class="social-link text-decoration-none" aria-label="instagram" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                            @endif
+                            @if(filter_var(setting('linkedin_url'), FILTER_VALIDATE_URL) && str_starts_with(setting('linkedin_url'), 'https://'))
+                            <a href="{{ setting('linkedin_url') }}" class="social-link text-decoration-none" aria-label="linkedin" rel="noopener noreferrer"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                            @endif
                         </div>
                     </div>
 
@@ -253,27 +259,27 @@
 
                         <div class="row g-3">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label small fw-bold text-muted">{{ __('contact.full_name') }}</label>
+                                <label class="form-label small fw-bold text-muted" for="eco-field-8f9d22-1">{{ __('contact.full_name') }}</label>
                                 <input type="text"
                                     name="name"
                                     value="{{ old('name') }}"
-                                    class="form-control">
+                                    class="form-control" id="eco-field-8f9d22-1">
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label small fw-bold text-muted">{{ __('contact.email_address') }}</label>
+                                <label class="form-label small fw-bold text-muted" for="eco-field-8f9d22-2">{{ __('contact.email_address') }}</label>
                                 <input type="email"
                                     name="email"
                                     value="{{ old('email') }}"
-                                    class="form-control">
+                                    class="form-control" id="eco-field-8f9d22-2">
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label small fw-bold text-muted">{{ __('contact.inquiry') }}</label>
+                            <label class="form-label small fw-bold text-muted" for="eco-field-8f9d22-3">{{ __('contact.inquiry') }}</label>
                             <textarea name="message"
                                     rows="5"
-                                    class="form-control">{{ old('message') }}</textarea>
+                                    class="form-control" id="eco-field-8f9d22-3">{{ old('message') }}</textarea>
                         </div>
 
                         <div class="text-end">

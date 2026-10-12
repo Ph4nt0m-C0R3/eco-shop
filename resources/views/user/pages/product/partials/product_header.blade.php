@@ -38,7 +38,7 @@
             </button>
 
             <button
-                class="eco-wishlist-btn"
+                type="button" aria-label="{{ __('stability.wishlist') }}" class="eco-wishlist-btn"
                 data-product="{{ $product->id }}"
                 title="Add to Wishlist"
             >

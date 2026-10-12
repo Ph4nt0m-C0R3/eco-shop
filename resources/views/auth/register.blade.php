@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Sign Up</title>
+    <title>{{ config('app.brand') }} | Sign Up</title>
 
     <!-- Favicon -->
         <link rel="icon"
         type="image/png"
         href="{{ setting('favicon')
             ? asset('storage/' . setting('favicon'))
-            : asset('default/favicon.png') }}">
+            : asset('storage/default/favicon.png') }}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/dbe397d0d04e2b.css') }}" rel="stylesheet">
 
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/ecoshop/ee7ba94afea4ad.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('global/css/eco-common.css') }}">
@@ -259,6 +259,8 @@
             100% { transform: translateX(0); }
         }
     </style>
+<link rel="stylesheet" href="{{ asset('vendor/ecoshop/578d676b9e7ee0.css') }}">
+<script>window.ECO_SHOW_PASSWORD=@json(__('stability.show_password'));window.ECO_HIDE_PASSWORD=@json(__('stability.hide_password'));</script>
 </head>
 
 <body>
@@ -271,20 +273,20 @@
             <div class="eco-logo">
                 <img src="{{ setting('logo')
                     ? asset('storage/' . setting('logo'))
-                    : asset('default/logo.png') }}"
-                    alt="{{ setting('app_name', 'EcoShop') }}">
+                    : asset('storage/default/logo.png') }}"
+                    alt="{{ config('app.brand') }}">
             </div>
 
-            <h1 class="fw-bold mb-3">EcoShop</h1>
+            <h1 class="fw-bold mb-3">{{ config('app.brand') }}</h1>
 
             <p class="fs-4 mb-4 eco-subtitle">
-                Sustainable products for a cleaner, greener future.
+                {{ __('auth-ui.sustainable_products_for_a_cleaner_greener_future') }}
             </p>
 
             <ul class="list-unstyled fs-5 eco-features">
-                <li class="mb-3"><i class="fas fa-leaf me-3"></i> Eco-friendly materials</li>
-                <li class="mb-3"><i class="fas fa-recycle me-3"></i> Reduce waste & emissions</li>
-                <li><i class="fas fa-globe me-3"></i> Support green innovation</li>
+                <li class="mb-3"><i class="fas fa-leaf me-3"></i> {{ __('auth-ui.eco_friendly_materials') }}</li>
+                <li class="mb-3"><i class="fas fa-recycle me-3"></i> {{ __('auth-ui.reduce_waste_emissions') }}</li>
+                <li><i class="fas fa-globe me-3"></i> {{ __('auth-ui.support_green_innovation') }}</li>
             </ul>
         </div>
 
@@ -292,9 +294,9 @@
         <div class="col-lg-6 col-12 form-side">
             <div class="form-wrapper">
 
-                <h2 class="fw-bold text-success mb-2">Create Your Account</h2>
+                <h2 class="fw-bold text-success mb-2">{{ __('auth-ui.create_your_account') }}</h2>
                 <p class="text-muted mb-3">
-                    Join thousands making eco-friendly choices!
+                    {{ __('auth-ui.join_thousands_making_eco_friendly_choices') }}
                 </p>
 
                 <form method="POST" action="{{ route('register') }}">
@@ -302,7 +304,7 @@
 
                     <div class="form-floating mb-3 text-start">
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Full Name" value="{{ old('name') }}">
-                        <label for="name">Full Name</label>
+                        <label for="name">{{ __('auth-ui.full_name') }}</label>
                         @error('name')
                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                         @enderror
@@ -310,7 +312,7 @@
 
                     <div class="form-floating mb-3 text-start">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email Address" value="{{ old('email') }}">
-                        <label for="email">Email Address</label>
+                        <label for="email">{{ __('auth-ui.email_address') }}</label>
                         @error('email')
                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                         @enderror
@@ -318,7 +320,7 @@
 
                     <div class="form-floating mb-3 text-start">
                         <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="Phone Number" value="{{ old('phone') }}">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone">{{ __('auth-ui.phone_number') }}</label>
                         @error('phone')
                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                         @enderror
@@ -328,8 +330,8 @@
                         <div class="col-md-6 text-start">
                             <div class="form-floating password-wrapper">
                                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password">
-                                <label for="password">Password</label>
-                                <i class="fa-solid fa-eye-slash fa-fw password-toggle" onclick="togglePassword('password', this)"></i>
+                                <label for="password">{{ __('auth-ui.password') }}</label>
+                                <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash fa-fw password-toggle" onclick="togglePassword('password', this)"></button>
                             </div>
                             @error('password')
                                 <small class="text-danger d-block mt-1 server-error" id="password-error">
@@ -339,19 +341,19 @@
 
                             <div class="password-rules mt-2">
                                 <div class="rule" id="rule-length">
-                                    <i class="fa-regular fa-circle"></i> At least 8 characters
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.at_least_8_characters') }}
                                 </div>
                                 <div class="rule" id="rule-upper">
-                                    <i class="fa-regular fa-circle"></i> One uppercase letter
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.one_uppercase_letter') }}
                                 </div>
                                 <div class="rule" id="rule-lower">
-                                    <i class="fa-regular fa-circle"></i> One lowercase letter
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.one_lowercase_letter') }}
                                 </div>
                                 <div class="rule" id="rule-number">
-                                    <i class="fa-regular fa-circle"></i> One number
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.one_number') }}
                                 </div>
                                 <div class="rule" id="rule-special">
-                                    <i class="fa-regular fa-circle"></i> One special character
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.one_special_character') }}
                                 </div>
                             </div>
                         </div>
@@ -359,8 +361,8 @@
                         <div class="col-md-6 text-start">
                             <div class="form-floating password-wrapper">
                                 <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" placeholder="Repeat Password">
-                                <label for="password_confirmation">Repeat Password</label>
-                                <i class="fa-solid fa-eye-slash fa-fw password-toggle" onclick="togglePassword('password_confirmation', this)"></i>
+                                <label for="password_confirmation">{{ __('auth-ui.repeat_password') }}</label>
+                                <button type="button" aria-label="{{ __('stability.show_password') }}" aria-pressed="false" class="fa-solid fa-eye-slash fa-fw password-toggle" onclick="togglePassword('password_confirmation', this)"></button>
                             </div>
                             @error('password_confirmation')
                                 <small class="text-danger d-block mt-1 server-error" id="confirm-error">
@@ -370,25 +372,25 @@
 
                             <div class="confirm-feedback mt-2" id="confirm-feedback">
                                 <i class="fa-regular fa-circle"></i>
-                                <span>Passwords must match</span>
+                                <span>{{ __('auth-ui.passwords_must_match') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-eco text-white w-100 my-3">
-                        Create Account
+                        {{ __('auth-ui.create_account') }}
                     </button>
                 </form>
 
                 <p class="small">
-                    Already have an account?
-                    <a href="{{ route('login') }}" class="text-success fw-semibold">Login</a>
+                    {{ __('auth-ui.already_have_an_account') }}
+                    <a href="{{ route('login') }}" class="text-success fw-semibold">{{ __('auth-ui.login') }}</a>
                 </p>
 
                 <div class="mb-4">
                     <a href="{{ url('/') }}" class="back-home-link">
                         <i class="fas fa-arrow-left me-2"></i>
-                        Back to Home
+                        {{ __('auth-ui.back_to_home') }}
                     </a>
                 </div>
 
@@ -398,7 +400,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('vendor/ecoshop/afcaefd721f3dd.js') }}"></script>
 
 <!-- Custom JS -->
 <script src="{{ asset('global/js/eco-common.js') }}"></script>
@@ -452,7 +454,7 @@
             confirmFeedback.classList.remove('invalid');
             confirmFeedback.classList.add('valid');
             confirmFeedback.querySelector('i').className = 'fa-solid fa-circle-check';
-            confirmFeedback.querySelector('span').innerText = 'Passwords match';
+            confirmFeedback.querySelector('span').innerText = @json(__('auth-ui.passwords_match'));
 
             confirmInput.classList.remove('match-error');
             confirmInput.classList.add('match-success');
@@ -461,7 +463,7 @@
             confirmFeedback.classList.remove('valid');
             confirmFeedback.classList.add('invalid');
             confirmFeedback.querySelector('i').className = 'fa-solid fa-circle-xmark';
-            confirmFeedback.querySelector('span').innerText = 'Passwords do not match';
+            confirmFeedback.querySelector('span').innerText = @json(__('auth-ui.passwords_do_not_match'));
 
             confirmInput.classList.remove('match-success');
             confirmInput.classList.add('match-error');
@@ -471,7 +473,7 @@
     function resetConfirmState() {
         confirmFeedback.classList.remove('valid', 'invalid');
         confirmFeedback.querySelector('i').className = 'fa-regular fa-circle';
-        confirmFeedback.querySelector('span').innerText = 'Passwords must match';
+        confirmFeedback.querySelector('span').innerText = @json(__('auth-ui.passwords_must_match'));
         confirmInput.classList.remove('match-success', 'match-error');
     }
 

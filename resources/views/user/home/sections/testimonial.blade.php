@@ -119,20 +119,20 @@
     border: 2px solid #fff;
 }
 
-html[lang="mm"] .testimonial-text {
+html[lang="my"] .testimonial-text {
     line-height: 2.1;
 }
 
-html[lang="mm"] .testimonial-user h6 {
+html[lang="my"] .testimonial-user h6 {
     line-height: 1.9;
 }
 
-html[lang="mm"] .text-uppercase {
+html[lang="my"] .text-uppercase {
     letter-spacing: 0; /* uppercase spacing looks bad in Burmese */
 }
 
-html[lang="mm"] h2,
-html[lang="mm"] h6 {
+html[lang="my"] h2,
+html[lang="my"] h6 {
     line-height: 1.8;
 }
 </style>
@@ -170,7 +170,7 @@ html[lang="mm"] h6 {
                     <img
                         src="{{ $review->product->primaryImage
                             ? asset('storage/'.$review->product->primaryImage->image)
-                            : asset('default/no-image.png') }}"
+                            : asset('storage/default/no-image.png') }}"
                         alt="{{ $review->product->display_name }}"
                     >
 
@@ -242,19 +242,3 @@ html[lang="mm"] h6 {
     </div>
 </div>
 
-<script>
-    $('.testimonial-carousel').owlCarousel({
-        loop: true,
-        margin: 30,
-        nav: true,
-        dots: false,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        smartSpeed: 800,
-        responsive:{
-            0:{ items:1 },
-            768:{ items:2 },
-            1200:{ items:3 }
-        }
-    });
-</script>

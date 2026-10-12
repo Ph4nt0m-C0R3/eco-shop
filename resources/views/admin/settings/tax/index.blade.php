@@ -2,19 +2,11 @@
 
 @section('main_content')
 
-<style>
-    @media (max-width: 767.98px) {
-        .update-btn {
-            margin-top: 15px;
-        }
-    }
-</style>
-
 <div class="container-fluid my-4">
 
     <!-- Header -->
     <div class="eco-header-common eco-header-sm mb-4">
-        <div class="eco-header-left has-back">
+        <div class="eco-header-left">
             <a href="{{ route('admin.settings') }}"
                class="btn btn-light text-success rounded-circle">
                 <i class="fas fa-arrow-left"></i>
@@ -49,7 +41,7 @@
                 <div class="row align-items-end">
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">
+                        <label class="form-label fw-bold" for="eco-field-375736-1">
                             Tax Percentage (%)
                         </label>
                         <input type="number"
@@ -59,11 +51,11 @@
                                name="percent"
                                value="{{ $tax->percent }}"
                                class="form-control"
-                               required>
+                               required id="eco-field-375736-1">
                     </div>
 
-                    <div class="col-md-4 update-btn">
-                        <button class="btn btn-success w-80">
+                    <div class="col-md-3">
+                        <button class="btn btn-success w-100">
                             <i class="fas fa-save"></i> Update Tax
                         </button>
                     </div>

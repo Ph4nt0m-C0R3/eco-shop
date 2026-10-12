@@ -161,7 +161,7 @@
             @if($order->payment_screenshot)
                 <div class="eco-section mt-4">
                     <h5 class="mb-3">Payment Screenshot</h5>
-                    <img src="{{ asset('storage/'.$order->payment_screenshot) }}"
+                    <img src="{{ route('admin.orders.paymentProof', $order) }}"
                          class="img-fluid rounded border"
                          style="max-width:300px;">
                 </div>

@@ -110,6 +110,7 @@ Route::prefix('pages')->group(function () {
 
 });
 
+Route::middleware(['auth', 'verified', 'user'])->group(function () {
 Route::get('/stripe/success', [StripeController::class, 'success'])
     ->name('stripe.success');
 
@@ -117,3 +118,5 @@ Route::get('/stripe/cancel/{order}', [StripeController::class, 'cancel'])
     ->name('stripe.cancel');
 
 Route::get('/stripe/checkout/{order}', [StripeController::class, 'checkout'])->name('stripe.checkout');
+
+});

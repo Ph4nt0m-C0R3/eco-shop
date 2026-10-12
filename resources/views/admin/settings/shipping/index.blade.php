@@ -6,7 +6,7 @@
 
     <!-- Header -->
     <div class="eco-header-common eco-header-sm mb-4">
-        <div class="eco-header-left has-back">
+        <div class="eco-header-left">
             <a href="{{ route('admin.settings') }}"
                class="btn btn-light text-success rounded-circle">
                 <i class="fas fa-arrow-left"></i>

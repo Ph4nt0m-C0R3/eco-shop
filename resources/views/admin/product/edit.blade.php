@@ -81,35 +81,35 @@
                         {{-- Names --}}
                         <div class="row mb-3">
                             <div class="col">
-                                <label>Name (EN)</label>
+                                <label for="eco-field-4fe7b5-1">Name (EN)</label>
                                 <input type="text" name="name_en"
                                        value="{{ old('name_en', $product->name_en) }}"
-                                       class="form-control @error('name_en') is-invalid @enderror">
+                                       class="form-control @error('name_en') is-invalid @enderror" id="eco-field-4fe7b5-1">
                                 @error('name_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col">
-                                <label>Name (MM)</label>
+                                <label for="eco-field-4fe7b5-2">Name (MM)</label>
                                 <input type="text" name="name_mm"
                                        value="{{ old('name_mm', $product->name_mm) }}"
-                                       class="form-control @error('name_mm') is-invalid @enderror">
+                                       class="form-control @error('name_mm') is-invalid @enderror" id="eco-field-4fe7b5-2">
                                 @error('name_mm') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
 
                         {{-- Descriptions --}}
                         <div class="mb-3">
-                            <label>Description (EN)</label>
+                            <label for="eco-field-4fe7b5-3">Description (EN)</label>
                             <textarea name="description_en"
                                       class="form-control"
-                                      rows="3">{{ old('description_en', $product->description_en) }}</textarea>
+                                      rows="3" id="eco-field-4fe7b5-3">{{ old('description_en', $product->description_en) }}</textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label>Description (MM)</label>
+                            <label for="eco-field-4fe7b5-4">Description (MM)</label>
                             <textarea name="description_mm"
                                       class="form-control"
-                                      rows="3">{{ old('description_mm', $product->description_mm) }}</textarea>
+                                      rows="3" id="eco-field-4fe7b5-4">{{ old('description_mm', $product->description_mm) }}</textarea>
                         </div>
 
                         {{-- EXISTING IMAGES --}}
@@ -156,7 +156,7 @@
                             <div id="imagePreview"
                                 class="d-flex flex-wrap gap-2 mt-3"></div>
 
-                            <label>Add More Images</label>
+                            <label for="productImages">Add More Images</label>
 
                             <input type="file"
                                 name="images[]"
@@ -190,8 +190,8 @@
 
                         {{-- Category --}}
                         <div class="mb-3">
-                            <label>Category</label>
-                            <select name="category_id" class="form-control">
+                            <label for="eco-field-4fe7b5-5">Category</label>
+                            <select name="category_id" class="form-control" id="eco-field-4fe7b5-5">
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
@@ -203,7 +203,7 @@
 
                         {{-- Currency --}}
                         <div class="mb-3">
-                            <label>Currency</label>
+                            <label for="currencySelect">Currency</label>
                             <select id="currencySelect" name="currency" class="form-control @error('currency') is-invalid @enderror">
                                 <option value="USD"
                                     {{ old('currency', 'USD') == 'USD' ? 'selected' : '' }}>
@@ -221,7 +221,7 @@
 
                         {{-- Price --}}
                         <div class="mb-3">
-                            <label>Price</label>
+                            <label for="priceInput">Price</label>
                             <input type="number"
                                 step="0.01"
                                 id="priceInput"
@@ -235,11 +235,11 @@
 
                         {{-- Stock --}}
                         <div class="mb-3">
-                            <label>Stock</label>
+                            <label for="eco-field-4fe7b5-6">Stock</label>
                             <input type="number"
                                 name="stock"
                                 value="{{ old('stock', $product->stock) }}"
-                                class="form-control @error('stock') is-invalid @enderror">
+                                class="form-control @error('stock') is-invalid @enderror" id="eco-field-4fe7b5-6">
                             @error('stock')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -247,17 +247,17 @@
 
                         {{-- Eco --}}
                         <div class="mb-3">
-                            <label>Eco Badge (EN)</label>
+                            <label for="eco-field-4fe7b5-7">Eco Badge (EN)</label>
                             <input type="text" name="eco_badge"
                                 value="{{ old('eco_badge', $product->eco_badge) }}"
-                                class="form-control">
+                                class="form-control" id="eco-field-4fe7b5-7">
                         </div>
 
                         <div class="mb-3">
-                            <label>Eco Badge (MM)</label>
+                            <label for="eco-field-4fe7b5-8">Eco Badge (MM)</label>
                             <input type="text" name="eco_badge_mm"
                                 value="{{ old('eco_badge_mm', $product->eco_badge_mm) }}"
-                                class="form-control">
+                                class="form-control" id="eco-field-4fe7b5-8">
                         </div>
 
                         <button class="btn btn-primary w-100 mb-3">

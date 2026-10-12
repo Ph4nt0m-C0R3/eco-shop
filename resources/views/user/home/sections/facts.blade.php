@@ -118,16 +118,16 @@
             }
         }
 
-        html[lang="mm"] .eco-stats-scope .stat-title {
+        html[lang="my"] .eco-stats-scope .stat-title {
             line-height: 1.9;
             text-transform: none;
         }
 
-        html[lang="mm"] .eco-stats-scope .stat-desc {
+        html[lang="my"] .eco-stats-scope .stat-desc {
             line-height: 1.8;
         }
 
-        html[lang="mm"] .eco-stats-scope .stat-number {
+        html[lang="my"] .eco-stats-scope .stat-number {
             line-height: 1.4;
         }
     </style>

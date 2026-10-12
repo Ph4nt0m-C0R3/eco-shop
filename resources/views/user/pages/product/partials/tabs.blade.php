@@ -210,13 +210,14 @@
 
       <!-- REVIEW TEXT -->
       <div class="luxury-textarea-field">
-        <label class="luxury-field-label">
+        <label class="luxury-field-label" for="product-review-message">
           {{ app()->getLocale() === 'mm' ? 'သုံးသပ်ချက်' : 'Your Review' }}
           <span class="luxury-required">*</span>
         </label>
 
         <textarea
           name="message"
+          id="product-review-message"
           class="luxury-review-textarea"
           placeholder="{{ app()->getLocale()==='mm' ? 'ဤထုတ်ကုန်နှင့်ပတ်သက်ပြီးသင်ဘာထင်ပါသလဲ...' : 'What did you think about this product?...' }}"
           required

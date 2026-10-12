@@ -118,7 +118,7 @@
     }
 
     /* Better spacing for Myanmar language */
-    html[lang="mm"] body,
+    html[lang="my"] body,
     html[lang="my"] body {
         line-height: 1.8;
         word-spacing: 2px;
@@ -220,38 +220,38 @@
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.full_name') }}</label>
+                                <label class="form-label" for="eco-field-995f67-1">{{ __('checkout.full_name') }}</label>
                                 <input type="text"
                                        name="full_name"
                                        class="form-control"
                                        value="{{ old('full_name', auth()->user()->name) }}"
-                                       required>
+                                       required id="eco-field-995f67-1">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.email') }}</label>
+                                <label class="form-label" for="eco-field-995f67-2">{{ __('checkout.email') }}</label>
                                 <input type="email"
                                        name="email"
                                        class="form-control"
                                        value="{{ old('email', auth()->user()->email) }}"
-                                       required>
+                                       required id="eco-field-995f67-2">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.phone') }}</label>
+                                <label class="form-label" for="eco-field-995f67-3">{{ __('checkout.phone') }}</label>
                                 <input type="text"
                                        name="phone"
                                        class="form-control"
                                        value="{{ old('phone', auth()->user()->phone) }}"
-                                       required>
+                                       required id="eco-field-995f67-3">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.company') }}</label>
+                                <label class="form-label" for="eco-field-995f67-4">{{ __('checkout.company') }}</label>
                                 <input type="text"
                                        name="company"
                                        class="form-control"
-                                       value="{{ old('company') }}">
+                                       value="{{ old('company') }}" id="eco-field-995f67-4">
                             </div>
                         </div>
 
@@ -424,22 +424,22 @@
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.country') }}</label>
-                                <select name="country" class="form-select" required>
+                                <label class="form-label" for="eco-field-995f67-5">{{ __('checkout.country') }}</label>
+                                <select name="country" class="form-select" required id="eco-field-995f67-5">
                                     <option value="Myanmar">{{ __('checkout.available_country') }}</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.city') }}</label>
+                                <label class="form-label" for="eco-field-995f67-6">{{ __('checkout.city') }}</label>
                                 <input type="text"
                                        name="city"
                                        class="form-control"
-                                       value="{{ old('city') }}">
+                                       value="{{ old('city') }}" id="eco-field-995f67-6">
                             </div>
 
                             <div class="col-md-6" id="shippingZoneWrapper">
-                                <label class="form-label">{{ __('checkout.shipping_zone') }}</label>
+                                <label class="form-label" for="shippingZoneSelect">{{ __('checkout.shipping_zone') }}</label>
                                 <select name="shipping_zone_id"
                                         id="shippingZoneSelect"
                                         class="form-select">
@@ -458,35 +458,35 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('checkout.postal_code') }}</label>
+                                <label class="form-label" for="eco-field-995f67-7">{{ __('checkout.postal_code') }}</label>
                                 <input type="text"
                                        name="postal_code"
                                        class="form-control"
-                                       value="{{ old('postal_code') }}">
+                                       value="{{ old('postal_code') }}" id="eco-field-995f67-7">
                             </div>
 
                             <div class="col-md-8">
-                                <label class="form-label">{{ __('checkout.street_address') }}</label>
+                                <label class="form-label" for="eco-field-995f67-8">{{ __('checkout.street_address') }}</label>
                                 <input type="text"
                                        name="street_address"
                                        class="form-control"
-                                       value="{{ old('street_address') }}">
+                                       value="{{ old('street_address') }}" id="eco-field-995f67-8">
                             </div>
 
                             <div class="col-md-4">
-                                <label class="form-label">{{ __('checkout.unit') }}</label>
+                                <label class="form-label" for="eco-field-995f67-9">{{ __('checkout.unit') }}</label>
                                 <input type="text"
                                        name="unit"
                                        class="form-control"
-                                       value="{{ old('unit') }}">
+                                       value="{{ old('unit') }}" id="eco-field-995f67-9">
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label">{{ __('checkout.delivery_note') }}</label>
+                                <label class="form-label" for="eco-field-995f67-10">{{ __('checkout.delivery_note') }}</label>
                                 <textarea name="delivery_note"
                                           class="form-control"
                                           rows="3"
-                                          placeholder="{{ __('checkout.delivery_note_placeholder') }}">{{ old('delivery_note') }}</textarea>
+                                          placeholder="{{ __('checkout.delivery_note_placeholder') }}" id="eco-field-995f67-10">{{ old('delivery_note') }}</textarea>
                             </div>
                         </div>
 

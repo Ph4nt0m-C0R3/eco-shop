@@ -25,6 +25,7 @@
                 @if(auth()->user()->isSuperAdmin())
                     <button
                         class="btn btn-light eco-btn js-edit"
+                        aria-label="Edit category"
                         data-id="{{ $category->id }}"
                         data-name="{{ $category->name }}"
                         data-name_mm="{{ $category->name_mm }}"
@@ -35,6 +36,7 @@
                     <button
                         type="button"
                         class="btn btn-light eco-btn js-delete"
+                        aria-label="Delete category"
                         data-id="{{ $category->id }}"
                         data-name="{{ $category->name }}">
                         <i class="fas fa-trash text-danger"></i>

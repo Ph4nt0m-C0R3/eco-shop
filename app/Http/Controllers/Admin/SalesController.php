@@ -33,18 +33,18 @@ class SalesController extends Controller
             $amountExpression = "
                 CASE
                     WHEN currency_code = 'USD'
-                        THEN (subtotal_usd + tax + shipping_fee)
+                        THEN grand_total
                     ELSE
-                        (subtotal_mmk + tax + shipping_fee) / " . \App\Models\Currency::getRate('MMK') . "
+                        grand_total / COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), " . \App\Models\Currency::getRate('MMK') . ")
                 END
             ";
         } else {
             $amountExpression = "
                 CASE
                     WHEN currency_code = 'MMK'
-                        THEN (subtotal_mmk + tax + shipping_fee)
+                        THEN grand_total
                     ELSE
-                        (subtotal_usd + tax + shipping_fee) * " . \App\Models\Currency::getRate('MMK') . "
+                        grand_total * COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), " . \App\Models\Currency::getRate('MMK') . ")
                 END
             ";
         }
@@ -84,7 +84,7 @@ class SalesController extends Controller
                 ->where('payment_status', 'paid')
                 ->whereYear('created_at', $year)
                 ->select(
-                    DB::raw('MONTH(created_at) as month'),
+                    DB::raw((DB::connection()->getDriverName() === 'sqlite' ? "CAST(strftime('%m', created_at) AS INTEGER)" : 'MONTH(created_at)') . ' as month'),
                     DB::raw("SUM($amountExpression) as total")
                 )
                 ->groupBy('month')
@@ -139,18 +139,18 @@ class SalesController extends Controller
             $amountExpression = "
                 CASE
                     WHEN currency_code = 'USD'
-                        THEN (subtotal_usd + tax + shipping_fee)
+                        THEN grand_total
                     ELSE
-                        (subtotal_mmk + tax + shipping_fee) / " . \App\Models\Currency::getRate('MMK') . "
+                        grand_total / COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), " . \App\Models\Currency::getRate('MMK') . ")
                 END
             ";
         } else {
             $amountExpression = "
                 CASE
                     WHEN currency_code = 'MMK'
-                        THEN (subtotal_mmk + tax + shipping_fee)
+                        THEN grand_total
                     ELSE
-                        (subtotal_usd + tax + shipping_fee) * " . \App\Models\Currency::getRate('MMK') . "
+                        grand_total * COALESCE(NULLIF(exchange_rate_mmk, 0), NULLIF(subtotal_mmk, 0) / NULLIF(subtotal_usd, 0), " . \App\Models\Currency::getRate('MMK') . ")
                 END
             ";
         }
@@ -250,15 +250,7 @@ class SalesController extends Controller
             $query->latest()->chunk(200, function ($orders) use ($file, $currency, $decimals) {
                 foreach ($orders as $order) {
 
-                    if ($currency === 'USD') {
-                        $amount = $order->currency_code === 'USD'
-                            ? ($order->subtotal_usd + $order->tax + $order->shipping_fee)
-                            : ($order->subtotal_mmk + $order->tax + $order->shipping_fee) / \App\Models\Currency::getRate('MMK');
-                    } else {
-                        $amount = $order->currency_code === 'MMK'
-                            ? ($order->subtotal_mmk + $order->tax + $order->shipping_fee)
-                            : ($order->subtotal_usd + $order->tax + $order->shipping_fee) * \App\Models\Currency::getRate('MMK');
-                    }
+                    $amount = $currency === 'USD' ? $order->grand_total_usd : $order->grand_total_mmk;
 
                     fputcsv($file, [
                         $order->id,

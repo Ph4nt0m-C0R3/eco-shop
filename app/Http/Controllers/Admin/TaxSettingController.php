@@ -23,6 +23,6 @@ class TaxSettingController extends Controller
         $tax = TaxSetting::first();
         $tax->update(['percent' => $request->percent]);
 
-        return back()->with('success','Tax updated successfully.');
+        return back()->with('success','Tax updated');
     }
 }

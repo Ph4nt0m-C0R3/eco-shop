@@ -6,21 +6,21 @@
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
     if ($(".sidebar").hasClass("toggled")) {
-      $('.sidebar .collapse').collapse('hide');
+      document.querySelectorAll('.sidebar .collapse').forEach(el => bootstrap.Collapse.getOrCreateInstance(el, {toggle:false}).hide());
     };
   });
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
     if ($(window).width() < 768) {
-      $('.sidebar .collapse').collapse('hide');
+      document.querySelectorAll('.sidebar .collapse').forEach(el => bootstrap.Collapse.getOrCreateInstance(el, {toggle:false}).hide());
     };
     
     // Toggle the side navigation when window is resized below 480px
     if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
       $("body").addClass("sidebar-toggled");
       $(".sidebar").addClass("toggled");
-      $('.sidebar .collapse').collapse('hide');
+      document.querySelectorAll('.sidebar .collapse').forEach(el => bootstrap.Collapse.getOrCreateInstance(el, {toggle:false}).hide());
     };
   });
 

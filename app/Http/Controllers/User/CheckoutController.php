@@ -90,6 +90,11 @@ class CheckoutController extends Controller
             return back()->with('error', 'Cart is empty.');
         }
 
+        $method = PaymentMethod::where('is_active', true)->find($request->input('payment_method'));
+        if ($method?->type === 'cod') {
+            $request->merge(['delivery_type' => 'delivery']);
+        }
+
         $rules = [
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -112,7 +117,8 @@ class CheckoutController extends Controller
             'unit' => 'nullable|string|max:100',
             'delivery_note' => 'nullable|string|max:500',
 
-            'payment_method' => 'required|exists:payment_methods,id',
+            'payment_method' => ['required', Rule::exists('payment_methods', 'id')->where('is_active', true)],
+            'payment_screenshot' => [Rule::requiredIf($method?->type === 'e_wallet'), 'nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
 
         // Step 1: Validate base rules first
@@ -147,7 +153,7 @@ class CheckoutController extends Controller
         }
 
         // Step 2: Now safely get payment method
-        $paymentMethod = PaymentMethod::findOrFail($validated['payment_method']);
+        $paymentMethod = PaymentMethod::where('is_active', true)->findOrFail($validated['payment_method']);
 
         // Step 3: If e_wallet, validate screenshot separately
         if ($paymentMethod->type === 'e_wallet' && !$request->hasFile('payment_screenshot')) {
@@ -164,7 +170,10 @@ class CheckoutController extends Controller
         }
 
         $currencyCode = strtoupper($paymentMethod->currency_code);
-        $rate = Currency::getRate($currencyCode);
+        $rate = Currency::where('code', $currencyCode)->where('is_active', true)->value('rate') ?? 0;
+        if (! in_array($currencyCode, ['USD', 'MMK'], true) || $rate <= 0 || (Currency::where('code', 'MMK')->where('is_active', true)->value('rate') ?? 0) <= 0) {
+            return back()->withErrors(['payment_method' => __('stability.unsupported_currency')])->withInput();
+        }
 
         // tax from DB (percent)
         $taxPercent = TaxSetting::first()->percent ?? 0;
@@ -206,6 +215,11 @@ class CheckoutController extends Controller
                 $fullAddress
             ) {
 
+                \App\Models\User::whereKey($user->id)->lockForUpdate()->firstOrFail();
+                $cartItems = Cart::where('user_id', $user->id)->orderBy('product_id')->lockForUpdate()->get();
+                if ($cartItems->isEmpty()) {
+                    throw ValidationException::withMessages(['cart' => __('cart.empty_title')]);
+                }
                 $subtotalUSD = 0;
                 $outOfStock = [];
 
@@ -213,7 +227,7 @@ class CheckoutController extends Controller
                 foreach ($cartItems as $item) {
                     $product = Product::lockForUpdate()->find($item->product_id);
 
-                    if (!$product || $product->available_stock < $item->qty) {
+                    if (!$product || !$product->is_active || $product->available_stock < $item->qty) {
                         $outOfStock[] = [
                             'id' => $item->product_id,
                             'name' => $product?->display_name ?? 'Some products'
@@ -283,13 +297,15 @@ class CheckoutController extends Controller
 
                 if ($paymentMethod->type === 'e_wallet' && $request->hasFile('payment_screenshot')) {
                     $screenshotPath = $request->file('payment_screenshot')
-                        ->store('payment_screenshots', 'public');
+                        ->store('payment_screenshots', 'local');
                 }
 
                 $order = Order::create([
                     'order_number' => Order::generateOrderNumber(),
                     'user_id' => $user->id,
                     'currency_code' => $currencyCode,
+                    'exchange_rate_mmk' => $mmkRate,
+                    'reservation_expires_at' => $paymentMethod->type === 'stripe' ? now()->addMinutes(30) : null,
 
                     'subtotal_usd' => $subtotalUSD,
                     'subtotal_mmk' => $subtotalMMK,
@@ -327,6 +343,7 @@ class CheckoutController extends Controller
                     ]);
                 }
 
+                Cart::where('user_id', $user->id)->delete();
                 return $order;
             });
 
@@ -349,7 +366,6 @@ class CheckoutController extends Controller
             // COD
             if ($paymentMethod->type === 'cod') {
 
-                Cart::where('user_id', $user->id)->delete();
 
                 return redirect()->route('user.orders')
                     ->with('success', 'Order placed successfully. Waiting for admin approval.');
@@ -360,7 +376,6 @@ class CheckoutController extends Controller
                 return redirect()->route('stripe.checkout', $order);
             }
 
-            Cart::where('user_id', $user->id)->delete();
 
             return redirect()->route('user.orders')
                 ->with('success', 'Order placed successfully. Please wait for admin approval.');
@@ -372,7 +387,8 @@ class CheckoutController extends Controller
                 ->withInput();
         }
         catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            report($e);
+            return back()->with('error', __('stability.checkout_error'))->withInput();
         }
     }
 }

@@ -54,6 +54,6 @@ class ShippingZoneController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
-        return back()->with('success','Shipping updated successfully.');
+        return back()->with('success','Shipping updated');
     }
 }
