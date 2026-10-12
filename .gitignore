@@ -25,6 +25,7 @@ yarn-error.log
 # Local audit evidence, generated releases and workspace metadata
 /audit/
 /dist/
+/.tools/
 /.agents/
 /.codex/
 /.aws/

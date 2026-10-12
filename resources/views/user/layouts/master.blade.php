@@ -816,13 +816,12 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center gap-2" aria-label="{{ config('app.brand') }}">
+                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center" aria-label="EcoShop">
                         <img src="{{ setting('logo_text')
                                 ? asset('storage/' . setting('logo_text'))
                                 : asset('storage/default/logoText.png') }}"
-                            alt="{{ config('app.brand') }}"
+                            alt="EcoShop"
                             style="max-height:35px;">
-                        <x-version-badge aria-hidden="true" />
                     </a>
 
                     <button class="navbar-toggler py-2 px-3" type="button" id="ecoNavToggle" aria-label="{{ __('stability.open_menu') }}" aria-controls="navbarCollapse" aria-expanded="false">

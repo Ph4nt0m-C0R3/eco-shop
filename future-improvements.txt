@@ -13,7 +13,15 @@ plan, with migration, authorization, reliability and acceptance criteria.
 
 Completed — 12 October 2026: P0-01 version control/reproducible releases and
 EcoShop v2.0 branding. Evidence: docs/P0_01_VERSION_CONTROL.md. PR #1 is awaiting
-owner review/merge. P0-02 and the other production/features items remain pending.
+owner review/merge.
+
+Implementation completed — 12 October 2026: P0-02 supported runtime/deployment
+preparation (PHP 8.5/Laravel 13, HTTPS/proxies/cookies, deployment templates and
+cache/Nginx CI checks). The storefront navigation version badge is removed;
+other version branding remains. Evidence: docs/P0_02_DEPLOYMENT.md. PR #2 awaits
+owner review/merge. Live-host acceptance is pending because no hosting/domain
+has been provisioned. P0-03 is next; all later production/feature items remain
+pending and have not been started.
 
 Purpose
 -------

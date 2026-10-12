@@ -19,6 +19,7 @@ return [
     */
 
     'driver' => env('SESSION_DRIVER', 'database'),
+    'serialization' => 'json',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +170,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV', 'production') === 'production'),
 
     /*
     |--------------------------------------------------------------------------

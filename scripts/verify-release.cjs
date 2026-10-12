@@ -6,7 +6,7 @@ const archive = process.argv[2];
 function forbidden(file) {
   file = file.replace(/^\.\//, '').replace(/\/$/, '');
   if (!file) return false;
-  return /^(audit|dist|\.git|\.github|\.aws|\.codex|\.agents|node_modules|tests|docs)(\/|$)/.test(file)
+  return /^(audit|dist|\.git|\.github|\.tools|\.aws|\.codex|\.agents|node_modules|tests|docs)(\/|$)/.test(file)
     || /(^|\/)\.env($|\.)/.test(file)
     || /\.(sqlite3?|sql|pem|key|p12)$/i.test(file)
     || /^database\/(seeders|factories)(\/|$)/.test(file)
