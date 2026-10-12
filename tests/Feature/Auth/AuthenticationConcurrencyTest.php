@@ -18,7 +18,7 @@ class AuthenticationConcurrencyTest extends TestCase
     protected function setUp(): void
     {
         // Check BEFORE DatabaseMigrations can touch a database.
-        if (getenv('P0_03_MYSQL') !== 'true') {
+        if (!in_array($_ENV['P0_03_MYSQL'] ?? getenv('P0_03_MYSQL'), [true, 'true', '1'], true)) {
             $this->markTestSkipped('Run the dedicated disposable MySQL security profile in CI.');
         }
         parent::setUp();
