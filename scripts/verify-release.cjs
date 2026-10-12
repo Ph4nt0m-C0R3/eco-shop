@@ -25,7 +25,7 @@ if (require.main === module) {
     if (!archive || !fs.existsSync(archive)) throw new Error('Usage: node scripts/verify-release.cjs <release.tar.gz>');
     const result = spawnSync('tar', ['-tzf', path.resolve(archive)], {encoding: 'utf8', maxBuffer: 32 * 1024 * 1024});
     if (result.error || result.status !== 0) throw new Error(result.error?.message || result.stderr.trim());
-    const files = result.stdout.trim().split('\n');
+    const files = result.stdout.trim().split(/\r?\n/);
     const bad = files.filter(forbidden);
     for (const required of ['composer.lock', 'package-lock.json', 'release-manifest.json', 'vendor/autoload.php', 'public/build/manifest.json', 'storage/app/public/default/logoText.png']) {
       if (!files.some(file => file.replace(/^\.\//, '') === required)) bad.push(`missing ${required}`);
