@@ -23,7 +23,10 @@ class RegisteredUserController extends Controller
             'name' => $request->input('name'), 'password' => Hash::make($request->input('password')),
             'phone' => $request->input('phone'), 'provider' => 'local',
         ]);
-        if ($user->wasRecentlyCreated) event(new Registered($user));
+        if ($user->wasRecentlyCreated) {
+            try { event(new Registered($user)); }
+            catch (\Throwable $exception) { report($exception); }
+        }
         // Do not authenticate implicitly or reveal whether the address already exists.
         return redirect()->route('login')->with('status', __('auth-security.registration_received'));
     }

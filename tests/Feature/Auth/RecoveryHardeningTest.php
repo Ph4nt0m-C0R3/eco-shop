@@ -165,4 +165,12 @@ class RecoveryHardeningTest extends TestCase
         $this->post(route('user.password.sendOtp'))->assertForbidden();
         $this->put('/password', ['current_password' => 'password', 'password' => 'another long passphrase', 'password_confirmation' => 'another long passphrase'])->assertForbidden();
     }
+
+    public function test_registration_response_stays_generic_if_verification_delivery_fails(): void
+    {
+        Notification::partialMock()->shouldReceive('send')->andThrow(new \RuntimeException('Isolated mail transport outage'));
+        $this->post('/register', ['name' => 'Customer', 'email' => 'new@example.test', 'password' => 'a long and unique phrase', 'password_confirmation' => 'a long and unique phrase', 'phone' => '09123456789'])
+            ->assertRedirect(route('login'))->assertSessionHas('status', __('auth-security.registration_received'));
+        $this->assertDatabaseHas('users', ['email' => 'new@example.test']);
+    }
 }

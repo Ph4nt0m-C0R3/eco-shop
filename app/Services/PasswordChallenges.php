@@ -42,7 +42,8 @@ class PasswordChallenges
         try {
             $user->notify(new PasswordChallengeNotification($code));
         } catch (\Throwable $exception) {
-            $row->update(['code_hash' => null, 'consumed_at' => now()]);
+            PasswordChallenge::whereKey($row->id)->where('code_hash', $row->code_hash)
+                ->update(['code_hash' => null, 'consumed_at' => now()]);
             $request->session()->forget('password_challenge');
             report($exception);
             throw ValidationException::withMessages(['otp' => __('auth-security.delivery_failed')]);
