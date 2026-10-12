@@ -175,7 +175,8 @@
     <h2>{{ __('auth-ui.reset_your_password') }}</h2>
     <p>{{ __('auth-ui.enter_your_new_password_below_to_securely_update_your_account') }}</p>
 
-    <form method="POST" action="{{ route('password.store') }}">
+    <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
+            <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
         <input type="hidden" name="token" value="{{ $request->route('token') }}">

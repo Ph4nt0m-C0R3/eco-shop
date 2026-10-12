@@ -253,10 +253,18 @@
                     "Accept": "application/json"
                 }
             })
-            .then(res => res.json())
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.message || @json(__('auth-security.delivery_failed')));
+                return data;
+            })
             .then(data => {
                 startTimer(data.remainingSeconds);
                 timerEl.classList.remove("pulse");
+            })
+            .catch(error => {
+                timerEl.textContent = error.message;
+                enableResend();
             });
         });
 

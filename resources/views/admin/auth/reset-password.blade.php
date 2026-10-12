@@ -83,6 +83,7 @@
             @include('components.partials.warning-alert')
 
             <!-- Form -->
+            <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
             <form method="POST" action="{{ route('admin.password.update') }}">
                 @csrf
 

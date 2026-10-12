@@ -8,6 +8,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content eco-card border-0">
 
+            <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
             <form method="POST" action="{{ route('admin.password.change') }}">
                 @csrf
 

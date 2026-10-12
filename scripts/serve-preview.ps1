@@ -19,6 +19,7 @@ $env:CACHE_STORE = 'array'
 $env:SESSION_DRIVER = 'database'
 $env:SESSION_SECURE_COOKIE = 'false'
 $env:MAIL_MAILER = 'array'
+$env:QUEUE_CONNECTION = 'sync'
 $env:PHP_CLI_SERVER_WORKERS = '1'
 # Preserve the isolated database overrides in Artisan's child server process.
 & $previewPhp artisan serve --no-reload --host=127.0.0.1 --port=$Port

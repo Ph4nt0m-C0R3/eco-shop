@@ -126,7 +126,7 @@ class CommerceStabilityTest extends TestCase
     {
         $order = $this->order();
         $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin)->post(route('admin.orders.approvePayment', $order))->assertStatus(409);
+        $this->actingAsMfaAdmin($admin)->post(route('admin.orders.approvePayment', $order))->assertStatus(409);
         $order->update(['payment_method' => 'cod', 'payment_status' => 'paid', 'status' => 'processing']);
         $this->post(route('admin.orders.rejectPayment', $order))->assertStatus(409);
         $this->assertSame('paid', $order->fresh()->payment_status);
@@ -173,7 +173,7 @@ class CommerceStabilityTest extends TestCase
         Currency::create(['code' => 'MMK', 'rate' => 9000, 'is_active' => true]);
         $this->assertEquals(20.95, $order->fresh()->grand_total);
         $this->assertEquals(104750, $order->fresh()->grand_total_mmk);
-        $this->actingAs(User::factory()->create(['role' => 'admin']))->get('/admin/profile/sales?currency=MMK')->assertOk()->assertSee('104,750');
+        $this->actingAsMfaAdmin(User::factory()->create(['role' => 'admin']))->get('/admin/profile/sales?currency=MMK')->assertOk()->assertSee('104,750');
     }
 
     public function test_private_proofs_are_only_accessible_to_admins(): void
@@ -182,7 +182,7 @@ class CommerceStabilityTest extends TestCase
         $order = $this->order(['payment_screenshot' => 'payment_screenshots/proof.png']);
         Storage::disk('local')->put($order->payment_screenshot, 'proof');
         $this->actingAs($order->user)->get(route('admin.orders.paymentProof', $order))->assertRedirect();
-        $this->actingAs(User::factory()->create(['role' => 'admin']))->get(route('admin.orders.paymentProof', $order))->assertOk();
+        $this->actingAsMfaAdmin(User::factory()->create(['role' => 'admin']))->get(route('admin.orders.paymentProof', $order))->assertOk();
     }
 
     public function test_scheduled_expiry_can_release_an_order_that_never_created_a_provider_session(): void

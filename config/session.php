@@ -20,6 +20,9 @@ return [
 
     'driver' => env('SESSION_DRIVER', 'database'),
     'serialization' => 'json',
+    'customer_cookie' => env('SESSION_COOKIE', 'ecoshop_session'),
+    'admin_cookie' => env('ADMIN_SESSION_COOKIE', 'ecoshop_admin_session'),
+    'customer_path' => env('SESSION_PATH', '/'),
 
     /*
     |--------------------------------------------------------------------------

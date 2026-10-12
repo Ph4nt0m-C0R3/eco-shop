@@ -19,6 +19,7 @@ CHANGELOG.md export-ignore
 /database/factories export-ignore
 /database/seeders export-ignore
 /phpunit.xml export-ignore
+/phpunit.mysql.xml export-ignore
 /future-improvements.txt export-ignore
 /.env.example export-ignore
 /.gitignore export-ignore

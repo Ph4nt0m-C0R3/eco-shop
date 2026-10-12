@@ -341,7 +341,7 @@
 
                             <div class="password-rules mt-2">
                                 <div class="rule" id="rule-length">
-                                    <i class="fa-regular fa-circle"></i> {{ __('auth-ui.at_least_8_characters') }}
+                                    <i class="fa-regular fa-circle"></i> {{ __('auth-security.passphrase_hint') }}
                                 </div>
                                 <div class="rule" id="rule-upper">
                                     <i class="fa-regular fa-circle"></i> {{ __('auth-ui.one_uppercase_letter') }}
@@ -419,7 +419,7 @@
     passwordInput.addEventListener('input', function () {
         const value = this.value;
 
-        validateRule(value.length >= 8, rules.length);
+        validateRule([...value].length >= 15 && [...value].length <= 128, rules.length);
         validateRule(/[A-Z]/.test(value), rules.upper);
         validateRule(/[a-z]/.test(value), rules.lower);
         validateRule(/[0-9]/.test(value), rules.number);

@@ -51,7 +51,8 @@
         @include('components.partials.warning-alert')
 
         <!-- Form -->
-        <form method="POST" action="{{ route('admin.password.resetOtp') }}">
+        <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
+            <form method="POST" action="{{ route('admin.password.resetOtp') }}">
             @csrf
 
             <!-- New Password -->

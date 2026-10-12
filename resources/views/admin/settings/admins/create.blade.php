@@ -137,6 +137,7 @@
         <div class="admin-form-panel">
             <h4>Admin Details</h4>
 
+            <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
             <form method="POST" action="{{ route('admin.settings.admins.create') }}">
                 @csrf
 

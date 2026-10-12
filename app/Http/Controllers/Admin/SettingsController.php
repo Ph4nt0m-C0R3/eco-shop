@@ -59,8 +59,7 @@ class SettingsController extends Controller
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:8|max:15',
-            'password_confirmation' => 'required|min:8|same:password|max:15',
+            'password' => \App\Support\PasswordPolicy::rules(),
         ]);
 
         if ($validator->fails()) {

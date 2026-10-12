@@ -268,6 +268,7 @@
             </div>
         </div>
 
+        <a class="btn btn-outline-success mb-3" href="{{ route('admin.mfa.security') }}">{{ __('auth-security.mfa_security') }}</a>
         {{-- ADMIN: can change password --}}
         @if(in_array(auth()->user()->role, ['admin','superadmin']))
         <div class="col-lg-4">

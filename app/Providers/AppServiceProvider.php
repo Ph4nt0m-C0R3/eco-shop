@@ -21,6 +21,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \App\Models\User::observe(\App\Observers\UserSecurityObserver::class);
+        \Illuminate\Support\Facades\RateLimiter::for('recovery', fn ($request) => [
+            \Illuminate\Cache\RateLimiting\Limit::perMinute(10)->by('recovery-ip:'.$request->ip()),
+            \Illuminate\Cache\RateLimiting\Limit::perMinute(3)->by('recovery-email:'.hash('sha256', strtolower((string) $request->input('email')))),
+        ]);
+        \Illuminate\Support\Facades\RateLimiter::for('security', fn ($request) =>
+            $request->isMethodSafe() || $request->routeIs('admin.logout') ? \Illuminate\Cache\RateLimiting\Limit::none()
+                : \Illuminate\Cache\RateLimiting\Limit::perMinute(20)->by('security:'.($request->user()?->id ?? $request->ip())));
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Auth\Events\Login::class, function ($event) {
+            if (app()->bound('request') && request()->hasSession()) {
+                \App\Support\AccountSecurity::bind(request(), $event->user);
+            }
+        });
         if (config('app.env') === 'production') {
             \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
             \Illuminate\Support\Facades\URL::forceScheme('https');
