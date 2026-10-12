@@ -2,87 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Services\SocialAccounts;
+use App\Support\OAuthConfiguration;
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
 {
-    // redirect
-    public function redirect($provider)
+    public function redirect(Request $request, string $provider)
     {
-        /** @var \Laravel\Socialite\Two\AbstractProvider $socialite */
-        $socialite = Socialite::driver($provider);
-
-        return $socialite->stateless()->redirect();
+        $request->session()->forget(['oauth_context', 'state', 'code_verifier']);
+        if (!OAuthConfiguration::ready($provider)) return $this->failure('oauth_unavailable');
+        $origin = rtrim((string) config('app.url'), '/');
+        // Start on the callback host: localhost and 127.0.0.1 have different cookies.
+        if ($request->getSchemeAndHttpHost() !== $origin) return redirect($origin."/auth/{$provider}/redirect");
+        $response = $this->driver($provider)->redirect();
+        $request->session()->put('oauth_context', [
+            'provider' => $provider, 'started_at' => now()->timestamp,
+            'callback' => config("services.{$provider}.redirect"),
+        ]);
+        return $response;
     }
 
-    // callback
-    public function callback($provider)
+    public function callback(Request $request, string $provider, SocialAccounts $accounts)
     {
-        /** @var \Laravel\Socialite\Two\AbstractProvider $socialite */
-        $socialite = Socialite::driver($provider);
-
-        $socialUser = $socialite->stateless()->user();
-
-        if (!$socialUser->email) {
-            abort(403, 'No email returned from provider');
+        $context = $request->session()->pull('oauth_context');
+        $state = $request->session()->get('state');
+        $received = $request->query('state');
+        $valid = OAuthConfiguration::ready($provider) && is_array($context)
+            && ($context['provider'] ?? null) === $provider
+            && ($context['callback'] ?? null) === config("services.{$provider}.redirect")
+            && is_int($context['started_at'] ?? null) && $context['started_at'] <= now()->timestamp
+            && $context['started_at'] > now()->subMinutes(10)->timestamp
+            && $request->getSchemeAndHttpHost() === rtrim((string) config('app.url'), '/')
+            && is_string($state) && $state !== '' && is_string($received) && hash_equals($state, $received)
+            && is_string($request->query('code')) && $request->query('code') !== ''
+            && !$request->has('error');
+        if (!$valid) {
+            $request->session()->forget(['state', 'code_verifier']);
+            return $this->failure('oauth_failed');
         }
-
-        $user = User::where('email', $socialUser->email)->first();
-
-        /**
-         * CASE 1:
-         * Email exists & is LOCAL account → BLOCK social login
-         */
-        if ($user && $user->provider === 'local') {
-            return redirect()
-                ->route('login')
-                ->withErrors([
-                    'email' => 'This email is registered with password login. Please sign in using email and password.',
-                ]);
+        try {
+            // Keep Socialite's own session-state verification enabled.
+            $identity = $this->driver($provider)->user();
+            $user = $accounts->resolve($provider, $identity);
+            $request->session()->regenerate(true);
+            Auth::guard('web')->login($user, false);
+            return redirect()->route('userHome');
+        } catch (ValidationException $exception) {
+            return redirect()->route('login')->withErrors($exception->errors());
+        } catch (\Throwable $exception) {
+            // Provider exceptions may contain authorization codes/tokens in URLs or bodies.
+            Log::warning('OAuth sign-in failed.', ['provider' => $provider, 'exception_type' => $exception::class]);
+            return $this->failure('oauth_failed');
+        } finally {
+            $request->session()->forget(['state', 'code_verifier']);
         }
+    }
 
-        /**
-         * CASE 2:
-         * Email exists & is SAME social provider → allow login
-         */
-        if ($user && $user->provider === $provider) {
-            Auth::login($user);
-            return to_route('userHome');
-        }
+    private function driver(string $provider)
+    {
+        return Socialite::driver($provider)->setScopes($provider === 'google' ? ['openid', 'profile', 'email'] : ['user:email']);
+    }
 
-        /**
-         * CASE 3:
-         * Email exists but different social provider → OPTIONAL decision
-         * (You can block or allow — I’ll block for safety)
-         */
-        if ($user && $user->provider !== $provider) {
-            return redirect()
-                ->route('login')
-                ->withErrors([
-                    'email' => 'This email is already registered using '.$user->provider.'.',
-                ]);
-        }
-
-        /**
-         * CASE 4:
-         * Email does not exist → create social account
-         */
-        $user = User::create([
-            'name' => $socialUser->name ?? $socialUser->nickname ?? 'User',
-            'email' => $socialUser->email,
-            'email_verified_at' => now(),
-            'role' => 'user',
-            'provider' => $provider,
-            'provider_id' => $socialUser->id,
-            'profile' => $socialUser->avatar ?? null,
-        ]);
-
-        Auth::login($user);
-        return to_route('userHome');
-
+    private function failure(string $key)
+    {
+        return redirect()->route('login')->withErrors(['email' => __('auth-security.'.$key)]);
     }
 }

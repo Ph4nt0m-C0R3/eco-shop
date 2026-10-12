@@ -28,4 +28,6 @@ CHANGELOG.md export-ignore
 /.githooks export-ignore
 /.nvmrc export-ignore
 /scripts/serve-preview.ps1 export-ignore
+/scripts/use-php.ps1 export-ignore
+/php.cmd export-ignore
 /storage/app/public/default/*_qr.png export-ignore

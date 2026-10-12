@@ -21,7 +21,9 @@ class PasswordRecovery
     {
         try {
             Password::broker($admin ? 'admins' : 'users')->sendResetLink($this->credentials($request, $admin));
-        } catch (\Throwable $exception) { report($exception); }
+        } catch (\Throwable $exception) {
+            \Illuminate\Support\Facades\Log::warning('Password reset delivery failed.', ['exception_type' => $exception::class]);
+        }
     }
     public function reset(Request $request, bool $admin): bool
     {

@@ -13,6 +13,8 @@ Laravel 13 / PHP 8.5+ shop with English and Myanmar storefronts, customer accoun
 
 Keep `/audit` out of deployment artifacts. It contains source snapshots, local test data, test tooling and audit evidence.
 
+On this Windows workspace, use `.\php.cmd artisan config:cache` (or any other PHP command) to select PHP 8.5.11 instead of XAMPP's PHP 8.2. For bare `php` in a PowerShell terminal, run `Set-ExecutionPolicy -Scope Process Bypass` and dot-source `. .\scripts\use-php.ps1`. This selects the project PHP only for that terminal. The isolated preview at localhost:8000 uses separate caches and needs network access for Google/GitHub and SMTP. See [runtime and terminal setup](docs/P0_02_DEPLOYMENT.md).
+
 ## Applying this update to an existing installation
 
 Back up the database and uploaded files, then install the updated lock files, build assets and run:
@@ -70,3 +72,9 @@ See [runtime and deployment notes](docs/P0_02_DEPLOYMENT.md) for the PHP 8.5.11 
 See [authentication and recovery notes](docs/P0_03_AUTHENTICATION.md) for mandatory admin authenticator enrollment, one-time recovery codes, account-bound OTPs, session revocation and the 15–128 character passphrase policy. Apply the authentication migration to a backed-up database before starting this version. Existing sessions require sign-in; staff enroll MFA at their next password login. Preserve APP_KEY and run a queue worker promptly for encrypted recovery notifications. Production requires encrypted sessions and distinct portal cookies.
 
 CI uses a dedicated disposable MySQL database for the authentication tests, including simultaneous OTP/reset/MFA requests. The default test command still forces in-memory SQLite; the separate profile runs with `php vendor/bin/phpunit --configuration=phpunit.mysql.xml` only against its dedicated test database. Physical devices, real email delivery and a live deployment remain acceptance work.
+
+## P0-04 Google/GitHub sign-in and real email
+
+See [email and OAuth setup](docs/P0_04_EMAIL_OAUTH.md). The isolated preview now defaults to **http://localhost:8000** to match the owner's registered OAuth callbacks, and respects the private SMTP configuration. Use `-OfflineMail` for an in-memory preview instead. Social sign-in verifies browser state, verified email claims and provider IDs; it does not automatically link existing accounts by email. Staff continue to use password and MFA.
+
+Run `php artisan integrations:check --smtp` to authenticate with SMTP without sending mail. Run `php artisan mail:test "YOUR_REAL_INBOX_ADDRESS"` to send one explicit test to your own inbox. Keep credentials in the ignored `.env`. The owner confirmed SMTP test receipt in Spam and both real Google/GitHub sign-ins on localhost:8000 after the callback/network repair on 12 October 2026. PHP 8.5 terminal/cache commands are verified. HTTPS staging, Inbox placement and full email journeys remain pending. P0-05 has not been started.

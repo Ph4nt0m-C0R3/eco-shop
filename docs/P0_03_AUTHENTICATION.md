@@ -68,4 +68,4 @@ P0-16 must still rehearse full schema rollback: isolated SQLite teardown exposed
 
 Hosting, genuine TLS, real email delivery and physical-device acceptance remain pending. P0-03 implementation can be completed with isolated tests without marking the shop ready to take live payments.
 
-P0-03 implementation is completed. P0-04 (OAuth security) is the next phase and has not been started.
+P0-03 implementation is completed. P0-04 was subsequently implemented for the owner's Google/GitHub and real-email request; see [its implementation and live acceptance record](P0_04_EMAIL_OAUTH.md). P0-05 has not been started.

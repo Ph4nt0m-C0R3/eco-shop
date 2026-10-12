@@ -25,7 +25,9 @@ class RegisteredUserController extends Controller
         ]);
         if ($user->wasRecentlyCreated) {
             try { event(new Registered($user)); }
-            catch (\Throwable $exception) { report($exception); }
+            catch (\Throwable $exception) {
+                \Illuminate\Support\Facades\Log::warning('Registration verification delivery failed.', ['exception_type' => $exception::class]);
+            }
         }
         // Do not authenticate implicitly or reveal whether the address already exists.
         return redirect()->route('login')->with('status', __('auth-security.registration_received'));

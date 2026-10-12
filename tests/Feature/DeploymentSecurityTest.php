@@ -28,6 +28,14 @@ class DeploymentSecurityTest extends TestCase
             ->assertHeader('Strict-Transport-Security', 'max-age=31536000');
     }
 
+    public function test_stricter_oauth_referrer_policy_is_preserved_in_production(): void
+    {
+        config(['services.google.client_id' => 'isolated-client-id', 'services.google.client_secret' => 'isolated-client-secret',
+            'services.google.redirect' => 'https://shop.example.test/auth/google/callback']);
+        $this->get('https://shop.example.test/auth/google/redirect')->assertStatus(302)
+            ->assertHeader('Referrer-Policy', 'no-referrer')->assertHeader('Strict-Transport-Security');
+    }
+
     public function test_unsafe_production_configuration_fails_closed(): void
     {
         config(['app.debug' => true]);
