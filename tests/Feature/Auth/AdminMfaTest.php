@@ -150,7 +150,7 @@ class AdminMfaTest extends TestCase
     }
     public function test_https_admin_cookie_is_secure_scoped_and_distinct_from_customer_cookie(): void
     {
-        config(['app.env' => 'production', 'app.debug' => false, 'app.url' => 'https://shop.example.test', 'session.secure' => true, 'session.driver' => 'database']);
+        config(['app.env' => 'production', 'app.debug' => false, 'app.url' => 'https://shop.example.test', 'session.secure' => true, 'session.encrypt' => true, 'session.driver' => 'database']);
         $customer = $this->get('https://shop.example.test/login')->assertOk();
         $admin = $this->get('https://shop.example.test/admin/login')->assertOk();
         $customerCookie = collect($customer->headers->getCookies())->first(fn ($cookie) => $cookie->getName() === config('session.customer_cookie'));

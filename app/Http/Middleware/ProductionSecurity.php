@@ -17,6 +17,7 @@ class ProductionSecurity
         $canonical = rtrim((string) config('app.url'), '/');
         $host = parse_url($canonical, PHP_URL_HOST);
         if (config('app.debug') || !config('session.secure')
+            || !config('session.encrypt') || config('session.customer_cookie') === config('session.admin_cookie')
             || !$host || parse_url($canonical, PHP_URL_SCHEME) !== 'https') {
             return response('Service configuration unavailable.', 503);
         }
