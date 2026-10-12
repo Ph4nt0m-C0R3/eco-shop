@@ -47,7 +47,7 @@ jobs:
       - run: npm run test:release
       - run: php artisan test
       - name: Verify P0-03 authentication on MySQL/InnoDB
-        run: php artisan test --configuration=phpunit.mysql.xml
+        run: php vendor/bin/phpunit --configuration=phpunit.mysql.xml --display-warnings --display-phpunit-deprecations
       - run: php scripts/check-blade.php
       - name: Verify optimized application bootstrap
         run: |
