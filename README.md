@@ -64,3 +64,9 @@ Build deployment artifacts in an isolated clean checkout after the checks pass: 
 ## P0-02 deployment environment
 
 See [runtime and deployment notes](docs/P0_02_DEPLOYMENT.md) for the PHP 8.5.11 Windows commands, isolated preview script, production Nginx/PHP/environment templates, secure proxy/cookie configuration and readiness checks. Hosting and a real domain are still needed for live acceptance. The storefront navigation version badge has been removed; other requested version branding remains.
+
+## P0-03 account security
+
+See [authentication and recovery notes](docs/P0_03_AUTHENTICATION.md) for mandatory admin authenticator enrollment, one-time recovery codes, account-bound OTPs, session revocation and the 15–128 character passphrase policy. Apply the authentication migration to a backed-up database before starting this version. Existing sessions require sign-in; staff enroll MFA at their next password login. Preserve APP_KEY and run a queue worker promptly for encrypted recovery notifications. Production requires encrypted sessions and distinct portal cookies.
+
+CI uses a dedicated disposable MySQL database for the authentication tests, including simultaneous OTP/reset/MFA requests. The default test command still forces in-memory SQLite; the separate profile runs with `php vendor/bin/phpunit --configuration=phpunit.mysql.xml` only against its dedicated test database. Physical devices, real email delivery and a live deployment remain acceptance work.

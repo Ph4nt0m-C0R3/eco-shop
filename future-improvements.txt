@@ -20,8 +20,15 @@ preparation (PHP 8.5/Laravel 13, HTTPS/proxies/cookies, deployment templates and
 cache/Nginx CI checks). The storefront navigation version badge is removed;
 other version branding remains. Evidence: docs/P0_02_DEPLOYMENT.md. PR #2 awaits
 owner review/merge. Live-host acceptance is pending because no hosting/domain
-has been provisioned. P0-03 is next; all later production/feature items remain
-pending and have not been started.
+has been provisioned.
+
+Implementation completed — 12 October 2026: P0-03 authentication and recovery
+hardening. Bound single-use OTPs, hashed secrets, resend/attempt limits, separate
+customer/admin sessions, passphrases, secure reset/session invalidation and
+mandatory admin MFA/recovery codes are implemented. Local/browser/MySQL/CI
+verification passed. Evidence: docs/P0_03_AUTHENTICATION.md; draft PR #3 awaits
+owner review/merge. Live staging/email acceptance remains pending. P0-04 OAuth
+security is next; all later production/feature items remain pending.
 
 Purpose
 -------
