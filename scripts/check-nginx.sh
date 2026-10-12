@@ -21,4 +21,6 @@ http {
     include $fixture/site.conf;
 }
 EOF
-nginx -t -c "$fixture/nginx.conf"
+# Keep fixture/release directories owned by the build user. Only Nginx's
+# configuration check needs elevated access to its system paths.
+sudo nginx -t -c "$fixture/nginx.conf"

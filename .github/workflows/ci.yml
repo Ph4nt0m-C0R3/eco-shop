@@ -47,7 +47,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y nginx
-          sudo sh scripts/check-nginx.sh
+          sh scripts/check-nginx.sh
       - run: composer audit && npm audit
       - name: Install production dependencies for packaging
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
