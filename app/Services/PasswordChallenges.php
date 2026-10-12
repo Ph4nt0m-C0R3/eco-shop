@@ -17,7 +17,7 @@ class PasswordChallenges
     {
         [$user, $row, $code] = DB::transaction(function () use ($request) {
             $user = User::whereKey($request->user()->id)->lockForUpdate()->firstOrFail();
-            abort_unless($user->hasVerifiedEmail(), 403);
+            abort_unless($user->hasVerifiedEmail() && $user->provider === 'local', 403);
             $row = PasswordChallenge::where('user_id', $user->id)->lockForUpdate()->first();
             if ($row && $row->sent_at->gt(now()->subMinute())) abort(429, __('auth-security.cooldown'));
             if ($row && $row->send_window_at->gt(now()->subHour()) && $row->send_count >= 5) abort(429, __('auth-security.send_limit'));
@@ -57,7 +57,7 @@ class PasswordChallenges
 
     private function valid(?PasswordChallenge $row, User $user, Request $request, bool $verified): bool
     {
-        return $row && $row->user_id === $user->id && $row->email === $user->email
+        return $row && $user->provider === 'local' && $user->hasVerifiedEmail() && $row->user_id === $user->id && $row->email === $user->email
             && hash_equals($row->account_hash, AccountSecurity::fingerprint($user))
             && hash_equals($row->session_hash, hash('sha256', $request->session()->getId()))
             && $row->expires_at->isFuture() && !$row->consumed_at && $row->attempts < 5

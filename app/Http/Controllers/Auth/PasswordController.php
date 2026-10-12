@@ -11,6 +11,7 @@ class PasswordController extends Controller
 {
     public function update(Request $request)
     {
+        abort_unless($request->user()->provider === 'local', 403);
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'string', 'max:128', 'current_password'],
             'password' => PasswordPolicy::rules(),

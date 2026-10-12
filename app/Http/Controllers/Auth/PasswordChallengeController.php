@@ -17,6 +17,7 @@ abstract class PasswordChallengeController extends Controller
     protected string $profileRoute;
     public function updatePassword(Request $request)
     {
+        abort_unless($request->user()->provider === 'local', 403);
         $field = $this->portal === 'admin' ? 'old_password' : 'current_password';
         $request->validate([$field => ['required', 'string', 'max:128'], 'password' => PasswordPolicy::rules()]);
         $user = $request->user();
@@ -25,7 +26,11 @@ abstract class PasswordChallengeController extends Controller
         AccountSecurity::keepCurrentSession($request, $fresh);
         return back()->with('success', __('auth-security.password_updated'));
     }
-    public function showOtpRequestForm() { return view($this->views.'.request'); }
+    public function showOtpRequestForm(Request $request)
+    {
+        abort_unless($request->user()->provider === 'local', 403);
+        return view($this->views.'.request');
+    }
     public function sendOtp(Request $request, PasswordChallenges $challenges)
     {
         $challenges->send($request);

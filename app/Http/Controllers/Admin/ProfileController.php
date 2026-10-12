@@ -23,6 +23,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name'    => 'required|string|max:255',
+            'current_password' => [\Illuminate\Validation\Rule::requiredIf($request->input('email') !== $request->user()->email), 'nullable', 'string', 'max:128', 'current_password'],
             'email'   => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone'   => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',

@@ -137,4 +137,32 @@ class RecoveryHardeningTest extends TestCase
         $this->expectException(\Illuminate\Validation\ValidationException::class);
         AccountSecurity::changePassword($stale, 'a stale password replacement');
     }
+
+    public function test_email_changes_require_the_current_password_for_customers_and_staff(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)->patch('/profile', ['name' => 'Customer', 'email' => 'changed@example.test'])
+            ->assertSessionHasErrors('current_password');
+        $this->assertSame($user->email, $user->fresh()->email);
+        $admin = User::factory()->create(['role' => 'admin']);
+        $this->actingAsMfaAdmin($admin)->post('/admin/profile/update', ['name' => 'Staff', 'email' => 'staff-new@example.test'])
+            ->assertSessionHasErrors('current_password');
+        $this->assertSame($admin->email, $admin->fresh()->email);
+    }
+
+    public function test_admin_password_changes_preserve_leading_and_trailing_passphrase_spaces(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $phrase = '  a long admin passphrase  ';
+        $this->actingAsMfaAdmin($admin)->post('/admin/profile/password', ['old_password' => 'password', 'password' => $phrase, 'password_confirmation' => $phrase])->assertSessionHasNoErrors();
+        $this->actingAsMfaAdmin($admin->fresh())->post('/admin/profile/password', ['old_password' => $phrase, 'password' => 'another long passphrase', 'password_confirmation' => 'another long passphrase'])->assertSessionHasNoErrors();
+    }
+
+    public function test_social_accounts_cannot_start_local_password_recovery_or_password_setup(): void
+    {
+        $user = User::factory()->create(['provider' => 'google']);
+        $this->actingAs($user)->get(route('user.profile'))->assertSee(__('auth-security.provider_managed'));
+        $this->post(route('user.password.sendOtp'))->assertForbidden();
+        $this->put('/password', ['current_password' => 'password', 'password' => 'another long passphrase', 'password_confirmation' => 'another long passphrase'])->assertForbidden();
+    }
 }

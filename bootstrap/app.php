@@ -26,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\TrustDeploymentProxies::class
         );
         $middleware->append(\App\Http\Middleware\ProductionSecurity::class);
+        $middleware->trimStrings(except: ['old_password']);
 
         $middleware->redirectGuestsTo(fn (\Illuminate\Http\Request $request) => route($request->is('admin', 'admin/*') ? 'admin.login' : 'login'));
         $middleware->redirectUsersTo(fn (\Illuminate\Http\Request $request) => route($request->is('admin', 'admin/*') ? 'adminDashboard' : 'userHome'));

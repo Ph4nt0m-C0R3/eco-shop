@@ -323,6 +323,9 @@
                     </div>
 
                     <div class="tab-pane fade" id="passwordTab">
+                        @if(auth()->user()->provider !== 'local')
+                            <p>{{ __('auth-security.provider_managed') }}</p>
+                        @else
                         <h3 class="section-title">{{ __('profile.change_password') }}</h3>
                         <form method="POST" action="{{ route('user.password.change') }}">
                             @csrf
@@ -359,6 +362,7 @@
                                 <a href="{{ route('user.password.otp.request') }}" class="small text-primary fw-bold text-decoration-none">{{ __('profile.forgot_old_password') }}</a>
                             </div>
                         </form>
+                        @endif
                     </div>
                 </div>
             </div>

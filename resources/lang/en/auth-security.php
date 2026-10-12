@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'provider_managed' => 'Your password is managed by your sign-in provider. Use that provider to manage or recover your credentials.',
+    'email_password' => 'Current password (required to change email)',
     'reset_password_subject' => 'Reset your password',
     'common_password' => 'Choose a less common passphrase.',
     'passphrase_hint' => 'Use 15–128 characters. Spaces and long passphrases are welcome.',
