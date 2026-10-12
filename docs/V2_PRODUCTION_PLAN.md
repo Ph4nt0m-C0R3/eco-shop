@@ -10,7 +10,7 @@ Recorded: 12 October 2026. Status: implementation started; upgrades are delivere
 | EcoShop v2.0 branding | Completed — 12 October 2026 | Shared titles/footer, authentication, order emails and admin navigation; storefront navigation badge removed during P0-02; 19 browser/viewport checks passed |
 | P0-02 — supported deployment environment | Implementation completed — 12 October 2026; live acceptance pending | [Completion record](P0_02_DEPLOYMENT.md); PHP 8.5/Laravel 13, security configuration, templates, cached bootstrap and Nginx checks; local/browser/hosted CI passed; [PR #2](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/2) awaits owner review/merge |
 | P0-03 — authentication and recovery hardening | Implementation completed — 12 October 2026 | [Completion record](P0_03_AUTHENTICATION.md); bound single-use recovery, passphrase policy, mandatory admin MFA and session revocation; local/browser/MySQL/hosted CI passed; [PR #3](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/3) awaits owner review/merge; live staging/email acceptance pending |
-| P0-04 — OAuth security, plus requested real email support | Implementation completed — 12 October 2026; live acceptance pending | [Implementation and setup](P0_04_EMAIL_OAUTH.md); local/browser/hosted CI and 66 MySQL tests passed; [PR #4](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/4) awaits review/merge; localhost:8000 provider redirects and real SMTP delivery verified; owner confirmed test receipt in Spam; Inbox placement and full email/provider journeys pending |
+| P0-04 — OAuth security, plus requested real email support | Implementation and local Google/GitHub sign-in completed — 12 October 2026; production acceptance pending | [Implementation and setup](P0_04_EMAIL_OAUTH.md); local/browser/hosted CI and 66 MySQL tests passed; [PR #4](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/4) awaits review/merge; owner confirmed both sign-ins and SMTP test receipt in Spam; PHP terminal/cache repair verified; HTTPS staging, Inbox placement and live email journeys pending |
 | P0-05–P0-17 and F1–F4 | Pending | P0-05 has not been started, as requested |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
@@ -172,7 +172,8 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 - [x] P0-03: authentication/recovery/MFA implementation and isolated local/browser/MySQL/CI evidence recorded; live staging/email acceptance remains with deployment requirements.
 - [x] P0-04 implementation: stateful Google/GitHub sign-in, provider-ID matching and requested real-mail configuration/diagnostics.
 - [x] P0-04 real SMTP delivery: authentication passed and owner confirmed test-message receipt in Spam.
-- [ ] P0-04 live acceptance: Inbox placement, verification/OTP/reset email journeys and both provider sign-in journeys.
+- [x] P0-04 local real-provider acceptance: owner confirmed both Google/GitHub sign-ins on localhost:8000 after callback/network repair; PHP terminal/cache commands verified.
+- [ ] P0-04 production acceptance: HTTPS staging, Inbox placement and verification/OTP/reset email journeys.
 - [ ] P0-05–P0-06: authorization/data protection and abuse/upload protection; not started.
 - [ ] P0-07–P0-11: exact pricing, safe concurrent stock, payment recovery/refunds and retained records.
 - [ ] P0-12–P0-14: supervised services, delivered email, persistent storage, restore drill and working alerts.
