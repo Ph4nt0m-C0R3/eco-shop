@@ -69,7 +69,7 @@ Route::get('/wishlist/public/{user}', [WishlistController::class,'public'])
     ->middleware('signed');
 
 Route::prefix('user/password')
-    ->middleware(['auth','verified','user'])
+    ->middleware(['auth','verified','user','throttle:security'])
     ->group(function () {
 
     Route::post('update', [UserPasswordController::class, 'updatePassword'])

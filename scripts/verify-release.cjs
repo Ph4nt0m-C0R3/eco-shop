@@ -11,7 +11,7 @@ function forbidden(file) {
     || /\.(sqlite3?|sql|pem|key|p12)$/i.test(file)
     || /^database\/(seeders|factories)(\/|$)/.test(file)
     || /^public\/(storage|hot)(\/|$)/.test(file)
-    || file === 'phpunit.xml' || file === 'future-improvements.txt'
+    || /^phpunit.*\.xml$/.test(file) || file === 'future-improvements.txt'
     || /^bootstrap\/cache\/.+/.test(file) && !file.endsWith('/.gitignore')
     || /^storage\/(logs|framework)\/.+/.test(file) && !file.endsWith('/.gitignore')
       && !['storage/framework/cache', 'storage/framework/cache/data', 'storage/framework/sessions', 'storage/framework/views', 'storage/framework/testing'].includes(file)

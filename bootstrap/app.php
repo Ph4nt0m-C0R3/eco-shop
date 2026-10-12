@@ -26,10 +26,16 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\TrustDeploymentProxies::class
         );
         $middleware->append(\App\Http\Middleware\ProductionSecurity::class);
+        $middleware->trimStrings(except: ['old_password']);
 
+        $middleware->redirectGuestsTo(fn (\Illuminate\Http\Request $request) => route($request->is('admin', 'admin/*') ? 'admin.login' : 'login'));
+        $middleware->redirectUsersTo(fn (\Illuminate\Http\Request $request) => route($request->is('admin', 'admin/*') ? 'adminDashboard' : 'userHome'));
+        $middleware->web(prepend: [\App\Http\Middleware\SwitchSessionByPath::class]);
+        $middleware->prependToPriorityList(\Illuminate\Session\Middleware\StartSession::class, \App\Http\Middleware\SwitchSessionByPath::class);
         // Global middleware
         $middleware->web(append: [
-            \App\Http\Middleware\SwitchSessionByPath::class,
+            \App\Http\Middleware\EnsureAccountSession::class,
+            \App\Http\Middleware\RequireAdminMfa::class,
             SetLocale::class,
             \App\Http\Middleware\UpdateLastOnline::class,
         ]);
@@ -44,5 +50,5 @@ return Application::configure(basePath: dirname(__DIR__))
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->dontFlash(['current_password', 'old_password', 'password', 'password_confirmation', 'otp', 'code', 'recovery_code']);
     })->create();

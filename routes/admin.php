@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ShippingZoneController;
 use App\Http\Controllers\Admin\TaxSettingController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AdminMfaController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,18 +37,20 @@ Route::prefix('admin')->middleware('guest')->group(function () {
         ->name('admin.password.request');
 
     Route::post('forgot-password', [AdminPasswordController::class, 'sendResetLink'])
+        ->middleware('throttle:recovery')
         ->name('admin.password.email');
 
     Route::get('reset-password/{token}', [AdminPasswordController::class, 'showResetForm'])
         ->name('admin.password.reset');
 
     Route::post('reset-password', [AdminPasswordController::class, 'resetWithToken'])
+        ->middleware('throttle:recovery')
         ->name('admin.password.update');
 });
 
 
 Route::prefix('admin/password')
-    ->middleware('admin')
+    ->middleware(['admin', 'throttle:security'])
     ->group(function () {
 
     Route::get('forgot', [AdminPasswordController::class, 'showOtpRequestForm'])
@@ -76,7 +79,17 @@ Route::prefix('admin/password')
 Route::post(
     'admin/profile/password',
     [AdminPasswordController::class, 'updatePassword']
-)->middleware('admin')->name('admin.password.change');
+)->middleware(['admin', 'throttle:security'])->name('admin.password.change');
+
+Route::prefix('admin')->middleware(['auth:admin', 'throttle:security'])->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+    Route::get('mfa/setup', [AdminMfaController::class, 'setup'])->name('admin.mfa.setup');
+    Route::post('mfa/setup', [AdminMfaController::class, 'enroll'])->name('admin.mfa.enroll');
+    Route::get('mfa/challenge', [AdminMfaController::class, 'challenge'])->name('admin.mfa.challenge');
+    Route::post('mfa/challenge', [AdminMfaController::class, 'verify'])->name('admin.mfa.verify');
+    Route::get('mfa/security', [AdminMfaController::class, 'security'])->name('admin.mfa.security');
+    Route::post('mfa/recovery-codes', [AdminMfaController::class, 'regenerate'])->name('admin.mfa.regenerate');
+});
 
 
 Route::prefix('admin')->middleware('admin')->group(function () {

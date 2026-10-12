@@ -30,6 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         $user = $request->user();
 
+        if ($user->isAdmin()) return to_route($user->two_factor_confirmed_at ? 'admin.mfa.challenge' : 'admin.mfa.setup');
+
         $redirectRoutes = [
             'superadmin' => 'adminDashboard',
             'admin'      => 'adminDashboard',
@@ -52,11 +54,11 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return $request->is('admin/*') ? redirect()->route('admin.login') : redirect('/');
     }
 }

@@ -16,7 +16,7 @@ class DeploymentSecurityTest extends TestCase
         config([
             'app.env' => 'production', 'app.debug' => false,
             'app.url' => 'https://shop.example.test',
-            'deployment.trusted_proxies' => [], 'session.secure' => true,
+            'deployment.trusted_proxies' => [], 'session.secure' => true, 'session.encrypt' => true,
         ]);
     }
 

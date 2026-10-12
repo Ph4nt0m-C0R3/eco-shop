@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, Notifiable;
 
     protected $appends = ['avatar_url'];
+    protected $attributes = ['auth_version' => 1, 'two_factor_attempts' => 0];
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'auth_version', 'two_factor_secret', 'two_factor_recovery_codes',
+        'two_factor_confirmed_at', 'two_factor_last_step', 'two_factor_attempts', 'two_factor_attempts_at',
     ];
 
     /**
@@ -63,6 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'auth_version' => 'integer',
+            'two_factor_secret' => 'encrypted',
+            'two_factor_recovery_codes' => 'encrypted:array',
+            'two_factor_confirmed_at' => 'datetime',
+            'two_factor_last_step' => 'integer',
+            'two_factor_attempts_at' => 'datetime',
         ];
     }
 
@@ -104,12 +113,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendPasswordResetNotification($token)
     {
-        if ($this->role === 'admin') {
+        if ($this->isAdmin()) {
             $this->notify(new AdminResetPasswordNotification($token));
             return;
         }
 
-        $this->notify(new ResetPassword($token));
+        $this->notify(new \App\Notifications\CustomerResetPasswordNotification($token));
     }
 
     public function getRegisterMethodAttribute(): string

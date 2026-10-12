@@ -80,4 +80,4 @@ Hosted [branch CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/3825046
 - [ ] Verify real HTTPS redirects, cookie/proxy behavior, OAuth/payment callback URLs and generic error pages on staging.
 - [ ] Complete queue/email, backup/restore and live-provider gates with their later production-plan items.
 
-P0-02's application/deployment preparation is completed. Its live-host acceptance stays unchecked until hosting exists. P0-03 is the next implementation item and has not been started.
+P0-02's application/deployment preparation is completed. Its live-host acceptance stays unchecked until hosting exists. Subsequent implementation is tracked in the [production plan](V2_PRODUCTION_PLAN.md).

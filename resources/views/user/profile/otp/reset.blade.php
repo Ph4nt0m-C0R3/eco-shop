@@ -32,6 +32,7 @@
             @include('components.partials.success-alert')
             @include('components.partials.error-alert')
 
+            <p class="text-muted small">{{ __('auth-security.passphrase_hint') }}</p>
             <form method="POST" action="{{ route('user.password.resetOtp') }}">
                 @csrf
 

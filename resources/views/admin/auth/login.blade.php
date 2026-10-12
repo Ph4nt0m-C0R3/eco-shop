@@ -49,6 +49,7 @@
             @include('components.partials.success-alert')
             @include('components.partials.warning-alert')
             @include('components.partials.error-alert')
+            @if(session('status'))<div class="alert alert-info" role="status">{{ session('status') }}</div>@endif
 
             <!-- Login Form -->
             <form method="POST" action="{{ route('admin.login.store') }}">
@@ -94,21 +95,8 @@
                     @enderror
                 </div>
 
-                <!-- Remember & Forgot -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="remember"
-                            id="remember"
-                            {{ old('remember') ? 'checked' : '' }}
-                        >
-                        <label class="form-check-label small" for="remember">
-                            Remember me
-                        </label>
-                    </div>
-
+                <!-- Password recovery -->
+                <div class="d-flex justify-content-end align-items-center mb-4">
                     <a href="{{ route('admin.password.request') }}"
                        class="small text-decoration-none text-success fw-semibold">
                         Forgot password?

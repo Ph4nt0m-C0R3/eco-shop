@@ -1,3 +1,4 @@
+@if($user->provider === 'local')
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -46,3 +47,6 @@
         </div>
     </form>
 </section>
+@else
+<p>{{ __('auth-security.provider_managed') }}</p>
+@endif

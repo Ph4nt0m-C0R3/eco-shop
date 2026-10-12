@@ -26,7 +26,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'SecurePassword1!',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(route('verification.notice', absolute: false));
+        $this->assertGuest();
+        $response->assertRedirect(route('login'));
     }
 }

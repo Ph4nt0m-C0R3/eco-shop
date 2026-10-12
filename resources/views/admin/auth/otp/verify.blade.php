@@ -238,6 +238,8 @@
 
                 const data = await response.json();
 
+                if (!response.ok || !data.success) throw new Error(data.message || @json(__('auth-security.delivery_failed')));
+
                 if (data.success) {
                     // restart timer from backend value
                     startTimer(data.remainingSeconds);
@@ -246,10 +248,9 @@
                 }
 
             } catch (error) {
-                console.error(error);
                 resendBtn.disabled = false;
                 resendBtn.innerText = "Resend OTP";
-                alert("Failed to resend OTP. Try again.");
+                timerEl.textContent = error.message;
             }
         });
     });

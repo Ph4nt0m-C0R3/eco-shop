@@ -327,7 +327,7 @@
 
                 <!-- Nav Item - Logout -->
                 <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="post" id="adminLogoutFormSidebar">
+                    <form action="{{ route('admin.logout') }}" method="post" id="adminLogoutFormSidebar">
                         @csrf
                         <span class="nav-link">
                             <button type="button"
@@ -389,7 +389,7 @@
                         @endif
 
                         <div class="dropdown-divider"></div>
-                        <form action="{{ route('logout') }}" method="POST" class="dropdown-item p-0" id="adminLogoutFormTop">
+                        <form action="{{ route('admin.logout') }}" method="POST" class="dropdown-item p-0" id="adminLogoutFormTop">
                             @csrf
                             <button type="button" class="dropdown-item adminLogoutBtn">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

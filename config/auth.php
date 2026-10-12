@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'login_dummy_hash' => '$argon2id$v=19$m=65536,t=4,p=1$MS5ybmRFdThsNnpTM2JUeg$q8MDoSyy96EBRk34+7K33sk2aRhRmdMyHGuqKKI886c',
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ return [
     */
 
     'guards' => [
+
+        'admin' => ['driver' => 'session', 'provider' => 'admins'],
 
         'web' => [
             'driver' => 'session',
@@ -96,7 +99,8 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
-            'expire' => 60,
+            'expire' => 15,
+            'throttle' => 60,
         ],
 
         'admins' => [

@@ -5,19 +5,19 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class SwitchSessionByPath
 {
     public function handle($request, Closure $next)
     {
-        if ($request->is('admin/*')) {
-            config(['session.cookie' => 'admin_session']);
-        } elseif ($request->is('user/*') || $request->is('login')) {
-            config(['session.cookie' => 'user_session']);
-        } else {
-            config(['session.cookie' => 'guest_session']);
-        }
+        $admin = $request->is('admin', 'admin/*');
+        config(['session.cookie' => config($admin ? 'session.admin_cookie' : 'session.customer_cookie')]);
+        config(['session.path' => $admin ? '/admin' : config('session.customer_path')]);
+        Auth::shouldUse($admin ? 'admin' : 'web');
+        // Name the store before StartSession reads the request's cookie.
+        Session::driver()->setName(config('session.cookie'));
 
         return $next($request);
     }

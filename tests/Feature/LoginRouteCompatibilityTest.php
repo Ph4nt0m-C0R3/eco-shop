@@ -13,14 +13,14 @@ class LoginRouteCompatibilityTest extends TestCase
     public function test_admin_account_cannot_sign_in_through_customer_login(): void
     {
         $user = User::factory()->create(['role' => 'admin']);
-        $this->post('/login', ['email' => $user->email, 'password' => 'password'])->assertRedirect('/login');
+        $this->from('/login')->post('/login', ['email' => $user->email, 'password' => 'password'])->assertRedirect('/login');
         $this->assertGuest();
     }
 
     public function test_customer_cannot_sign_in_through_admin_login(): void
     {
         $user = User::factory()->create();
-        $this->post('/admin/login', ['email' => $user->email, 'password' => 'password'])->assertRedirect('/admin/login');
+        $this->from('/admin/login')->post('/admin/login', ['email' => $user->email, 'password' => 'password'])->assertRedirect('/admin/login');
         $this->assertGuest();
     }
 }

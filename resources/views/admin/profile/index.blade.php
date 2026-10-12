@@ -217,6 +217,10 @@
                                         class="form-control eco-input rounded-pill @error('email') is-invalid @enderror"
                                         value="{{ old('email', auth()->user()->email) }}" id="eco-field-1ebe37-2">
 
+                                    <label for="email-change-password" class="mt-2">{{ __('auth-security.email_password') }}</label>
+                                    <input type="password" name="current_password" id="email-change-password" class="form-control eco-input rounded-pill" autocomplete="current-password" maxlength="128">
+                                    @error('current_password')<small class="text-danger">{{ $message }}</small>@enderror
+
                                     @error('email')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -268,6 +272,7 @@
             </div>
         </div>
 
+        <a class="btn btn-outline-success mb-3" href="{{ route('admin.mfa.security') }}">{{ __('auth-security.mfa_security') }}</a>
         {{-- ADMIN: can change password --}}
         @if(in_array(auth()->user()->role, ['admin','superadmin']))
         <div class="col-lg-4">

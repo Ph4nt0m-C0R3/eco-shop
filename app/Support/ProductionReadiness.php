@@ -20,6 +20,8 @@ class ProductionReadiness
         }
         if (empty($settings['key'])) $problems[] = 'A persistent APP_KEY is required; preserve existing keys.';
         if (!($settings['secure_cookie'] ?? false)) $problems[] = 'SESSION_SECURE_COOKIE must be true.';
+        if (!($settings['session_encrypted'] ?? false)) $problems[] = 'SESSION_ENCRYPT must be true for private authentication challenges.';
+        if (empty($settings['customer_cookie']) || empty($settings['admin_cookie']) || $settings['customer_cookie'] === $settings['admin_cookie']) $problems[] = 'Use distinct, non-empty customer and admin session cookie names.';
         if (!($settings['http_only'] ?? false)) $problems[] = 'SESSION_HTTP_ONLY must be true.';
         if (($settings['same_site'] ?? null) !== 'lax') $problems[] = 'SESSION_SAME_SITE must be lax for the supported sign-in/payment flows.';
         if (!in_array($settings['sessions'] ?? '', ['database', 'redis', 'file'])) $problems[] = 'Use a persistent session driver.';
@@ -53,6 +55,7 @@ class ProductionReadiness
             'environment' => config('app.env'), 'debug' => config('app.debug'),
             'url' => config('app.url'), 'key' => config('app.key'),
             'secure_cookie' => config('session.secure'), 'http_only' => config('session.http_only'),
+            'session_encrypted' => config('session.encrypt'), 'customer_cookie' => config('session.customer_cookie'), 'admin_cookie' => config('session.admin_cookie'),
             'same_site' => config('session.same_site'), 'sessions' => config('session.driver'),
             'cache' => config('cache.default'), 'queue' => config('queue.default'),
             'database' => config('database.default'), 'database_user' => $connection['username'] ?? '',

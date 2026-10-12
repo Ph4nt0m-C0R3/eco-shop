@@ -12,6 +12,7 @@ class ProductionReadinessTest extends TestCase
         return [
             'environment' => 'production', 'debug' => false, 'url' => 'https://shop.acme-commerce.com',
             'key' => 'test-only-key', 'secure_cookie' => true, 'http_only' => true, 'same_site' => 'lax',
+            'session_encrypted' => true, 'customer_cookie' => 'shop_session', 'admin_cookie' => 'shop_admin_session',
             'sessions' => 'database', 'cache' => 'database', 'queue' => 'database',
             'database' => 'mysql', 'database_user' => 'ecoshop_app', 'database_password' => 'test-only-secret',
             'mailer' => 'smtp', 'trusted_proxies' => ['10.0.0.0/24', '2001:db8::/64'], 'private_storage_public' => false,

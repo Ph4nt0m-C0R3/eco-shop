@@ -9,7 +9,8 @@ Recorded: 12 October 2026. Status: implementation started; upgrades are delivere
 | P0-01 — version control and reproducible builds | Completed — 12 October 2026 | [Completion record](P0_01_VERSION_CONTROL.md); clean checkout and hosted CI passed; main protection enabled; [PR #1](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/1) awaits owner review/merge |
 | EcoShop v2.0 branding | Completed — 12 October 2026 | Shared titles/footer, authentication, order emails and admin navigation; storefront navigation badge removed during P0-02; 19 browser/viewport checks passed |
 | P0-02 — supported deployment environment | Implementation completed — 12 October 2026; live acceptance pending | [Completion record](P0_02_DEPLOYMENT.md); PHP 8.5/Laravel 13, security configuration, templates, cached bootstrap and Nginx checks; local/browser/hosted CI passed; [PR #2](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/2) awaits owner review/merge |
-| P0-03–P0-17 and F1–F4 | Pending | P0-03 is next; start only when requested |
+| P0-03 — authentication and recovery hardening | Implementation completed — 12 October 2026 | [Completion record](P0_03_AUTHENTICATION.md); bound single-use recovery, passphrase policy, mandatory admin MFA and session revocation; local/browser/MySQL/hosted CI passed; [PR #3](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/3) awaits owner review/merge; live staging/email acceptance pending |
+| P0-04–P0-17 and F1–F4 | Pending | P0-04 is next; start only when requested |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
 
@@ -21,7 +22,7 @@ The v2 objective is a shop that can accept orders reliably, protect customer dat
 |---|---|---|
 | Application | Laravel 13.35.0; project-local PHP 8.5.11; Blade storefront/admin | Install matching supported PHP/FPM on staging/production and schedule ongoing patching |
 | UI | EN/MM flags served locally; repaired product details and edit forms; 848 responsive checks passed | Real iOS/Android and browser checks, accessibility, full bilingual coverage |
-| Automated checks | 60 PHP tests / 235 assertions; 139 compiled Blade templates; active hosted CI, release packaging and cached-bootstrap/Nginx checks | MySQL concurrency tests, commerce browser journeys and static analysis |
+| Automated checks | 99 SQLite tests / 601 assertions; 143 compiled Blade templates; active hosted CI, MySQL authentication/concurrency tests, release packaging and cached-bootstrap/Nginx checks | MySQL commerce/inventory concurrency tests, extended browser journeys and static analysis |
 | Commerce | Ownership checks, signed/idempotent Stripe events, locked payment transitions, saved totals/rate, private payment proofs | Exact pricing, full inventory safeguards, refunds, reconciliation, audit history |
 | Operations | Queue/scheduler instructions and `/up` health route exist | Provisioning, supervised services, alerts, backups, deployment and restore drills |
 | Data | Preview uses an isolated SQLite database; tests use in-memory SQLite | Rehearse against the selected production database; migrate real data safely |
@@ -167,7 +168,8 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 
 - [x] P0-01: version-control baseline, hosted CI, verified production archive and main-branch protection; owner PR review/merge pending.
 - [ ] P0-02: live staging/production provisioning and HTTPS/domain/proxy/permissions acceptance; application preparation is recorded separately above.
-- [ ] P0-03–P0-06: tested account/data protection.
+- [x] P0-03: authentication/recovery/MFA implementation and isolated local/browser/MySQL/CI evidence recorded; live staging/email acceptance remains with deployment requirements.
+- [ ] P0-04–P0-06: OAuth, authorization/data protection and abuse/upload protection.
 - [ ] P0-07–P0-11: exact pricing, safe concurrent stock, payment recovery/refunds and retained records.
 - [ ] P0-12–P0-14: supervised services, delivered email, persistent storage, restore drill and working alerts.
 - [ ] P0-15–P0-17: MySQL/browser/load checks, migration/rollback rehearsal and customer-facing operations approved.
@@ -182,13 +184,13 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 
 | Observation | Source |
 |---|---|
-| OTPs use `rand`, store the code, use session `otp_verified`, and password validation caps length at 15 | [Customer password controller](../app/Http/Controllers/User/UserPasswordController.php), [admin password controller](../app/Http/Controllers/Admin/AdminPasswordController.php), [OTP model](../app/Models/PasswordOtp.php) |
+| P0-03 replaced plaintext/reusable OTPs with hashed, bound, single-use challenges and added mandatory admin MFA, session revocation and a 15–128 character passphrase policy | [PasswordChallenges](../app/Services/PasswordChallenges.php), [AdminMfa](../app/Services/AdminMfa.php), [AccountSecurity](../app/Support/AccountSecurity.php), [completion evidence](P0_03_AUTHENTICATION.md) |
 | OAuth runs stateless and matches existing users by email/provider | [SocialLoginController](../app/Http/Controllers/SocialLoginController.php) |
 | Review JSON returns a loaded user relation | [ReviewController](../app/Http/Controllers/ReviewController.php), [User serialization](../app/Models/User.php) |
 | Admin edits stock directly; currency lookup falls back to 1; product deletion is physical | [Admin ProductController](../app/Http/Controllers/Admin/ProductController.php) |
 | Orders cascade on user deletion; item product references become null on deletion | [Orders migration](../database/migrations/2026_02_21_083751_create_orders_table.php), [order-items migration](../database/migrations/2026_02_21_174639_create_order_items_table.php) |
 | Payment commits queue email after commit; dispatch exceptions are reported without persisted retry intent in this service | [OrderLifecycle](../app/Services/OrderLifecycle.php) |
 | Reservation expiry exists and needs supervised scheduling/monitoring | [Console schedule](../routes/console.php), [StripePayments](../app/Services/StripePayments.php) |
-| Current CI targets PHP 8.5.11/Node 24.18.0, SQLite tests, compiled Blade, cached bootstrap, Nginx syntax and production archive checks; MySQL/physical-device tests remain pending | [CI workflow](../.github/workflows/ci.yml), [PHPUnit configuration](../phpunit.xml) |
+| CI targets PHP 8.5.11/Node 24.18.0, SQLite and MySQL authentication/concurrency tests, compiled Blade, cached bootstrap, Nginx syntax and production archive checks; MySQL commerce/load and physical-device tests remain pending | [CI workflow](../.github/workflows/ci.yml), [PHPUnit configuration](../phpunit.xml), [MySQL security profile](../phpunit.mysql.xml) |
 
 This is a source-based planning review, not a completed penetration test or production certification. Record implementation results against this note as v2 progresses.

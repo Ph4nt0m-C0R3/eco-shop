@@ -48,6 +48,14 @@
         </div>
 
         <div class="flex items-center gap-4">
+            <div>
+                <x-input-label for="email-change-password" :value="__('auth-security.email_password')" />
+                <x-text-input id="email-change-password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" maxlength="128" />
+                <x-input-error class="mt-2" :messages="$errors->get('current_password')" />
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
