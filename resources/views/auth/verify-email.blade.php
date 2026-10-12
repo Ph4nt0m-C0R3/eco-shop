@@ -264,6 +264,10 @@
                     Please click the link to activate your account.
                 </p>
 
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger small" role="alert">{{ $errors->first('email') }}</div>
+                @endif
+
                 @if (session('status') == 'verification-link-sent')
                     <div class="alert alert-success small">
                         {{ __('auth-ui.a_new_verification_link_has_been_sent_to_your_email') }}

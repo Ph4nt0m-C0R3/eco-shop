@@ -45,7 +45,7 @@ class PasswordChallenges
             PasswordChallenge::whereKey($row->id)->where('code_hash', $row->code_hash)
                 ->update(['code_hash' => null, 'consumed_at' => now()]);
             $request->session()->forget('password_challenge');
-            report($exception);
+            \Illuminate\Support\Facades\Log::warning('Password code delivery failed.', ['exception_type' => $exception::class]);
             throw ValidationException::withMessages(['otp' => __('auth-security.delivery_failed')]);
         }
     }

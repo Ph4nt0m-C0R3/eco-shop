@@ -6,6 +6,8 @@
         <file>tests/Feature/Auth/RecoveryHardeningTest.php</file>
         <file>tests/Feature/Auth/AuthenticationConcurrencyTest.php</file>
         <file>tests/Feature/Auth/AuthenticationOperationsTest.php</file>
+        <file>tests/Feature/Auth/SocialLoginTest.php</file>
+        <file>tests/Feature/Auth/MailIntegrationTest.php</file>
     </testsuite></testsuites>
     <php>
         <!-- Dedicated disposable CI database: never point this at an application database. -->

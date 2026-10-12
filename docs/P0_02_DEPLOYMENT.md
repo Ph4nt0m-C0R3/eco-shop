@@ -19,7 +19,7 @@ Windows commands use the project-local runtime explicitly:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/serve-preview.ps1
 ```
 
-The preview script uses the existing isolated audit database on localhost:8002. A fresh clone needs its own configured development database and a supported PHP installation, then `php artisan serve`. The older XAMPP PHP 8.2 executable cannot run this upgraded branch.
+The preview script uses the existing isolated audit database. P0-04 changes its default to **http://localhost:8000** to match the owner's OAuth applications and uses `.env` mail settings; add `-OfflineMail` for in-memory delivery. A fresh clone needs its own configured development database and a supported PHP installation, then `php artisan serve`. The older XAMPP PHP 8.2 executable cannot run this upgraded branch.
 
 ## Production configuration
 

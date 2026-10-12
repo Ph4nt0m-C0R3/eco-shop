@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Laravel\Socialite\Facades\Socialite::extend('github', fn ($app) =>
+            \Laravel\Socialite\Facades\Socialite::buildProvider(\App\Auth\VerifiedGithubProvider::class, $app['config']['services.github']));
         \App\Models\User::observe(\App\Observers\UserSecurityObserver::class);
         \Illuminate\Support\Facades\RateLimiter::for('recovery', fn ($request) => [
             \Illuminate\Cache\RateLimiting\Limit::perMinute(10)->by('recovery-ip:'.$request->ip()),

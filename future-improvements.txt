@@ -28,7 +28,17 @@ customer/admin sessions, passphrases, secure reset/session invalidation and
 mandatory admin MFA/recovery codes are implemented. Local/browser/MySQL/CI
 verification passed. Evidence: docs/P0_03_AUTHENTICATION.md; draft PR #3 awaits
 owner review/merge. Live staging/email acceptance remains pending. P0-04 OAuth
-security is next; all later production/feature items remain pending.
+security has since been implemented as described below; all later
+production/feature items remain pending.
+
+Implementation completed — 12 October 2026: P0-04 Google/GitHub OAuth security
+and requested real email support. Stateful callbacks, verified email claims,
+provider-ID matching, separate portal sessions and SMTP diagnostics are tested.
+The preview now uses http://localhost:8000 and private .env mail configuration.
+Both real providers reach sign-in pages. The existing SMTP service rejected
+authentication; corrected credentials, inbox delivery and complete real-account
+OAuth authorization remain pending. Evidence: docs/P0_04_EMAIL_OAUTH.md.
+P0-05 has not been started, as explicitly requested.
 
 Purpose
 -------

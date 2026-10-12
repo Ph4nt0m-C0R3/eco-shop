@@ -38,7 +38,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'provider',
         'provider_id',
-        'provider_token',
         'email_verified_at',
         'locale',
         'last_online_at',
@@ -50,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $hidden = [
+        'provider_token',
         'password',
         'remember_token',
         'auth_version', 'two_factor_secret', 'two_factor_recovery_codes',
@@ -128,6 +128,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'github' => 'GitHub',
             default  => 'Local',
         };
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\VerifyEmailNotification());
     }
 
 

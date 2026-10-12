@@ -10,7 +10,6 @@ use App\Http\Controllers\User\ShopController;
 use App\Support\RoleRedirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 // Language Switch
 
@@ -83,11 +82,13 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// google and github login
-Route::get('/auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('socialLogin');
-
-Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'callback'])
-    ->middleware('role.login');
+// Customer OAuth sign-in; staff continue to use password and mandatory MFA.
+Route::middleware(['guest:web', 'throttle:30,1'])->group(function () {
+    Route::get('/auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])
+        ->whereIn('provider', ['google', 'github'])->name('socialLogin');
+    Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'callback'])
+        ->whereIn('provider', ['google', 'github'])->name('social.callback');
+});
 
 Route::post('/review/store', [ReviewController::class, 'store'])->middleware('auth');
 Route::post('/review/{id}/helpful', [ReviewController::class, 'helpful'])->middleware('auth');

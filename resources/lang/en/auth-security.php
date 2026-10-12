@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'oauth_unavailable' => 'This sign-in service is currently unavailable. Please use another available sign-in method.',
+    'oauth_failed' => 'Sign-in could not be completed. Start again from this login page.',
+    'oauth_verified_email' => 'Your sign-in provider must supply a verified email address. Verify your primary email with the provider and try again.',
+    'oauth_conflict' => 'This provider cannot sign in to that shop account. Use the sign-in method you originally registered with. Accounts are not linked automatically.',
+    'verify_email_subject' => 'Verify your email address',
+    'email_test_subject' => 'Email delivery test',
+    'email_test_body' => 'This test confirms that EcoShop can submit email through its configured delivery service. No password or verification code is included.',
+    'email_test_hint' => 'Check your inbox and spam folder. Provider acceptance does not guarantee inbox delivery.',
     'provider_managed' => 'Your password is managed by your sign-in provider. Use that provider to manage or recover your credentials.',
     'email_password' => 'Current password (required to change email)',
     'reset_password_subject' => 'Reset your password',

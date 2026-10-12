@@ -19,6 +19,12 @@ class AuthenticationOperationsTest extends TestCase
     {
         if (config('database.default') === 'sqlite' && config('database.connections.sqlite.database') === ':memory:') {
             \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$inMemoryConnections = [];
+            $this->beforeApplicationDestroyed(function () {
+                // Commit-based queue tests use a fresh PDO; do not leave stale migration state for transaction tests.
+                \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+                \Illuminate\Foundation\Testing\RefreshDatabaseState::$inMemoryConnections = [];
+            });
         }
     }
 
@@ -41,6 +47,21 @@ class AuthenticationOperationsTest extends TestCase
             $this->assertStringNotContainsString('O:', $command);
             $this->assertStringContainsString($secret, \Illuminate\Support\Facades\Crypt::decrypt($command));
         }
+    }
+
+    public function test_email_verification_job_is_encrypted_and_published_only_after_commit(): void
+    {
+        config(['queue.default' => 'database', 'queue.connections.database.after_commit' => true]);
+        $user = User::factory()->unverified()->create();
+        DB::transaction(function () use ($user) {
+            $user->sendEmailVerificationNotification();
+            $this->assertDatabaseCount('jobs', 0);
+        });
+        $job = DB::table('jobs')->sole();
+        $command = json_decode($job->payload, true)['data']['command'];
+        $this->assertStringNotContainsString('O:', $command);
+        $this->assertStringContainsString(\App\Notifications\VerifyEmailNotification::class,
+            \Illuminate\Support\Facades\Crypt::decrypt($command));
     }
     public function test_operator_recovery_requires_a_reason_and_revokes_staff_security_state(): void
     {

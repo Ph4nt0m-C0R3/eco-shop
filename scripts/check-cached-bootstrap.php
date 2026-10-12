@@ -7,7 +7,7 @@ if (!$app->configurationIsCached() || !$app->routesAreCached()) {
     fwrite(STDERR, "Cache configuration and routes before running this check.\n");
     exit(1);
 }
-foreach (['login', 'shop.index', 'product.show', 'stripe.checkout', 'adminDashboard', 'lang.switch', 'admin.mfa.challenge', 'admin.mfa.enroll', 'admin.logout', 'user.password.otp.verify'] as $name) {
+foreach (['login', 'socialLogin', 'social.callback', 'shop.index', 'product.show', 'stripe.checkout', 'adminDashboard', 'lang.switch', 'admin.mfa.challenge', 'admin.mfa.enroll', 'admin.logout', 'user.password.otp.verify'] as $name) {
     if (!$app['router']->getRoutes()->getByName($name)) {
         fwrite(STDERR, "Missing cached route: {$name}\n");
         exit(1);

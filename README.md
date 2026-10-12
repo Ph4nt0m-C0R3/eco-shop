@@ -70,3 +70,9 @@ See [runtime and deployment notes](docs/P0_02_DEPLOYMENT.md) for the PHP 8.5.11 
 See [authentication and recovery notes](docs/P0_03_AUTHENTICATION.md) for mandatory admin authenticator enrollment, one-time recovery codes, account-bound OTPs, session revocation and the 15–128 character passphrase policy. Apply the authentication migration to a backed-up database before starting this version. Existing sessions require sign-in; staff enroll MFA at their next password login. Preserve APP_KEY and run a queue worker promptly for encrypted recovery notifications. Production requires encrypted sessions and distinct portal cookies.
 
 CI uses a dedicated disposable MySQL database for the authentication tests, including simultaneous OTP/reset/MFA requests. The default test command still forces in-memory SQLite; the separate profile runs with `php vendor/bin/phpunit --configuration=phpunit.mysql.xml` only against its dedicated test database. Physical devices, real email delivery and a live deployment remain acceptance work.
+
+## P0-04 Google/GitHub sign-in and real email
+
+See [email and OAuth setup](docs/P0_04_EMAIL_OAUTH.md). The isolated preview now defaults to **http://localhost:8000** to match the owner's registered OAuth callbacks, and respects the private SMTP configuration. Use `-OfflineMail` for an in-memory preview instead. Social sign-in verifies browser state, verified email claims and provider IDs; it does not automatically link existing accounts by email. Staff continue to use password and MFA.
+
+Run `php artisan integrations:check --smtp` to authenticate with SMTP without sending mail. Run `php artisan mail:test "YOUR_REAL_INBOX_ADDRESS"` to send one explicit test to your own inbox. Keep credentials in the ignored `.env`. The existing SMTP service rejected authentication during verification; corrected credentials/inbox receipt and complete real-account OAuth journeys remain pending. P0-05 has not been started.

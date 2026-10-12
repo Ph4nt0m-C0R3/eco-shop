@@ -25,8 +25,9 @@ class EnsureAccountSession
             Auth::setUser($fresh);
         }
         $response = $next($request);
-        if ($request->is('admin/*', '*password*', 'login', 'register', 'verify-email*')) {
+        if ($request->is('admin/*', 'auth/*', '*password*', 'login', 'register', 'verify-email*')) {
             $response->headers->set('Cache-Control', 'private, no-store');
+            if ($request->is('auth/*')) $response->headers->set('Referrer-Policy', 'no-referrer');
         }
         return $response;
     }
