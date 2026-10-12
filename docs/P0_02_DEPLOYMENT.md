@@ -1,6 +1,6 @@
 # P0-02 — supported runtime and deployment environment
 
-Started: 12 October 2026. Application implementation is under verification. Hosting/domain provisioning and live acceptance remain pending because the project has neither yet.
+Implementation completed: 12 October 2026. Local and hosted verification passed. Hosting/domain provisioning and live acceptance remain pending because the project has neither yet.
 
 Scope: PHP 8.5/Laravel 13 compatibility, deployment security/configuration, optimized bootstrap and removal of the storefront navigation version badge. P0-03 and F1–F4 remain future upgrades.
 
@@ -63,7 +63,16 @@ The customer-facing navigation keeps the EcoShop logo and accessible name withou
 
 ## Verification and remaining acceptance
 
-Results will be recorded after local/browser/CI checks pass.
+Local verification passed on 12 October 2026:
+
+- 60 PHP tests / 235 assertions, including production HTTPS/host/proxy rules, secure session cookies, hidden error details and login-role restrictions.
+- 139 compiled Blade templates with zero syntax failures; Vite production build and two release-policy tests passed.
+- Configuration, route and view caching passed; the cached-bootstrap check resolves critical named routes. Caches were cleared afterward for development.
+- 848 browser/viewport cases over 46 routes at 16 widths (320–1920 px), covering guest/customer/admin and EN/MM pages: zero HTTP/JavaScript errors, broken visible images or horizontal overflow. External network resources were blocked during this local regression check.
+- 19 additional branding/viewport cases confirm the storefront navigation badge is absent while page titles and the admin badge retain their version branding. Mobile home and desktop Myanmar shop screenshots were visually checked.
+- Composer and npm audits reported zero advisories. The readiness command correctly rejects this local development profile without exposing configuration secrets.
+
+Hosted [branch CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38250467252) and [PR CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38250475986) passed for implementation commit `88e7cbea65e77c638ab2bd5069d716a009ff198d`: tests, optimized bootstrap, Nginx syntax, audits, production dependency installation, archive verification and artifact upload. The branch artifact contains 11,293 verified entries, with SHA-256 `e777c02a94a5359dcae651a8e8fd181342b8b7b53c66fdcc698702bff3bc2e84`. [Draft PR #2](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/2) is stacked on P0-01 until PR #1 is merged. No production migration or deployment has been performed.
 
 - [ ] Confirm the domain and hosting platform; install a supported patched PHP/FPM runtime and matching staging environment.
 - [ ] Provision genuine TLS, database credentials/grants, private environment and persistent storage.
@@ -71,4 +80,4 @@ Results will be recorded after local/browser/CI checks pass.
 - [ ] Verify real HTTPS redirects, cookie/proxy behavior, OAuth/payment callback URLs and generic error pages on staging.
 - [ ] Complete queue/email, backup/restore and live-provider gates with their later production-plan items.
 
-P0-02's live-host acceptance stays unchecked until hosting exists. Local implementation and its verification can be completed independently.
+P0-02's application/deployment preparation is completed. Its live-host acceptance stays unchecked until hosting exists. P0-03 is the next implementation item and has not been started.

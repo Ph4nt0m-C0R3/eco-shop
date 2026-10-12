@@ -7,8 +7,8 @@ Recorded: 12 October 2026. Status: implementation started; upgrades are delivere
 | Item | Status | Evidence / next step |
 |---|---|---|
 | P0-01 — version control and reproducible builds | Completed — 12 October 2026 | [Completion record](P0_01_VERSION_CONTROL.md); clean checkout and hosted CI passed; main protection enabled; [PR #1](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/1) awaits owner review/merge |
-| EcoShop v2.0 branding | Completed — 12 October 2026 | Shared storefront/admin titles, navigation/footer, authentication and order emails; 19 browser/viewport checks passed |
-| P0-02 — supported deployment environment | In verification — 12 October 2026 | [Implementation record](P0_02_DEPLOYMENT.md); PHP 8.5/Laravel 13, security configuration and deployment templates implemented; live hosting/domain acceptance pending |
+| EcoShop v2.0 branding | Completed — 12 October 2026 | Shared titles/footer, authentication, order emails and admin navigation; storefront navigation badge removed during P0-02; 19 browser/viewport checks passed |
+| P0-02 — supported deployment environment | Implementation completed — 12 October 2026; live acceptance pending | [Completion record](P0_02_DEPLOYMENT.md); PHP 8.5/Laravel 13, security configuration, templates, cached bootstrap and Nginx checks; local/browser/hosted CI passed; [PR #2](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/2) awaits owner review/merge |
 | P0-03–P0-17 and F1–F4 | Pending | P0-03 is next; start only when requested |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
@@ -19,9 +19,9 @@ The v2 objective is a shop that can accept orders reliably, protect customer dat
 
 | Area | Current evidence | Remaining production work |
 |---|---|---|
-| Application | Laravel 12.69.3; local PHP 8.2.12; Blade storefront/admin | Supported, patched runtime and a framework upgrade schedule |
+| Application | Laravel 13.35.0; project-local PHP 8.5.11; Blade storefront/admin | Install matching supported PHP/FPM on staging/production and schedule ongoing patching |
 | UI | EN/MM flags served locally; repaired product details and edit forms; 848 responsive checks passed | Real iOS/Android and browser checks, accessibility, full bilingual coverage |
-| Automated checks | 44 PHP tests / 176 assertions; 138 compiled Blade templates checked; CI configuration added | Actual repository/CI activation, MySQL concurrency tests, browser journeys, static analysis |
+| Automated checks | 60 PHP tests / 235 assertions; 139 compiled Blade templates; active hosted CI, release packaging and cached-bootstrap/Nginx checks | MySQL concurrency tests, commerce browser journeys and static analysis |
 | Commerce | Ownership checks, signed/idempotent Stripe events, locked payment transitions, saved totals/rate, private payment proofs | Exact pricing, full inventory safeguards, refunds, reconciliation, audit history |
 | Operations | Queue/scheduler instructions and `/up` health route exist | Provisioning, supervised services, alerts, backups, deployment and restore drills |
 | Data | Preview uses an isolated SQLite database; tests use in-memory SQLite | Rehearse against the selected production database; migrate real data safely |
@@ -33,7 +33,7 @@ The previous checks establish a development baseline. Live payments, concurrent 
 | Decision | Proposed starting point | Must be confirmed |
 |---|---|---|
 | Hosting | Managed Linux deployment, or one Linux application server with Nginx/PHP-FPM and supervised workers | Budget, operator, region, domain and staging environment |
-| Runtime | Latest patched PHP 8.5; Laravel 13 compatibility upgrade in a separate change; Node 24 LTS for builds | Hosting support and compatibility of the locked packages |
+| Runtime | PHP 8.5.11 / Laravel 13 compatibility implemented in P0-02; Node 24.18.0 for builds | Hosting support, matching staging/production runtime and ongoing patching |
 | Database | Supported MySQL/InnoDB release; same engine and relevant configuration in staging/CI | Hosting database service, backup facilities and connection limits |
 | Interactive UI | Livewire 4 with its Alpine integration; Blade rendering and Vite assets | Target-version compatibility, component migration boundaries and existing JavaScript integrations |
 | Advanced search | Laravel Scout with Meilisearch as the initial candidate | EN/MM relevance and tokenization trial, index capacity, hosting cost and supported engine/client versions |
@@ -44,7 +44,7 @@ The previous checks establish a development baseline. Live payments, concurrent 
 | Capacity and recovery | Measure expected peak traffic and define recovery targets | Peak shoppers/orders, acceptable downtime and acceptable data loss |
 | Launch ownership | Named owner for each release requirement | Person responsible for payments, fulfilment, support, security and outages |
 
-Runtime upgrades need planning now: PHP 8.2 security support ends on 31 December 2026; PHP 8.5 has security support through 31 December 2029. Laravel 12 security support ends on 24 February 2027; target Laravel 13 for the v2 lifecycle after compatibility testing. A launch on patched Laravel 12 needs a scheduled upgrade before that deadline. [PHP support policy](https://www.php.net/supported-versions.php), [Laravel support policy](https://laravel.com/framework/docs/12.x/releases).
+P0-02 upgrades the application to PHP 8.5 and Laravel 13 with compatibility checks. PHP 8.5 has security support through 31 December 2029; keep both runtime and framework patched throughout deployment. The hosting provider must support the tested stack. [PHP support policy](https://www.php.net/supported-versions.php), [Laravel upgrade guidance](https://laravel.com/framework/docs/13.x/upgrade).
 
 Use the [Laravel 13 upgrade guide](https://laravel.com/framework/docs/13.x/upgrade) to review authentication/request-forgery protection, cache/session serialization, queue behavior and package/test compatibility. Node 24 and 22 are currently LTS branches; choose and pin one tested build runtime. [Node release policy](https://nodejs.org/en/about/previous-releases).
 
@@ -166,7 +166,8 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 ## Production release checklist
 
 - [x] P0-01: version-control baseline, hosted CI, verified production archive and main-branch protection; owner PR review/merge pending.
-- [ ] P0-02–P0-06: supported environment and tested account/data protection.
+- [ ] P0-02: live staging/production provisioning and HTTPS/domain/proxy/permissions acceptance; application preparation is recorded separately above.
+- [ ] P0-03–P0-06: tested account/data protection.
 - [ ] P0-07–P0-11: exact pricing, safe concurrent stock, payment recovery/refunds and retained records.
 - [ ] P0-12–P0-14: supervised services, delivered email, persistent storage, restore drill and working alerts.
 - [ ] P0-15–P0-17: MySQL/browser/load checks, migration/rollback rehearsal and customer-facing operations approved.
@@ -188,6 +189,6 @@ Calendar estimates and hosting costs follow the operating decisions and a scoped
 | Orders cascade on user deletion; item product references become null on deletion | [Orders migration](../database/migrations/2026_02_21_083751_create_orders_table.php), [order-items migration](../database/migrations/2026_02_21_174639_create_order_items_table.php) |
 | Payment commits queue email after commit; dispatch exceptions are reported without persisted retry intent in this service | [OrderLifecycle](../app/Services/OrderLifecycle.php) |
 | Reservation expiry exists and needs supervised scheduling/monitoring | [Console schedule](../routes/console.php), [StripePayments](../app/Services/StripePayments.php) |
-| Current CI targets PHP 8.2/Node 22, SQLite tests and compiled Blade checks | [CI workflow](../.github/workflows/ci.yml), [PHPUnit configuration](../phpunit.xml) |
+| Current CI targets PHP 8.5.11/Node 24.18.0, SQLite tests, compiled Blade, cached bootstrap, Nginx syntax and production archive checks; MySQL/physical-device tests remain pending | [CI workflow](../.github/workflows/ci.yml), [PHPUnit configuration](../phpunit.xml) |
 
 This is a source-based planning review, not a completed penetration test or production certification. Record implementation results against this note as v2 progresses.
