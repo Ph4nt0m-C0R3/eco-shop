@@ -710,4 +710,4 @@ html[lang="my"] .form-floating>.form-control { min-height:64px; }
 .lang-menu,.profile-menu { visibility:hidden; }
 .lang-dropdown.open .lang-menu,.profile-dropdown.open .profile-menu { visibility:visible; }
 
-.eco-version-badge { display:inline-block; flex-shrink:0; white-space:nowrap; padding:4px 7px; border-radius:6px; background:#edf7e6; color:#245b1a; font:700 12px/1.2 system-ui,sans-serif; vertical-align:middle; }
+.eco-version-badge { display:inline-block; flex-shrink:0; white-space:nowrap; padding:4px 7px; border-radius:6px; background:#edf7e6; color:#245b1a; font:700 12px/1.2 system-ui,sans-serif; vertical-align:middle; text-transform:none; letter-spacing:normal; }
