@@ -1,0 +1,405 @@
+ECO_SHOP — FUTURE VERSION 2.0 IMPROVEMENTS
+============================================
+
+Production planning update — 12 October 2026
+-------------------------------------------
+The current launch priorities, completed stabilization baseline and acceptance
+criteria are recorded in docs/V2_PRODUCTION_PLAN.md. This file remains the broader
+feature backlog; its original implementation statuses predate stabilization.
+
+Confirmed v2 release scope: Livewire, product variants, advanced bilingual search
+and real-time updates. These are required F1-F4 release gates in the production
+plan, with migration, authorization, reliability and acceptance criteria.
+
+Purpose
+-------
+Turn the current feature-rich Eco_Shop application into a secure, reliable,
+maintainable, and genuinely eco-focused commerce platform. Version 2.0 should
+stabilize payments and inventory first, modernize dynamic page updates, and then
+add customer-facing growth features.
+
+
+1. RELEASE PRIORITIES
+---------------------
+
+Priority 0 — Stabilize before adding features
+
+- Fix the existing automated test failures and require a green test suite before
+  merging or deploying changes.
+- Add tests for checkout, totals, inventory reservation, order ownership,
+  cancellation, Stripe webhooks, refunds, discounts, roles, and file uploads.
+- Add CI to run PHP tests, code formatting, static analysis, JavaScript builds,
+  and dependency/security checks on every pull request.
+- Replace the default Laravel README with Eco_Shop setup, architecture, roles,
+  payment configuration, queue, scheduler, test, backup, and deployment guides.
+
+Priority 1 — Payment and order security
+
+- Protect Stripe checkout, success, retry, and cancellation routes with
+  authentication, verified-user middleware, order policies, and ownership checks.
+- Make Stripe webhooks the authoritative source of payment status. A success URL
+  must never mark or announce an order as paid without server verification.
+- Store processed Stripe event IDs with a unique database constraint so repeated
+  or concurrent webhooks cannot charge stock or send notifications twice.
+- Lock the order row while processing payment events and validate the Stripe
+  session's order ID, currency, amount, payment status, and environment.
+- Handle completed, expired, failed, cancelled, refunded, and disputed payments.
+- Queue payment emails and notifications after the database transaction commits.
+- Add audit entries for every payment and order-state transition.
+- Never display raw exception messages to customers; log a correlation ID and
+  show a safe translated message instead.
+
+Priority 1 — Correct money calculations
+
+- Introduce a Money/Pricing service and stop spreading calculations through
+  controllers, models, and views.
+- Store monetary values as integer minor units instead of floating-point numbers.
+- Use provider-specific currency exponents and minimum amounts; do not infer
+  gateway minor units from whole-kyat display rounding.
+- Save immutable snapshots of currency rate, tax, shipping fee, discount, product
+  price, and final total on each order.
+- Define one rounding policy per currency and use it consistently in storefront,
+  checkout, invoices, reports, refunds, and payment gateways.
+- Recalculate all totals on the server. Treat browser-submitted prices and totals
+  as untrusted display data only.
+
+Priority 1 — Reliable inventory
+
+- Build a dedicated InventoryService for reserve, commit, release, return, and
+  adjust operations.
+- Give reservations an expiry time and release them automatically for abandoned,
+  expired, failed, or cancelled payments.
+- Use database transactions and row locks for every stock-changing operation.
+- Prevent stock and reserved_stock from becoming negative with database checks
+  where supported and application-level invariants everywhere.
+- Add an inventory movement ledger rather than relying only on the current stock
+  number. Record sale, reservation, release, cancellation, refund, restock,
+  damage, and manual adjustment reasons.
+- Add low-stock thresholds and admin alerts.
+
+Priority 1 — Explicit order lifecycle
+
+- Replace free-form order status strings with enums and an enforced state machine.
+- Suggested states: awaiting_payment, payment_review, paid, processing, packed,
+  shipped, delivered, cancellation_requested, cancelled, refund_requested,
+  partially_refunded, refunded, and payment_failed.
+- Define which role can perform each transition and which inventory/payment action
+  accompanies it.
+- Show customers an order timeline with dates, explanations, tracking data, and
+  available actions.
+- Add return, refund, partial refund, and cancellation-request workflows.
+
+
+2. DYNAMIC LIVE UPDATE MODERNIZATION
+------------------------------------
+
+Current issue
+
+The application currently mixes jQuery $.ajax(), browser fetch(), inline scripts
+inside Blade views, shared scripts, AJAX-only controller branches, and HTML partial
+responses. This duplicates loading/error/pagination logic and makes back-button
+behavior, accessibility, testing, race handling, and maintenance inconsistent.
+
+Recommended Version 2.0 architecture
+
+- Use Laravel Livewire as the primary server-driven UI layer for dynamic tables,
+  product grids, filtering, pagination, sorting, bulk actions, and forms.
+- Use Alpine.js only for small client-local behavior such as menus, modals, tabs,
+  dropdowns, disclosure panels, and temporary visual state.
+- Use Laravel broadcasting with Reverb/Echo only for true cross-session real-time
+  events: stock changes, incoming orders, payment confirmation, admin order status,
+  and notification badges.
+- Do not introduce WebSockets for ordinary search/filter interactions; Livewire
+  requests are simpler and easier to operate for those cases.
+- Keep standard URLs and normal server rendering as the fallback. Dynamic behavior
+  should enhance pages without breaking refresh, deep linking, or browser history.
+
+Livewire components to introduce
+
+- AdminProductTable: debounced search, category/status filters, sortable columns,
+  pagination, selection, bulk activate/deactivate, and guarded bulk deletion.
+- AdminOrderTable: live status/payment filters, date range, sorting, pagination,
+  row actions, and automatic refresh when new orders or payments arrive.
+- AdminUserTable and AdminTable: search, role/status filters, pagination, guarded
+  actions, online indicator, and optimistic visual feedback.
+- AdminCategoryTable: search, inline edit where safe, create/delete modals, and
+  automatic validation messages.
+- StoreProductGrid: URL-synchronized search, category, price, eco score, rating,
+  availability, sorting, and pagination/infinite-load option.
+- CustomerOrderList: filters, pagination, status timeline, cancel/return actions,
+  and live payment/order status updates.
+- WishlistGrid: toggle, remove, clear, share-link generation, and live item count.
+- CartPanel/CartPage: quantity changes, stock validation, totals, tax, shipping,
+  discount recalculation, and cart badge updates without duplicated jQuery code.
+- ProductReviews: submit reviews, helpful votes, moderation state, pagination, and
+  aggregate rating updates.
+- DashboardMetrics: independently refreshable cards and charts with selectable
+  date ranges rather than reloading the full dashboard.
+
+Dynamic update behavior standards
+
+- Debounce text search by about 300–500 ms and cancel/ignore stale requests.
+- Synchronize meaningful filters, search, sort, and page number with the URL so a
+  view can be bookmarked, shared, refreshed, and navigated with Back/Forward.
+- Reset pagination when a filter changes.
+- Preserve focus and scroll position after updates.
+- Show skeleton/loading states without causing layout shift.
+- Use accessible live regions for success, validation, stock, and error messages.
+- Disable only the action being processed, not the whole page.
+- Confirm destructive and irreversible actions and require server authorization.
+- Prefer optimistic updates only for reversible actions such as wishlist toggles.
+  Orders, inventory, payments, and totals must wait for server confirmation.
+- Display recoverable error states with a retry action.
+- Ensure every component works with keyboard navigation and screen readers.
+- Use stable component keys for table rows and product cards.
+- Prevent duplicate submissions with request state plus server-side idempotency.
+
+Real-time event plan
+
+- OrderPlaced: notify admins and insert/refresh the relevant order table row.
+- PaymentConfirmed: update the customer order timeline and admin payment status.
+- OrderStatusChanged: update the customer's order view and notification badge.
+- ProductStockChanged: update availability on product cards, detail, cart, and
+  checkout; never silently increase a requested cart quantity.
+- LowStockDetected: notify authorized inventory/admin users.
+- Broadcast only sanitized event data on private, authorized channels.
+- Re-fetch sensitive records from the server after an event instead of trusting
+  the broadcast payload as the final source of truth.
+
+Migration plan from the current AJAX implementation
+
+Phase A — Foundation
+
+1. Install/configure Livewire and define a shared component layout, pagination
+   theme, loading states, toast events, validation presentation, and test helpers.
+2. Create reusable query/filter objects so HTML pages, exports, and reports use
+   the same filtering rules.
+3. Add authorization policies before moving write actions into components.
+4. Establish component and browser-test conventions.
+
+Phase B — Pilot
+
+1. Convert the admin product table first because it exercises search, filters,
+   pagination, status, images, and destructive actions.
+2. Compare behavior and performance with the existing AJAX implementation.
+3. Validate URL history, accessibility, authorization, empty/loading/error states,
+   and mobile layouts before using the pattern elsewhere.
+
+Phase C — Tables and product browsing
+
+1. Convert admin orders, users, admins, and categories.
+2. Convert the storefront shop/product grid and customer order list.
+3. Remove each old AJAX controller branch, inline script, and partial only after
+   the replacement has automated coverage and feature parity.
+
+Phase D — Interactive commerce
+
+1. Convert wishlist, cart, product reviews, and dashboard metrics.
+2. Keep checkout totals server-authoritative and test all rounding combinations.
+3. Introduce Reverb/Echo for the small set of genuine real-time events.
+
+Phase E — Cleanup
+
+1. Remove obsolete public/global/js/ajax-global.js logic and duplicated fetch or
+   jQuery handlers after confirming nothing imports them.
+2. Move remaining source JavaScript into resources/js and build it through Vite.
+3. Remove unused copied/minified frontend vendor libraries and inline page scripts.
+4. Add performance budgets and component-level query-count checks.
+
+Acceptance criteria for the live-update migration
+
+- No full page refresh is required for table search, filter, sort, pagination, or
+  supported row actions.
+- Filters and page state survive refresh and browser Back/Forward navigation.
+- Two rapid searches cannot allow an older result to overwrite the newer result.
+- Unauthorized users cannot execute component actions by crafting requests.
+- Table/product updates remain usable when JavaScript is slow or temporarily
+  unavailable, with normal links/forms as appropriate.
+- Dynamic actions have consistent loading, empty, success, validation, and retry
+  states.
+- Query counts do not grow linearly per rendered row; eager loading is verified.
+- Critical Livewire actions and key browser journeys have automated tests.
+- WebSocket disconnection does not block shopping or admin work; normal component
+  refresh remains available as a fallback.
+
+
+3. CUSTOMER AND CATALOG IMPROVEMENTS
+------------------------------------
+
+- Add product variants with SKU, size/color/package attributes, variant price,
+  variant images, barcode, weight, and variant-level stock.
+- Add guest cart support and merge it safely into the customer cart after login.
+- Add saved shipping addresses and a faster one-page checkout.
+- Add robust search with autocomplete, typo tolerance, filters, recent searches,
+  popular searches, and zero-result suggestions.
+- Add recently viewed products, related products, back-in-stock alerts, reorder,
+  and personalized recommendations with privacy controls.
+- Add a coupon/promotion engine with date windows, usage limits, customer/product
+  eligibility, minimum spend, stacking rules, and a complete audit trail.
+- Add invoice/receipt downloads and shipment tracking.
+- Add verified-purchase reviews, moderation, merchant replies, review images, and
+  abuse reporting. A customer should not review a product they did not purchase.
+- Add product slugs, canonical URLs, metadata, social previews, sitemap, structured
+  product data, and redirects when URLs change.
+- Improve bilingual coverage so all validation, emails, notifications, enum/status
+  labels, and dynamic component messages support English and Myanmar consistently.
+- Add accessible responsive design, keyboard navigation, visible focus, reduced
+  motion support, appropriate contrast, and WCAG-oriented testing.
+
+
+4. MAKE THE “ECO” VALUE PROPOSITION REAL
+----------------------------------------
+
+- Replace vague eco badges with structured, evidence-backed sustainability data.
+- Add product origin, materials, packaging type, recycled/recyclable percentage,
+  durability, repairability, certifications, and verification dates.
+- Store certification evidence and give admins an approval/expiry workflow.
+- Create a transparent sustainability score with an explanation of every factor.
+- Add sustainability filters and side-by-side product comparisons.
+- Estimate carbon, plastic, packaging, or waste savings where defensible; clearly
+  label estimates, assumptions, data source, and last-updated date.
+- Show cart/order eco-impact summaries without making unsupported environmental
+  claims.
+- Add a customer impact dashboard for reusable purchases and estimated waste or
+  emissions avoided.
+- Add supplier traceability and an admin review workflow for environmental claims.
+
+
+5. ADMINISTRATION AND OPERATIONS
+--------------------------------
+
+- Use Laravel policies and permissions for every resource/action instead of
+  relying only on route middleware and role strings.
+- Define roles such as superadmin, catalog manager, order operator, support agent,
+  finance reviewer, inventory manager, and read-only analyst.
+- Require stronger protection for privileged accounts: MFA, session/device list,
+  login alerts, secure recovery, rate limiting, and optional forced reauthentication.
+- Expand audit logging to include actor, action, target, safe before/after values,
+  request ID, IP/device context, and timestamp. Never log secrets or full payment
+  data.
+- Add bulk product import/export with dry-run validation and an error report.
+- Add scheduled reports, sales/tax/refund breakdowns, inventory aging, conversion,
+  abandoned cart, repeat customer, and product performance metrics.
+- Add a notification center with read/unread state and user preferences.
+- Add soft deletion/restoration where business and legal requirements permit it.
+- Establish data retention and customer account export/deletion workflows.
+
+
+6. APPLICATION ARCHITECTURE
+----------------------------
+
+- Move large controller workflows into focused application actions/services such
+  as PlaceOrder, CalculateOrderTotals, ReserveInventory, CapturePayment,
+  CancelOrder, RefundOrder, and FulfillOrder.
+- Use Form Request classes for validation and policies for authorization.
+- Replace status/type strings with PHP enums and database-safe mappings.
+- Use domain events/listeners for notifications, audit logs, inventory reactions,
+  and analytics while keeping the core transaction explicit.
+- Avoid hidden database queries in model accessors. Eager-load wishlist/review/image
+  state or calculate it in dedicated queries.
+- Add database foreign keys, unique constraints, check constraints, and indexes for
+  common order, catalog, cart, wishlist, review, and reporting queries.
+- Add a unique cart constraint on user_id + product_id and equivalent constraints
+  wherever duplicates are invalid.
+- Use Redis for production cache, queues, sessions, locks, and rate limiting.
+- Queue email, image processing, exports, reports, and other slow work.
+- Consolidate JavaScript/CSS sources under Vite and reduce the current mixture of
+  Bootstrap, Tailwind, jQuery, copied assets, and inline scripts.
+- Optimize and resize uploaded product images; generate WebP/AVIF variants and
+  enforce upload limits.
+- Add caching for settings, currencies, categories, and product queries with clear
+  invalidation rules.
+
+
+7. SECURITY CHECKLIST
+---------------------
+
+- Enforce ownership/authorization on every order, wishlist, review, profile,
+  payment, upload, export, and admin operation.
+- Validate upload MIME type, extension, size, dimensions, and storage location.
+  Payment screenshots should be private and served only through authorized access.
+- Add rate limits to login, registration, password reset, OTP resend/verify,
+  newsletter, contact, review, helpful vote, social login, and sensitive APIs.
+- Use expiring signed links where appropriate and reject unsupported social-login
+  providers instead of accepting arbitrary provider input.
+- Configure production cookies, HTTPS, trusted proxies/hosts, CSP and other security
+  headers, CORS, debug mode, secret rotation, and least-privilege credentials.
+- Run Composer and npm security audits in CI and keep Laravel/PHP dependencies on a
+  documented upgrade schedule.
+- Back up database and private files, encrypt backups, define retention, and test
+  restoration regularly.
+
+
+8. TESTING, OBSERVABILITY, AND PERFORMANCE
+------------------------------------------
+
+- Add unit tests for money, currency rounding, taxes, shipping, discounts, order
+  transitions, and inventory invariants.
+- Add feature tests for every role and ownership boundary.
+- Add webhook tests covering invalid signatures, duplicate events, wrong amount,
+  wrong currency, expired sessions, refunds, and concurrent delivery.
+- Add component tests for all Livewire tables, filters, pagination, and actions.
+- Add browser tests for registration, search, cart, checkout, payment return,
+  customer cancellation, admin fulfillment, refund, and localization.
+- Add factories for all core models and deterministic fixtures for currencies,
+  taxes, products, stock, shipping, and payments.
+- Add static analysis and consistent formatting.
+- Add structured logs, request/correlation IDs, exception monitoring, failed-job
+  alerts, queue monitoring, payment failure alerts, and application health checks.
+- Detect N+1 database queries in development/tests and define performance budgets
+  for storefront pages and dynamic components.
+- Use pagination or cursor pagination for large tables and avoid rendering entire
+  datasets into the page.
+
+
+9. SUGGESTED VERSION 2.0 DELIVERY ORDER
+----------------------------------------
+
+Milestone 1 — Stable Core
+
+- Repair test suite and route/view inconsistencies.
+- Add policies, request validation, secure uploads, and rate limiting.
+- Introduce Money/Pricing, Inventory, and Order State services.
+- Harden Stripe and add idempotent webhook/event processing.
+
+Milestone 2 — Modern Dynamic UI
+
+- Establish Livewire/Alpine conventions.
+- Convert admin products as the pilot.
+- Convert remaining admin tables, store product grid, and customer orders.
+- Convert cart, wishlist, and reviews.
+- Add Reverb/Echo only for order, payment, inventory, and notification events.
+- Remove replaced AJAX, jQuery, inline scripts, and controller partial branches.
+
+Milestone 3 — Commerce Features
+
+- Product variants, saved addresses, guest cart, promotions, returns/refunds,
+  tracking, verified reviews, invoices, and improved search.
+
+Milestone 4 — Eco Differentiation
+
+- Structured sustainability evidence, scoring, filters, comparisons, and customer
+  impact reporting.
+
+Milestone 5 — Production Readiness
+
+- Redis/queues, monitoring, backups, performance tuning, security review,
+  accessibility review, documentation, staging validation, and rollback plan.
+
+
+10. VERSION 2.0 DEFINITION OF DONE
+----------------------------------
+
+- All automated tests and CI checks pass.
+- Payment and inventory operations are transactional, idempotent, and covered by
+  failure/concurrency tests.
+- Every sensitive resource is protected by explicit authorization.
+- Money is stored/calculated consistently and MMK/zero-decimal behavior is tested.
+- Dynamic tables and product pages use the unified Livewire/Alpine approach, keep
+  URL/history state, and meet the migration acceptance criteria above.
+- True real-time events use authorized channels and have a non-WebSocket fallback.
+- No obsolete AJAX implementation remains for migrated pages.
+- Version 2.0 includes usable project, operations, backup, and deployment docs.
+- Monitoring and tested recovery procedures are active before production release.
+- Sustainability claims are structured, explainable, and supported by evidence.
+

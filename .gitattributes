@@ -1,0 +1,25 @@
+* text=auto eol=lf
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
+
+# Development material must not enter deployment source archives.
+/audit export-ignore
+/dist export-ignore
+/docs export-ignore
+/tests export-ignore
+/database/factories export-ignore
+/database/seeders export-ignore
+/phpunit.xml export-ignore
+/future-improvements.txt export-ignore
+/.env.example export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/.editorconfig export-ignore
