@@ -90,11 +90,11 @@ The full local suite passed: **124 tests / 946 assertions**, with three MySQL co
 
 Hosted [branch CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269878787) and [PR CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269913259) passed for implementation commit `3cea3e18b842153912bf7ffc6f585ed6e3c1113b`: **66 MySQL/InnoDB tests / 728 assertions**, the full SQLite suite, cached bootstrap, Nginx syntax, dependency audits and production archive verification. The PR merge artifact contains 11,357 verified entries. [Draft PR #4](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/4) is stacked on P0-03 and awaits owner review/merge.
 
-The existing SMTP server rejected authentication during a connection-only check. SMTP credential correction and an actual inbox receipt remain pending. No test email was sent to an unspecified recipient. Provider sign-in pages verify initial redirects, not full account authorization: the owner must complete both real sign-in journeys with the intended accounts.
+The initial SMTP check rejected the old credentials. After the owner updated the private SMTP username/password on 12 October 2026, the connection-only check succeeded: SMTP connection and authentication passed without sending a message. The preview was restarted to load the updated credentials. The owner then supplied a recipient and explicitly requested one delivery test; the SMTP transport accepted that single branded, non-sensitive message. Inbox/spam receipt confirmation remains pending. No recipient address or credential is recorded in this public note. Provider sign-in pages verify initial redirects, not full account authorization: the owner must complete both real sign-in journeys with the intended accounts.
 
 Manual acceptance:
 
-1. Confirm `integrations:check --smtp` succeeds with updated SMTP credentials. Send `mail:test` to your own inbox and confirm receipt.
+1. SMTP connection/authentication and acceptance of the owner's requested delivery test are verified. Confirm its receipt in Inbox or Spam.
 2. Register a local customer with a real inbox. Sign in and follow the signed verification link; verify resend and expired/altered-link rejection.
 3. From the verified customer's password screen, request the emailed OTP in the same browser. Verify it and set a new 15–128-character password; ensure an old/used code fails. Test the email reset-link flow separately at `/forgot-password`.
 4. From a logged-out customer window, complete Google login and GitHub login with different eligible addresses, then log out and repeat each. Check the resulting customer profile and existing-account identity matching. A local/password account with the same email intentionally cannot use OAuth.

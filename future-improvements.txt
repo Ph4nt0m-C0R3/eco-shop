@@ -35,9 +35,11 @@ Implementation completed — 12 October 2026: P0-04 Google/GitHub OAuth security
 and requested real email support. Stateful callbacks, verified email claims,
 provider-ID matching, separate portal sessions and SMTP diagnostics are tested.
 The preview now uses http://localhost:8000 and private .env mail configuration.
-Both real providers reach sign-in pages. The existing SMTP service rejected
-authentication; corrected credentials, inbox delivery and complete real-account
-OAuth authorization remain pending. Evidence: docs/P0_04_EMAIL_OAUTH.md.
+Both real providers reach sign-in pages. SMTP connection/authentication passed
+after the owner updated the private credentials on 12 October 2026; SMTP also
+accepted the owner's requested single delivery test. Inbox receipt confirmation
+and complete real-account OAuth authorization remain pending.
+Evidence: docs/P0_04_EMAIL_OAUTH.md.
 P0-05 has not been started, as explicitly requested.
 
 Purpose
