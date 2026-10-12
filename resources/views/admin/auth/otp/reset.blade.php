@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Password | EcoShop</title>
+    <title>Reset Password | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
     <link rel="icon"

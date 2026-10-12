@@ -23,3 +23,6 @@ CHANGELOG.md export-ignore
 /.gitignore export-ignore
 /.gitattributes export-ignore
 /.editorconfig export-ignore
+/.githooks export-ignore
+/.nvmrc export-ignore
+/storage/app/public/default/*_qr.png export-ignore

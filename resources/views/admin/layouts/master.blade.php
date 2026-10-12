@@ -18,7 +18,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Eco Shop | Admin Dashboard</title>
+    <title>{{ config('app.brand') }} | Admin Dashboard</title>
 
     <!-- Bootstrap 5 -->
     <link href="{{ asset('vendor/ecoshop/f7456a80eeff00.css') }}" rel="stylesheet">
@@ -226,12 +226,12 @@
                             src="{{ setting('logo')
                                 ? asset('storage/' . setting('logo'))
                                 : asset('storage/default/logo.png') }}"
-                            alt="Site Logo"
+                            alt="{{ config('app.brand') }}"
                             style="width:40px; height:40px; object-fit:contain;"
                         >
                     </div>
                     <div class="display-flex align-items-center sidebar-brand-text mx-2">
-                        EcoShop
+                        EcoShop <x-version-badge />
                         <span>Admin</span>
                     </div>
                 </a>
@@ -415,7 +415,7 @@
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Eco Shop {{ date('Y') }}</span>
+                            <span>Copyright &copy; {{ config('app.brand') }} {{ date('Y') }}</span>
                         </div>
                     </div>
                 </footer>

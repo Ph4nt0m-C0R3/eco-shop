@@ -239,7 +239,7 @@
 
                 <div class="mb-5 text-center">
                     <h2 class="fw-bold" style="color: #1a3a00;">{{ __('privacy-policy.section_title') }}</h2>
-                    <p class="text-muted">{!! __('privacy-policy.section_subtitle', ['app' => setting('app_name', 'EcoShop')]) !!}</p>
+                    <p class="text-muted">{!! __('privacy-policy.section_subtitle', ['app' => config('app.brand')]) !!}</p>
                 </div>
 
                 <div class="row g-4">

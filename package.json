@@ -1,9 +1,17 @@
 {
+    "name": "eco-shop",
+    "version": "2.0.0",
     "private": true,
+    "engines": {
+        "node": ">=24 <25"
+    },
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "check:repository": "node scripts/check-repository.cjs",
+        "test:release": "node --test tests/release-policy.test.cjs",
+        "release:package": "node scripts/package-release.cjs"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

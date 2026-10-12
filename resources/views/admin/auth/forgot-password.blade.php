@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Forgot Password | EcoShop</title>
+    <title>Admin Forgot Password | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"
@@ -151,7 +151,7 @@
 
 <!-- Footer -->
 <p class="text-center text-muted small mt-4 mb-0">
-    © {{ date('Y') }} EcoShop • Admin Access Only
+    © {{ date('Y') }} {{ config('app.brand') }} • Admin Access Only
 </p>
 
 <!-- JS -->

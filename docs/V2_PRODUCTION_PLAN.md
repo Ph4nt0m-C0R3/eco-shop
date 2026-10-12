@@ -1,6 +1,14 @@
 # EcoShop v2.0 production upgrade note
 
-Recorded: 12 October 2026. Status: planning draft; implementation and deployment remain future work.
+Recorded: 12 October 2026. Status: implementation started; upgrades are delivered one item at a time. Production deployment remains pending.
+
+## Implementation progress
+
+| Item | Status | Evidence / next step |
+|---|---|---|
+| P0-01 — version control and reproducible builds | In progress | [Implementation record](P0_01_VERSION_CONTROL.md); local baseline tag created, branding and build/release checks under verification |
+| EcoShop v2.0 branding | Implemented; verification in progress | Shared storefront/admin titles, navigation/footer, authentication pages and order email branding |
+| P0-02–P0-17 and F1–F4 | Pending | Begin the next item after completing and recording P0-01 |
 
 Scope confirmed by the project owner: Livewire, product variants, advanced search and real-time updates are included in the v2.0 release. Their F1–F4 acceptance gates below must pass alongside P0-01–P0-17 before releasing v2.
 
@@ -17,7 +25,7 @@ The v2 objective is a shop that can accept orders reliably, protect customer dat
 | Operations | Queue/scheduler instructions and `/up` health route exist | Provisioning, supervised services, alerts, backups, deployment and restore drills |
 | Data | Preview uses an isolated SQLite database; tests use in-memory SQLite | Rehearse against the selected production database; migrate real data safely |
 
-The previous checks establish a development baseline. Live payments, concurrent MySQL transactions, production email, recovery procedures and physical devices have not been verified. Source: [stabilization verification](../audit/v2-fixes/VERIFICATION.md).
+The previous checks establish a development baseline. Live payments, concurrent MySQL transactions, production email, recovery procedures and physical devices have not been verified. Source: [stabilization verification](STABILIZATION_BASELINE.md).
 
 ## Decisions needed before implementation
 

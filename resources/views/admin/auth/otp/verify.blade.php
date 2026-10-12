@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Verify OTP | EcoShop</title>
+    <title>Verify OTP | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"

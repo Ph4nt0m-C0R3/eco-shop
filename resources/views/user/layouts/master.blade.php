@@ -11,7 +11,7 @@
         <meta charset="utf-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="auth-user" content="{{ auth()->check() ? '1' : '0' }}">
-        <title>{{ setting('app_name', 'EcoShop') }}</title>
+        <title>{{ config('app.brand') }}</title>
 
         <!-- Favicon -->
         <link rel="icon"
@@ -816,12 +816,13 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center">
+                    <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center gap-2" aria-label="{{ config('app.brand') }}">
                         <img src="{{ setting('logo_text')
                                 ? asset('storage/' . setting('logo_text'))
                                 : asset('storage/default/logoText.png') }}"
-                            alt="logo text"
+                            alt="{{ config('app.brand') }}"
                             style="max-height:35px;">
+                        <x-version-badge aria-hidden="true" />
                     </a>
 
                     <button class="navbar-toggler py-2 px-3" type="button" id="ecoNavToggle" aria-label="{{ __('stability.open_menu') }}" aria-controls="navbarCollapse" aria-expanded="false">
@@ -1027,7 +1028,7 @@
                     <div class="row g-4">
                         <div class="col-lg-3">
                             <a href="#">
-                                <h1 class="text-primary mb-0">{{ setting('app_name', 'EcoShop') }}</h1>
+                                <h1 class="text-primary mb-0">{{ config('app.brand') }}</h1>
                                 <p class="text-secondary mb-0">{{ __('footer.tagline') }}</p>
                             </a>
                         </div>
@@ -1160,7 +1161,7 @@
                         <span class="text-light">
                                 <a href="#">
                                     <i class="fas fa-copyright text-light me-2"></i>
-                                    {{ setting('app_name', 'EcoShop') }} {{ date('Y') }}
+                                    {{ config('app.brand') }} {{ date('Y') }}
                                 </a>, {{ __('footer.copyright') }}
                         </span>
                     </div>

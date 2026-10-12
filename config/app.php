@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'EcoShop v2.0'),
+    'brand' => 'EcoShop v2.0',
+    'version' => '2.0.0',
 
     /*
     |--------------------------------------------------------------------------

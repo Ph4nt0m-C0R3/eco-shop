@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Login | EcoShop</title>
+    <title>Admin Login | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"
@@ -43,7 +43,7 @@
             <div class="text-center mb-4">
                 <i class="fas fa-leaf text-success fs-2 mb-2"></i>
                 <h4 class="eco-section-title mb-1">Admin Login</h4>
-                <p class="text-muted small mb-0">EcoShop Administration Panel</p>
+                <p class="text-muted small mb-0">{{ config('app.brand') }} Administration Panel</p>
             </div>
 
             @include('components.partials.success-alert')
@@ -127,7 +127,7 @@
 
         <!-- Footer -->
         <p class="text-center text-muted small mt-4 mb-0">
-            © {{ date('Y') }} EcoShop • Admin Access Only
+            © {{ date('Y') }} {{ config('app.brand') }} • Admin Access Only
         </p>
 
     </div>

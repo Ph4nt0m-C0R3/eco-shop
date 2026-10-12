@@ -1,10 +1,10 @@
-# EcoShop
+# EcoShop v2.0
 
-Laravel 12 / PHP 8.2+ shop with English and Myanmar storefronts, customer accounts, inventory reservations, orders and an admin interface. This checkout includes the stabilization work for the 2.0 development baseline.
+Laravel 12 / PHP 8.2+ shop with English and Myanmar storefronts, customer accounts, inventory reservations, orders and an admin interface. Version 2 upgrades are implemented one plan item at a time. See the [production plan](docs/V2_PRODUCTION_PLAN.md) and [P0-01 release workflow](docs/P0_01_VERSION_CONTROL.md).
 
 ## Local setup
 
-1. Install PHP 8.2+ with PDO MySQL or SQLite, mbstring, fileinfo, cURL and OpenSSL; Composer; Node 22+.
+1. Install PHP 8.2+ with PDO MySQL or SQLite, mbstring, fileinfo, cURL and OpenSSL; Composer; the Node version in `.nvmrc` (24.18.0).
 2. Run `composer install` and `npm ci`.
 3. Copy `.env.example` to `.env` only for a new installation. Set the application URL and database connection, then run `php artisan key:generate`.
 4. Run `php artisan migrate`. Use `php artisan db:seed` only with a disposable development database. Seeders contain demonstration accounts; choose your own credentials for real installations.
@@ -44,10 +44,19 @@ php artisan test
 npm run build
 composer audit
 npm audit
+php scripts/check-blade.php
+npm run check:repository
+npm run test:release
 ```
 
 Tests force an in-memory SQLite database; they do not use the application database. Commerce tests cover ownership, duplicate/mismatched webhooks, reservation release, invalid methods/uploads, hidden products, stored pricing and private proofs. CI runs the suite, build and dependency audits.
 
 The storefront uses local copies of its public fonts, CSS and JavaScript dependencies. EN/MM flag SVGs are in `public/global/img/flags`. Vite assets use Tailwind 4 for the legacy Breeze views; these views target modern browsers (Safari 16.4+, Chrome 111+, Firefox 128+). The main shop and admin styling use Bootstrap.
 
-See [the baseline audit](audit/v2-baseline/REPORT.md) and [fix verification](audit/v2-fixes/VERIFICATION.md). Physical-device, live-provider and concurrent MySQL checks remain release verification steps.
+See the tracked [stabilization baseline](docs/STABILIZATION_BASELINE.md). Detailed audit evidence remains locally under the ignored `audit/` directory. Physical-device, live-provider and concurrent MySQL checks remain release verification steps.
+
+## Version control and releases
+
+The stabilized pre-v2 source is tagged `baseline-stabilized-2026-10-12`. Configure the local pre-commit guard with `git config core.hooksPath .githooks`. Implement each plan item in its own reviewed branch and require the CI `check` job before merging.
+
+Build deployment artifacts in an isolated clean checkout after the checks pass: `composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader`, then `npm run release:package`. The verified archive includes production dependencies and Vite assets, records its source commit/file hashes and excludes secrets, audit/test data, demo seeders, runtime caches and customer uploads. See the [P0-01 instructions](docs/P0_01_VERSION_CONTROL.md) for complete verification and rollback steps. Production runtime/deployment readiness remains covered by subsequent plan items.

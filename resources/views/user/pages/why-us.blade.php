@@ -201,7 +201,7 @@
             <div class="heart-pulse"><i class="fas fa-heart"></i></div>
             <h1 class="display-3" style="color: #1a3a00;">{!! __('why-us.title') !!}</h1>
             <p class="lead text-muted mx-auto" style="max-width: 700px;">
-                {{ __('why-us.subtitle', ['app' => setting('app_name', 'EcoShop')]) }}
+                {{ __('why-us.subtitle', ['app' => config('app.brand')]) }}
             </p>
         </div>
     </header>

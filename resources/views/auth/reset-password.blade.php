@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Reset Password</title>
+    <title>{{ config('app.brand') }} | Reset Password</title>
 
     <!-- Favicon -->
         <link rel="icon"

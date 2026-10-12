@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() === 'mm' ? 'my' : app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>EcoShop | Verify Email</title>
+    <title>{{ config('app.brand') }} | Verify Email</title>
 
     <!-- Favicon -->
         <link rel="icon"
@@ -236,11 +236,11 @@
                     src="{{ setting('logo')
                         ? asset('storage/' . setting('logo'))
                         : asset('storage/default/logo.png') }}"
-                    alt="{{ setting('app_name', 'EcoShop') }}"
+                    alt="{{ config('app.brand') }}"
                 >
             </div>
 
-            <h1 class="fw-bold mb-3">EcoShop</h1>
+            <h1 class="fw-bold mb-3">{{ config('app.brand') }}</h1>
 
             <p class="fs-4 mb-4">
                 {{ __('auth-ui.one_more_step_towards_a_greener_future') }}

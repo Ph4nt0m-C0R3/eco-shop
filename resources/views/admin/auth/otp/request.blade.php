@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Verify Identity | EcoShop</title>
+    <title>Verify Identity | {{ config('app.brand') }}</title>
 
     <!-- Favicon -->
         <link rel="icon"
