@@ -22,6 +22,18 @@ Open **http://localhost:8000/login**. The canonical URL is localhost, including 
 
 Existing Google/GitHub client IDs and secrets were preserved. Never put a client secret in Blade, JavaScript, a commit, a screenshot or chat.
 
+After updating `.env` client credentials, restart the preview and begin a new sign-in from `/login`. Old browser flows are not reusable across a restart or settings change. The saved callback belongs to the exact client ID in `.env`; registering it on another OAuth client does not fix a mismatch.
+
+### Callback and terminal repair — 12 October 2026
+
+The earlier automation-launched PHP server had restricted outbound network access. Its token requests raised `GuzzleHttp\Exception\ConnectException`, even though a separately permitted browser could open the provider pages. Comparing identical unauthenticated PHP requests reproduced the failure in the restricted process and successful TLS responses with network permission. The server was restarted with network access on localhost:8000 and loaded the owner's updated `.env` credentials. This correction retains state verification and provider-ID matching.
+
+The newly selected Google and GitHub OAuth clients also initially rejected the callback URLs. The owner saved the exact localhost:8000 callbacks above on both current clients. Google now opens its sign-in page; the token endpoints return the expected `invalid_grant` (Google) and `bad_verification_code` (GitHub) for intentionally invalid test codes, rather than a callback mismatch or connection failure. Running-server callback probes also reached both providers and safely rejected those invalid codes. No account was signed in or created by these probes. Full real-account sign-in still requires the owner's browser confirmation.
+
+The terminal error was independent: bare `php` resolved to XAMPP PHP 8.2.12. `.\php.cmd` now selects the pinned project PHP 8.5.11, and `scripts/use-php.ps1` can select it for the current PowerShell terminal. Configuration caching succeeded using both commands. Preview caches are separate from normal Artisan caches; the shop and product 17 returned HTTP 200 while the regular configuration was cached. See [terminal commands](P0_02_DEPLOYMENT.md).
+
+Follow-up validation passed: 16 OAuth tests / 299 assertions, both release-policy checks, and 16 EN/MM browser cases at 320–1440 px with no overflow, broken images or JavaScript errors. Real-account sign-in, Inbox placement and full live email journeys remain acceptance items. P0-05 was not started.
+
 ## Real SMTP delivery
 
 The preview now respects `.env` mail settings and uses synchronous delivery locally, so it does not require a separate local queue worker. For deliberately offline UI testing, add `-OfflineMail` to the launcher; it explicitly uses the in-memory mail transport.
@@ -90,11 +102,11 @@ The full local suite passed: **124 tests / 946 assertions**, with three MySQL co
 
 Hosted [branch CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269878787) and [PR CI](https://github.com/Ph4nt0m-C0R3/eco-shop/actions/runs/38269913259) passed for implementation commit `3cea3e18b842153912bf7ffc6f585ed6e3c1113b`: **66 MySQL/InnoDB tests / 728 assertions**, the full SQLite suite, cached bootstrap, Nginx syntax, dependency audits and production archive verification. The PR merge artifact contains 11,357 verified entries. [Draft PR #4](https://github.com/Ph4nt0m-C0R3/eco-shop/pull/4) is stacked on P0-03 and awaits owner review/merge.
 
-The initial SMTP check rejected the old credentials. After the owner updated the private SMTP username/password on 12 October 2026, the connection-only check succeeded: SMTP connection and authentication passed without sending a message. The preview was restarted to load the updated credentials. The owner then supplied a recipient and explicitly requested one delivery test; the SMTP transport accepted that single branded, non-sensitive message. Inbox/spam receipt confirmation remains pending. No recipient address or credential is recorded in this public note. Provider sign-in pages verify initial redirects, not full account authorization: the owner must complete both real sign-in journeys with the intended accounts.
+The initial SMTP check rejected the old credentials. After the owner updated the private SMTP username/password on 12 October 2026, the connection-only check succeeded: SMTP connection and authentication passed without sending a message. The preview was restarted to load the updated credentials. The owner then supplied a recipient and explicitly requested one delivery test; the SMTP transport accepted that single branded, non-sensitive message. The owner confirmed receipt in **Spam** on 12 October 2026. Real SMTP delivery is verified; Inbox placement remains unresolved, and the live verification/OTP/reset journeys still need acceptance. No recipient address or credential is recorded in this public note. Provider sign-in pages verify initial redirects, not full account authorization: the owner must complete both real sign-in journeys with the intended accounts.
 
 Manual acceptance:
 
-1. SMTP connection/authentication and acceptance of the owner's requested delivery test are verified. Confirm its receipt in Inbox or Spam.
+1. SMTP connection/authentication and receipt of the owner's requested delivery test are verified. It arrived in Spam; Inbox placement remains an acceptance item.
 2. Register a local customer with a real inbox. Sign in and follow the signed verification link; verify resend and expired/altered-link rejection.
 3. From the verified customer's password screen, request the emailed OTP in the same browser. Verify it and set a new 15–128-character password; ensure an old/used code fails. Test the email reset-link flow separately at `/forgot-password`.
 4. From a logged-out customer window, complete Google login and GitHub login with different eligible addresses, then log out and repeat each. Check the resulting customer profile and existing-account identity matching. A local/password account with the same email intentionally cannot use OAuth.

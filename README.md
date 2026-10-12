@@ -13,6 +13,8 @@ Laravel 13 / PHP 8.5+ shop with English and Myanmar storefronts, customer accoun
 
 Keep `/audit` out of deployment artifacts. It contains source snapshots, local test data, test tooling and audit evidence.
 
+On this Windows workspace, use `.\php.cmd artisan config:cache` (or any other PHP command) to select PHP 8.5.11 instead of XAMPP's PHP 8.2. For bare `php` in a PowerShell terminal, run `Set-ExecutionPolicy -Scope Process Bypass` and dot-source `. .\scripts\use-php.ps1`. This selects the project PHP only for that terminal. The isolated preview at localhost:8000 uses separate caches and needs network access for Google/GitHub and SMTP. See [runtime and terminal setup](docs/P0_02_DEPLOYMENT.md).
+
 ## Applying this update to an existing installation
 
 Back up the database and uploaded files, then install the updated lock files, build assets and run:
@@ -75,4 +77,4 @@ CI uses a dedicated disposable MySQL database for the authentication tests, incl
 
 See [email and OAuth setup](docs/P0_04_EMAIL_OAUTH.md). The isolated preview now defaults to **http://localhost:8000** to match the owner's registered OAuth callbacks, and respects the private SMTP configuration. Use `-OfflineMail` for an in-memory preview instead. Social sign-in verifies browser state, verified email claims and provider IDs; it does not automatically link existing accounts by email. Staff continue to use password and MFA.
 
-Run `php artisan integrations:check --smtp` to authenticate with SMTP without sending mail. Run `php artisan mail:test "YOUR_REAL_INBOX_ADDRESS"` to send one explicit test to your own inbox. Keep credentials in the ignored `.env`. SMTP authentication succeeded after the owner updated the private credentials on 12 October 2026, and the transport accepted the single delivery test requested by the owner; inbox receipt and complete real-account OAuth journeys remain pending. P0-05 has not been started.
+Run `php artisan integrations:check --smtp` to authenticate with SMTP without sending mail. Run `php artisan mail:test "YOUR_REAL_INBOX_ADDRESS"` to send one explicit test to your own inbox. Keep credentials in the ignored `.env`. SMTP authentication succeeded after the owner updated the private credentials on 12 October 2026, and the owner confirmed receipt of the requested test in Spam. Real SMTP delivery is verified; Inbox placement and full email/OAuth journeys remain pending. P0-05 has not been started.

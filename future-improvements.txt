@@ -37,10 +37,18 @@ provider-ID matching, separate portal sessions and SMTP diagnostics are tested.
 The preview now uses http://localhost:8000 and private .env mail configuration.
 Both real providers reach sign-in pages. SMTP connection/authentication passed
 after the owner updated the private credentials on 12 October 2026; SMTP also
-accepted the owner's requested single delivery test. Inbox receipt confirmation
-and complete real-account OAuth authorization remain pending.
+accepted the owner's requested single delivery test. The owner confirmed receipt
+in Spam on 12 October 2026. Real SMTP delivery is verified; Inbox placement and
+full verification/OTP/reset/OAuth journeys remain pending.
 Evidence: docs/P0_04_EMAIL_OAUTH.md.
 P0-05 has not been started, as explicitly requested.
+
+P0-04 follow-up repair — 12 October 2026: the localhost:8000 preview was
+restarted with outbound OAuth/SMTP network access and fresh private credentials.
+The owner corrected the callback URLs on both newly configured provider clients.
+Added a PHP 8.5 command wrapper/current-terminal helper and isolated preview
+caches. Config caching, endpoint connectivity and OAuth regression checks passed.
+Full real-account sign-in remains pending owner confirmation. P0-05 is untouched.
 
 Purpose
 -------

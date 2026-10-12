@@ -21,6 +21,25 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/serve-preview.ps1
 
 The preview script uses the existing isolated audit database. P0-04 changes its default to **http://localhost:8000** to match the owner's OAuth applications and uses `.env` mail settings; add `-OfflineMail` for in-memory delivery. A fresh clone needs its own configured development database and a supported PHP installation, then `php artisan serve`. The older XAMPP PHP 8.2 executable cannot run this upgraded branch.
 
+For Windows terminal commands, use the project wrapper without changing the system PHP:
+
+```powershell
+Set-Location E:\Eco_Shop
+.\php.cmd --version
+.\php.cmd artisan config:cache
+```
+
+To make the bare `php` command use PHP 8.5 in your current PowerShell terminal:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+. .\scripts\use-php.ps1
+php --version
+php artisan config:cache
+```
+
+Repeat the terminal setup in each new terminal, or continue using `.\php.cmd`. The helper changes only the current process PATH. The preview uses separate configuration/route/package/service caches under the ignored audit directory and clears its configuration/routes on startup, so normal `config:cache` does not replace its isolated database settings. Launches by an automation agent need outbound network permission for OAuth token/profile calls and SMTP; ordinary terminal launches use the user's network access. The network-enabled preview was verified on port 8000 after correcting the restricted launch.
+
 ## Production configuration
 
 The proposed deployment profile is Linux, Nginx/PHP-FPM 8.5 and MySQL/InnoDB. `deploy/production.env.example`, `deploy/nginx.conf` and `deploy/php-production.ini` are reference files requiring real hosting values before use. The application serves through `public/index.php`; the Nginx configuration denies hidden files and execution of other PHP/uploaded files.
